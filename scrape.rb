@@ -22,11 +22,38 @@ for i in 0..links.length
   end
 end
 link_name = link_name.drop(1)
-country = Hash.new
-for i in link_name
-  country[i.text.strip] = root_url + i["href"].to_s
-end
-puts country.length
+country_link = Hash.new
 File.open("temp.json","w") do |f|
-  f.write(JSON.pretty_generate(country))
+  for i in link_name
+    t1 = i.text.strip
+    if t1.include?","
+      t2 = t1.split(",")[1] + " " + t1.split(",")[0]
+    else
+      t2 = t1
+    end
+    country_link["name"] = t2.strip
+    country_link["wiki_link"] = root_url + i["href"].to_s
+    node1 = Nokogiri::HTML(open(country_link["wiki_link"]))
+    div_body = node1.css('div#bodyContent')
+    para = div_body[0].css('p')
+    flag = 0
+    for j in para
+      if flag == 0
+        k = j.text
+        t1 = k.split[0]
+        if t1 == "The"
+          t1 = k.split[1]
+        end
+        t2 = country_link["name"].split[0]
+        if t2 == "The"
+          t2 = country_link["name"].split[1]
+        end
+        if t1.eql? t2
+          country_link["description"] = k
+          flag = 1
+        end
+      end
+    end
+    f.write(JSON.pretty_generate(country_link))
+  end
 end

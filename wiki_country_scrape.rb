@@ -23,7 +23,7 @@ for i in 0..links.length
 end
 link_name = link_name.drop(1)
 country_link = Hash.new
-File.open("temp.json","w") do |f|
+File.open("countries.json","w") do |f|
   for i in link_name
     t1 = i.text.strip
     if t1.include?","

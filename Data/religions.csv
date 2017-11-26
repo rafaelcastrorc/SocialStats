@@ -1,36 +1,36 @@
-religion
-chrstprot
-chrstcat
-chrstorth
-chrstang
-chrstothr
-chrstgen
-judorth
-jdcons
-judref
-judothr
-judgen
-islmsun
-islmshi
-islmibd
-islmnat
-islmalw
-islmahm
-islmothr
-islmgen
-budmah
-budthr
-budothr
-budgen
-zorogen
-hindgen
-sikhgen
-shntgen
-bahgen
-taogen
-jaingen
-confgen
-syncgen
-anmgen
-nonrelig
-othrgen
+religionCode,name,religion
+chrstprot,Protestants,chrstgen
+chrstcat,Roman Catholics,chrstgen
+chrstorth,Eastern Orthodox,chrstgen
+chrstang,Anglican,chrstgen
+chrstothr,Chrstianity Others,chrstgen
+chrstgen,Christianity,
+judorth,Orthodox,judgen
+jdcons,Conservatives,judgen
+judref,Reform,judgen
+judothr,Judaism Others,judgen
+judgen,Judaism,
+islmsun,Sunni,Islam
+islmshi,Shi’a,Islam
+islmibd,Ibadhi,Islam
+islmnat,Nation of Islam,Islam
+islmalw,Alawite,Islam
+islmahm,Ahmadiyya,Islam
+islmothr,Islam Others,Islam
+islmgen,Islam,
+budmah,Mahayana,Buddhism
+budthr,Theravada,Buddhism
+budothr,Buddhism Others,Buddhism
+budgen,Buddhism,Buddhism
+zorogen,Zoroastrian,
+hindgen,Hindu,
+sikhgen,Sikh,
+shntgen,Shinto,
+bahgen,Baha’i,
+taogen,Taoism,
+jaingen,Confucianism,
+confgen,Jain,
+syncgen,Syncretic Religions,
+anmgen,Animist Religions,
+nonrelig,Non. Religious,
+othrgen,Other Religions,

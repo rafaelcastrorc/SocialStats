@@ -1,0 +1,210 @@
+
+CREATE INDEX ON :Country(abbrev);
+CREATE INDEX ON :Religion(religionCode);
+
+//Load religion data
+LOAD CSV WITH HEADERS FROM "https://raw.githubusercontent.com/h13knsd/socialstats/master/Data/religions.csv?token=AYW0niBgMh8Lz_nFAB6qXvxFLK6hTnmLks5aJI-UwA%3D%3D" AS csvLine
+CREATE (religion:Religion {religionCode: csvLine.religionCode, name: csvLine.name}) ;
+
+//Load country codes
+LOAD CSV WITH HEADERS FROM "https://raw.githubusercontent.com/h13knsd/socialstats/master/Data/COW_Country_Code.csv?token=AYW0nmMKIt0_4_WVjPQDo9qAVh-V3Gteks5aJIoawA%3D%3D" AS csvLine
+CREATE (p:Country {abbrev:csvLine.StateAbb,  id: toInteger(csvLine.CCode), name: csvLine.StateNme });
+
+//Upload relation data from WRP national
+USING PERIODIC COMMIT
+LOAD CSV WITH HEADERS FROM "https://raw.githubusercontent.com/h13knsd/socialstats/master/Data/WRP_national.csv?token=AYW0nnIc5f_zFoln0QRQxekPpHYpktvbks5aJKBiwA%3D%3D" AS csvLine MATCH (religion:Religion{religionCode:"chrstprot"}), (country:Country {abbrev: csvLine.name})
+  CREATE UNIQUE (country)-[r:HAS_RELIGION { year:toInteger(csvLine.year), number_of_members :toInteger(csvLine.chrstprot)}]-> (religion);
+
+USING PERIODIC COMMIT
+LOAD CSV WITH HEADERS FROM "https://raw.githubusercontent.com/h13knsd/socialstats/master/Data/WRP_national.csv?token=AYW0nnIc5f_zFoln0QRQxekPpHYpktvbks5aJKBiwA%3D%3D" AS csvLine MATCH (religion:Religion{religionCode:"chrstcat"}), (country:Country {abbrev: csvLine.name})
+  CREATE UNIQUE (country)-[r:HAS_RELIGION { year:toInteger(csvLine.year), number_of_members :toInteger(csvLine.chrstcat)}]-> (religion);
+
+USING PERIODIC COMMIT
+LOAD CSV WITH HEADERS FROM "https://raw.githubusercontent.com/h13knsd/socialstats/master/Data/WRP_national.csv?token=AYW0nnIc5f_zFoln0QRQxekPpHYpktvbks5aJKBiwA%3D%3D" AS csvLine MATCH (religion:Religion{religionCode:"chrstorth"}), (country:Country {abbrev: csvLine.name})
+  CREATE UNIQUE (country)-[r:HAS_RELIGION { year:toInteger(csvLine.year), number_of_members :toInteger(csvLine.chrstorth)}]-> (religion);
+
+USING PERIODIC COMMIT
+LOAD CSV WITH HEADERS FROM "https://raw.githubusercontent.com/h13knsd/socialstats/master/Data/WRP_national.csv?token=AYW0nnIc5f_zFoln0QRQxekPpHYpktvbks5aJKBiwA%3D%3D" AS csvLine MATCH (religion:Religion{religionCode:"chrstang"}), (country:Country {abbrev: csvLine.name})
+  CREATE UNIQUE (country)-[r:HAS_RELIGION { year:toInteger(csvLine.year), number_of_members :toInteger(csvLine.chrstang)}]-> (religion);
+
+USING PERIODIC COMMIT
+LOAD CSV WITH HEADERS FROM "https://raw.githubusercontent.com/h13knsd/socialstats/master/Data/WRP_national.csv?token=AYW0nnIc5f_zFoln0QRQxekPpHYpktvbks5aJKBiwA%3D%3D" AS csvLine MATCH (religion:Religion{religionCode:"chrstothr"}), (country:Country {abbrev: csvLine.name})
+  CREATE UNIQUE (country)-[r:HAS_RELIGION { year:toInteger(csvLine.year), number_of_members :toInteger(csvLine.chrstothr)}]-> (religion);
+
+USING PERIODIC COMMIT
+LOAD CSV WITH HEADERS FROM "https://raw.githubusercontent.com/h13knsd/socialstats/master/Data/WRP_national.csv?token=AYW0nnIc5f_zFoln0QRQxekPpHYpktvbks5aJKBiwA%3D%3D" AS csvLine MATCH (religion:Religion{religionCode:"chrstgen"}), (country:Country {abbrev: csvLine.name})
+  CREATE UNIQUE (country)-[r:HAS_RELIGION { year:toInteger(csvLine.year), number_of_members :toInteger(csvLine.chrstgen)}]-> (religion);
+
+USING PERIODIC COMMIT
+LOAD CSV WITH HEADERS FROM "https://raw.githubusercontent.com/h13knsd/socialstats/master/Data/WRP_national.csv?token=AYW0nnIc5f_zFoln0QRQxekPpHYpktvbks5aJKBiwA%3D%3D" AS csvLine MATCH (religion:Religion{religionCode:"judorth"}), (country:Country {abbrev: csvLine.name})
+  CREATE UNIQUE (country)-[r:HAS_RELIGION { year:toInteger(csvLine.year), number_of_members :toInteger(csvLine.judorth)}]-> (religion);
+
+USING PERIODIC COMMIT
+LOAD CSV WITH HEADERS FROM "https://raw.githubusercontent.com/h13knsd/socialstats/master/Data/WRP_national.csv?token=AYW0nnIc5f_zFoln0QRQxekPpHYpktvbks5aJKBiwA%3D%3D" AS csvLine MATCH (religion:Religion{religionCode:"jdcons"}), (country:Country {abbrev: csvLine.name})
+  CREATE UNIQUE (country)-[r:HAS_RELIGION { year:toInteger(csvLine.year), number_of_members :toInteger(csvLine.jdcons)}]-> (religion);
+
+USING PERIODIC COMMIT
+LOAD CSV WITH HEADERS FROM "https://raw.githubusercontent.com/h13knsd/socialstats/master/Data/WRP_national.csv?token=AYW0nnIc5f_zFoln0QRQxekPpHYpktvbks5aJKBiwA%3D%3D" AS csvLine MATCH (religion:Religion{religionCode:"judref"}), (country:Country {abbrev: csvLine.name})
+  CREATE UNIQUE (country)-[r:HAS_RELIGION { year:toInteger(csvLine.year), number_of_members :toInteger(csvLine.judref)}]-> (religion);
+
+
+USING PERIODIC COMMIT
+LOAD CSV WITH HEADERS FROM "https://raw.githubusercontent.com/h13knsd/socialstats/master/Data/WRP_national.csv?token=AYW0nnIc5f_zFoln0QRQxekPpHYpktvbks5aJKBiwA%3D%3D" AS csvLine MATCH (religion:Religion{religionCode:"judothr"}), (country:Country {abbrev: csvLine.name})
+  CREATE UNIQUE (country)-[r:HAS_RELIGION { year:toInteger(csvLine.year), number_of_members :toInteger(csvLine.judothr)}]-> (religion);
+
+USING PERIODIC COMMIT
+LOAD CSV WITH HEADERS FROM "https://raw.githubusercontent.com/h13knsd/socialstats/master/Data/WRP_national.csv?token=AYW0nnIc5f_zFoln0QRQxekPpHYpktvbks5aJKBiwA%3D%3D" AS csvLine MATCH (religion:Religion{religionCode:"judgen"}), (country:Country {abbrev: csvLine.name})
+  CREATE UNIQUE (country)-[r:HAS_RELIGION { year:toInteger(csvLine.year), number_of_members :toInteger(csvLine.judgen)}]-> (religion);
+
+USING PERIODIC COMMIT
+LOAD CSV WITH HEADERS FROM "https://raw.githubusercontent.com/h13knsd/socialstats/master/Data/WRP_national.csv?token=AYW0nnIc5f_zFoln0QRQxekPpHYpktvbks5aJKBiwA%3D%3D" AS csvLine MATCH (religion:Religion{religionCode:"islmsun"}), (country:Country {abbrev: csvLine.name})
+  CREATE UNIQUE (country)-[r:HAS_RELIGION { year:toInteger(csvLine.year), number_of_members :toInteger(csvLine.islmsun)}]-> (religion);
+
+USING PERIODIC COMMIT
+LOAD CSV WITH HEADERS FROM "https://raw.githubusercontent.com/h13knsd/socialstats/master/Data/WRP_national.csv?token=AYW0nnIc5f_zFoln0QRQxekPpHYpktvbks5aJKBiwA%3D%3D" AS csvLine MATCH (religion:Religion{religionCode:"islmshi"}), (country:Country {abbrev: csvLine.name})
+  CREATE UNIQUE (country)-[r:HAS_RELIGION { year:toInteger(csvLine.year), number_of_members :toInteger(csvLine.islmshi)}]-> (religion);
+
+USING PERIODIC COMMIT
+LOAD CSV WITH HEADERS FROM "https://raw.githubusercontent.com/h13knsd/socialstats/master/Data/WRP_national.csv?token=AYW0nnIc5f_zFoln0QRQxekPpHYpktvbks5aJKBiwA%3D%3D" AS csvLine MATCH (religion:Religion{religionCode:"islmibd"}), (country:Country {abbrev: csvLine.name})
+  CREATE UNIQUE (country)-[r:HAS_RELIGION { year:toInteger(csvLine.year), number_of_members :toInteger(csvLine.islmibd)}]-> (religion);
+
+
+USING PERIODIC COMMIT
+LOAD CSV WITH HEADERS FROM "https://raw.githubusercontent.com/h13knsd/socialstats/master/Data/WRP_national.csv?token=AYW0nnIc5f_zFoln0QRQxekPpHYpktvbks5aJKBiwA%3D%3D" AS csvLine MATCH (religion:Religion{religionCode:"islmnat"}), (country:Country {abbrev: csvLine.name})
+  CREATE UNIQUE (country)-[r:HAS_RELIGION { year:toInteger(csvLine.year), number_of_members :toInteger(csvLine.islmnat)}]-> (religion);
+
+USING PERIODIC COMMIT
+LOAD CSV WITH HEADERS FROM "https://raw.githubusercontent.com/h13knsd/socialstats/master/Data/WRP_national.csv?token=AYW0nnIc5f_zFoln0QRQxekPpHYpktvbks5aJKBiwA%3D%3D" AS csvLine MATCH (religion:Religion{religionCode:"islmalw"}), (country:Country {abbrev: csvLine.name})
+  CREATE UNIQUE (country)-[r:HAS_RELIGION { year:toInteger(csvLine.year), number_of_members :toInteger(csvLine.islmalw)}]-> (religion);
+
+
+USING PERIODIC COMMIT
+LOAD CSV WITH HEADERS FROM "https://raw.githubusercontent.com/h13knsd/socialstats/master/Data/WRP_national.csv?token=AYW0nnIc5f_zFoln0QRQxekPpHYpktvbks5aJKBiwA%3D%3D" AS csvLine MATCH (religion:Religion{religionCode:"islmahm"}), (country:Country {abbrev: csvLine.name})
+  CREATE UNIQUE (country)-[r:HAS_RELIGION { year:toInteger(csvLine.year), number_of_members :toInteger(csvLine.islmahm)}]-> (religion);
+
+
+USING PERIODIC COMMIT
+LOAD CSV WITH HEADERS FROM "https://raw.githubusercontent.com/h13knsd/socialstats/master/Data/WRP_national.csv?token=AYW0nnIc5f_zFoln0QRQxekPpHYpktvbks5aJKBiwA%3D%3D" AS csvLine MATCH (religion:Religion{religionCode:"islmothr"}), (country:Country {abbrev: csvLine.name})
+  CREATE UNIQUE (country)-[r:HAS_RELIGION { year:toInteger(csvLine.year), number_of_members :toInteger(csvLine.islmothr)}]-> (religion);
+
+
+USING PERIODIC COMMIT
+LOAD CSV WITH HEADERS FROM "https://raw.githubusercontent.com/h13knsd/socialstats/master/Data/WRP_national.csv?token=AYW0nnIc5f_zFoln0QRQxekPpHYpktvbks5aJKBiwA%3D%3D" AS csvLine MATCH (religion:Religion{religionCode:"islmgen"}), (country:Country {abbrev: csvLine.name})
+  CREATE UNIQUE (country)-[r:HAS_RELIGION { year:toInteger(csvLine.year), number_of_members :toInteger(csvLine.islmgen)}]-> (religion);
+
+
+USING PERIODIC COMMIT
+LOAD CSV WITH HEADERS FROM "https://raw.githubusercontent.com/h13knsd/socialstats/master/Data/WRP_national.csv?token=AYW0nnIc5f_zFoln0QRQxekPpHYpktvbks5aJKBiwA%3D%3D" AS csvLine MATCH (religion:Religion{religionCode:"budmah"}), (country:Country {abbrev: csvLine.name})
+  CREATE UNIQUE (country)-[r:HAS_RELIGION { year:toInteger(csvLine.year), number_of_members :toInteger(csvLine.budmah)}]-> (religion);
+
+
+USING PERIODIC COMMIT
+LOAD CSV WITH HEADERS FROM "https://raw.githubusercontent.com/h13knsd/socialstats/master/Data/WRP_national.csv?token=AYW0nnIc5f_zFoln0QRQxekPpHYpktvbks5aJKBiwA%3D%3D" AS csvLine MATCH (religion:Religion{religionCode:"budthr"}), (country:Country {abbrev: csvLine.name})
+  CREATE UNIQUE (country)-[r:HAS_RELIGION { year:toInteger(csvLine.year), number_of_members :toInteger(csvLine.budthr)}]-> (religion);
+
+USING PERIODIC COMMIT
+LOAD CSV WITH HEADERS FROM "https://raw.githubusercontent.com/h13knsd/socialstats/master/Data/WRP_national.csv?token=AYW0nnIc5f_zFoln0QRQxekPpHYpktvbks5aJKBiwA%3D%3D" AS csvLine MATCH (religion:Religion{religionCode:"budothr"}), (country:Country {abbrev: csvLine.name})
+  CREATE UNIQUE (country)-[r:HAS_RELIGION { year:toInteger(csvLine.year), number_of_members :toInteger(csvLine.budothr)}]-> (religion);
+
+USING PERIODIC COMMIT
+LOAD CSV WITH HEADERS FROM "https://raw.githubusercontent.com/h13knsd/socialstats/master/Data/WRP_national.csv?token=AYW0nnIc5f_zFoln0QRQxekPpHYpktvbks5aJKBiwA%3D%3D" AS csvLine MATCH (religion:Religion{religionCode:"budgen"}), (country:Country {abbrev: csvLine.name})
+  CREATE UNIQUE (country)-[r:HAS_RELIGION { year:toInteger(csvLine.year), number_of_members :toInteger(csvLine.budgen)}]-> (religion);
+
+USING PERIODIC COMMIT
+LOAD CSV WITH HEADERS FROM "https://raw.githubusercontent.com/h13knsd/socialstats/master/Data/WRP_national.csv?token=AYW0nnIc5f_zFoln0QRQxekPpHYpktvbks5aJKBiwA%3D%3D" AS csvLine MATCH (religion:Religion{religionCode:"zorogen"}), (country:Country {abbrev: csvLine.name})
+  CREATE UNIQUE (country)-[r:HAS_RELIGION { year:toInteger(csvLine.year), number_of_members :toInteger(csvLine.zorogen)}]-> (religion);
+
+USING PERIODIC COMMIT
+LOAD CSV WITH HEADERS FROM "https://raw.githubusercontent.com/h13knsd/socialstats/master/Data/WRP_national.csv?token=AYW0nnIc5f_zFoln0QRQxekPpHYpktvbks5aJKBiwA%3D%3D" AS csvLine MATCH (religion:Religion{religionCode:"hindgen"}), (country:Country {abbrev: csvLine.name})
+  CREATE UNIQUE (country)-[r:HAS_RELIGION { year:toInteger(csvLine.year), number_of_members :toInteger(csvLine.hindgen)}]-> (religion);
+
+USING PERIODIC COMMIT
+LOAD CSV WITH HEADERS FROM "https://raw.githubusercontent.com/h13knsd/socialstats/master/Data/WRP_national.csv?token=AYW0nnIc5f_zFoln0QRQxekPpHYpktvbks5aJKBiwA%3D%3D" AS csvLine MATCH (religion:Religion{religionCode:"sikhgen"}), (country:Country {abbrev: csvLine.name})
+  CREATE UNIQUE (country)-[r:HAS_RELIGION { year:toInteger(csvLine.year), number_of_members :toInteger(csvLine.sikhgen)}]-> (religion);
+
+
+
+USING PERIODIC COMMIT
+LOAD CSV WITH HEADERS FROM "https://raw.githubusercontent.com/h13knsd/socialstats/master/Data/WRP_national.csv?token=AYW0nnIc5f_zFoln0QRQxekPpHYpktvbks5aJKBiwA%3D%3D" AS csvLine MATCH (religion:Religion{religionCode:"shntgen"}), (country:Country {abbrev: csvLine.name})
+  CREATE UNIQUE (country)-[r:HAS_RELIGION { year:toInteger(csvLine.year), number_of_members :toInteger(csvLine.shntgen)}]-> (religion);
+
+USING PERIODIC COMMIT
+LOAD CSV WITH HEADERS FROM "https://raw.githubusercontent.com/h13knsd/socialstats/master/Data/WRP_national.csv?token=AYW0nnIc5f_zFoln0QRQxekPpHYpktvbks5aJKBiwA%3D%3D" AS csvLine MATCH (religion:Religion{religionCode:"bahgen"}), (country:Country {abbrev: csvLine.name})
+  CREATE UNIQUE (country)-[r:HAS_RELIGION { year:toInteger(csvLine.year), number_of_members :toInteger(csvLine.bahgen)}]-> (religion);
+
+USING PERIODIC COMMIT
+LOAD CSV WITH HEADERS FROM "https://raw.githubusercontent.com/h13knsd/socialstats/master/Data/WRP_national.csv?token=AYW0nnIc5f_zFoln0QRQxekPpHYpktvbks5aJKBiwA%3D%3D" AS csvLine MATCH (religion:Religion{religionCode:"taogen"}), (country:Country {abbrev: csvLine.name})
+  CREATE UNIQUE (country)-[r:HAS_RELIGION { year:toInteger(csvLine.year), number_of_members :toInteger(csvLine.taogen)}]-> (religion);
+
+USING PERIODIC COMMIT
+LOAD CSV WITH HEADERS FROM "https://raw.githubusercontent.com/h13knsd/socialstats/master/Data/WRP_national.csv?token=AYW0nnIc5f_zFoln0QRQxekPpHYpktvbks5aJKBiwA%3D%3D" AS csvLine MATCH (religion:Religion{religionCode:"jaingen"}), (country:Country {abbrev: csvLine.name})
+  CREATE UNIQUE (country)-[r:HAS_RELIGION { year:toInteger(csvLine.year), number_of_members :toInteger(csvLine.jaingen)}]-> (religion);
+
+USING PERIODIC COMMIT
+LOAD CSV WITH HEADERS FROM "https://raw.githubusercontent.com/h13knsd/socialstats/master/Data/WRP_national.csv?token=AYW0nnIc5f_zFoln0QRQxekPpHYpktvbks5aJKBiwA%3D%3D" AS csvLine MATCH (religion:Religion{religionCode:"confgen"}), (country:Country {abbrev: csvLine.name})
+  CREATE UNIQUE (country)-[r:HAS_RELIGION { year:toInteger(csvLine.year), number_of_members :toInteger(csvLine.confgen)}]-> (religion);
+
+USING PERIODIC COMMIT
+LOAD CSV WITH HEADERS FROM "https://raw.githubusercontent.com/h13knsd/socialstats/master/Data/WRP_national.csv?token=AYW0nnIc5f_zFoln0QRQxekPpHYpktvbks5aJKBiwA%3D%3D" AS csvLine MATCH (religion:Religion{religionCode:"syncgen"}), (country:Country {abbrev: csvLine.name})
+  CREATE UNIQUE (country)-[r:HAS_RELIGION { year:toInteger(csvLine.year), number_of_members :toInteger(csvLine.syncgen)}]-> (religion);
+
+USING PERIODIC COMMIT
+LOAD CSV WITH HEADERS FROM "https://raw.githubusercontent.com/h13knsd/socialstats/master/Data/WRP_national.csv?token=AYW0nnIc5f_zFoln0QRQxekPpHYpktvbks5aJKBiwA%3D%3D" AS csvLine MATCH (religion:Religion{religionCode:"anmgen"}), (country:Country {abbrev: csvLine.name})
+  CREATE UNIQUE (country)-[r:HAS_RELIGION { year:toInteger(csvLine.year), number_of_members :toInteger(csvLine.anmgen)}]-> (religion);
+
+USING PERIODIC COMMIT
+LOAD CSV WITH HEADERS FROM "https://raw.githubusercontent.com/h13knsd/socialstats/master/Data/WRP_national.csv?token=AYW0nnIc5f_zFoln0QRQxekPpHYpktvbks5aJKBiwA%3D%3D" AS csvLine MATCH (religion:Religion{religionCode:"nonrelig"}), (country:Country {abbrev: csvLine.name})
+  CREATE UNIQUE (country)-[r:HAS_RELIGION { year:toInteger(csvLine.year), number_of_members :toInteger(csvLine.nonrelig)}]-> (religion);
+
+USING PERIODIC COMMIT
+LOAD CSV WITH HEADERS FROM "https://raw.githubusercontent.com/h13knsd/socialstats/master/Data/WRP_national.csv?token=AYW0nnIc5f_zFoln0QRQxekPpHYpktvbks5aJKBiwA%3D%3D" AS csvLine MATCH (religion:Religion{religionCode:"othrgen"}), (country:Country {abbrev: csvLine.name})
+  CREATE UNIQUE (country)-[r:HAS_RELIGION { year:toInteger(csvLine.year), number_of_members :toInteger(csvLine.othrgen)}]-> (religion);
+
+
+//Return all the religions mapped (FOR Verification purposes)
+MATCH p=()-[r:HAS_RELIGION]->(rel:Religion) RETURN DISTINCT rel.religionCode;
+
+//Delete relations with 0 members
+MATCH ()-[r:HAS_RELIGION{number_of_members:0}]->() DELETE r;
+
+//PART OF RELATIONSHIP
+MATCH  (r:Religion{religionCode:"chrstprot"}), (dest:Religion{religionCode:"chrstgen"}) CREATE (r)-[:PART_OF]->(dest);
+MATCH  (r:Religion{religionCode:"chrstcat"}), (dest:Religion{religionCode:"chrstgen"}) CREATE (r)-[:PART_OF]->(dest);
+MATCH  (r:Religion{religionCode:"chrstorth"}), (dest:Religion{religionCode:"chrstgen"}) CREATE (r)-[:PART_OF]->(dest);
+MATCH  (r:Religion{religionCode:"chrstang"}), (dest:Religion{religionCode:"chrstang"}) CREATE (r)-[:PART_OF]->(dest);
+MATCH  (r:Religion{religionCode:"chrstothr"}), (dest:Religion{religionCode:"chrstgen"}) CREATE (r)-[:PART_OF]->(dest);
+MATCH  (r:Religion{religionCode:"judorth"}), (dest:Religion{religionCode:"judgen"}) CREATE (r)-[:PART_OF]->(dest);
+MATCH  (r:Religion{religionCode:"jdcons"}), (dest:Religion{religionCode:"judgen"}) CREATE (r)-[:PART_OF]->(dest);
+MATCH  (r:Religion{religionCode:"judref"}), (dest:Religion{religionCode:"judgen"}) CREATE (r)-[:PART_OF]->(dest);
+MATCH  (r:Religion{religionCode:"judothr"}), (dest:Religion{religionCode:"judgen"}) CREATE (r)-[:PART_OF]->(dest);
+MATCH  (r:Religion{religionCode:"islmsun"}), (dest:Religion{religionCode:"islmgen"}) CREATE (r)-[:PART_OF]->(dest);
+MATCH  (r:Religion{religionCode:"islmshi"}), (dest:Religion{religionCode:"islmgen"}) CREATE (r)-[:PART_OF]->(dest);
+MATCH  (r:Religion{religionCode:"islmibd"}), (dest:Religion{religionCode:"islmgen"}) CREATE (r)-[:PART_OF]->(dest);
+MATCH  (r:Religion{religionCode:"islmnat"}), (dest:Religion{religionCode:"islmgen"}) CREATE (r)-[:PART_OF]->(dest);
+MATCH  (r:Religion{religionCode:"islmalw"}), (dest:Religion{religionCode:"islmgen"}) CREATE (r)-[:PART_OF]->(dest);
+MATCH  (r:Religion{religionCode:"islmahm"}), (dest:Religion{religionCode:"islmgen"}) CREATE (r)-[:PART_OF]->(dest);
+MATCH  (r:Religion{religionCode:"islmothr"}), (dest:Religion{religionCode:"islmgen"}) CREATE (r)-[:PART_OF]->(dest);
+MATCH  (r:Religion{religionCode:"budmah"}), (dest:Religion{religionCode:"budgen"}) CREATE (r)-[:PART_OF]->(dest);
+MATCH  (r:Religion{religionCode:"budthr"}), (dest:Religion{religionCode:"budgen"}) CREATE (r)-[:PART_OF]->(dest);
+MATCH  (r:Religion{religionCode:"budothr"}), (dest:Religion{religionCode:"budgen"}) CREATE (r)-[:PART_OF]->(dest);
+
+
+
+//Interesting queries
+MATCH (c:Country{name:"El Salvador"})-[relation:HAS_RELIGION]->(rel:Religion) RETURN DISTINCT  c.name,  relation.number_of_members,  rel.year, rel.name ORDER BY ( relation.number_of_members);
+
+MATCH (c:Country)-[relation:HAS_RELIGION]->(rel:Religion) RETURN DISTINCT  c.name,  relation.number_of_members,  relation.year, rel.name ORDER BY ( relation.number_of_members);
+
+MATCH (c:Country)-[relation:HAS_RELIGION]->(rel:Religion) RETURN DISTINCT  c.name,  relation.number_of_members,  relation.year, rel.name ORDER BY ( relation.number_of_members) DESC;
+
+MATCH p=(c:Country)-[r:HAS_RELIGION{year:1985}]->(l:Religion) RETURN p LIMIT 150;
+
+//Religions with the least number of countries in 2010
+MATCH (c:Religion)
+RETURN c, SIZE((c)<-[:HAS_RELIGION{year:2010}]-(:Country)) as rating_count
+  ORDER BY rating_count limit 5;
+
+//Get all the countries with orthodox in 2010
+MATCH p=(c:Country)-[r:HAS_RELIGION{year:2010}]->(l:Religion{religionCode: "judorth"}) RETURN p ORDER BY r.number_of_members DESC;
+
+////////////////

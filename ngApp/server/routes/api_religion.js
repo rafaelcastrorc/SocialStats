@@ -5,6 +5,10 @@ const driver = neo4j.driver('bolt://ec2-54-145-205-218.compute-1.amazonaws.com',
 const session = driver.session();
 const country = require('../models/Country');
 
+
+router.get('/', function (req, res) {
+  res.send('Religion API works!');
+});
 router.get('/countries', function (req, res) {
   console.log('Get all countries');
   session
@@ -21,18 +25,53 @@ router.get('/countries', function (req, res) {
           name: object.name,
           abbrev: object.abbrev
         });
-         console.log(object);
-
+        console.log(object);
 
       });
 
-      res.render('index', {
-        movies: movieArr,
-      });
+      res.json(countriesArr);
     })
+
     .catch(function (err) {
       console.log(err);
     });
+
+});
+
+
+router.get('/countries/:name', function (req, res) {
+  console.log('Retrieve a country');
+  session
+    .run('MATCH(n:Country{name:{nameParam}}) RETURN n', {nameParam: req.params.name})
+    .then(function (result) {
+      const countriesArr = [];
+
+      result.records.forEach(function (record) {
+
+        const object = record._fields[0].properties;
+        transform(object);
+        countriesArr.push({
+          name: object.name,
+          abbrev: object.abbrev
+        });
+        console.log(object);
+
+      });
+
+      res.json(countriesArr);
+    })
+
+    .catch(function (err) {
+      console.log(err);
+    });
+
+});
+
+router.post('/video', function(req, res) {
+  console.log('Type a country');
+  var countryName = req.body.name;
+  var abbrev = req.body.abbrev;
+
 
 });
 

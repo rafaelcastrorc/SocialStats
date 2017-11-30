@@ -17,6 +17,13 @@ var userSchema = mongoose.Schema({
         token: String,
         displayName: String,
         username: String
+    },
+    notes: {
+      note: {
+        title: String,
+        body: String,
+        dated: Date
+      }
     }
 });
 userSchema.methods.generateHash = function(password) {

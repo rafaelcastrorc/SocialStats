@@ -1,8 +1,56 @@
 module.exports = function(app, passport) {
 
+  app.get('/new_note', isLoggedIn, function(req, res) {
+		res.render('new_note.ejs', {
+			user : req.user
+		});
+	});
+
+  app.post('/notes', isLoggedIn, function(req, res) {
+    if(!req.body.content) {
+        res.status(400).send({message: "Note can not be empty"});
+    }
+    var user = req.user;
+    var note = {title: req.body.title || "Untitled Note", content: req.body.content}
+    user.notes.push(note);
+    user.save(function(err) {
+        if (err)
+            throw err;
+    });
+    res.redirect('/notes');
+  });
+
+  app.get('/notes', isLoggedIn, function(req, res) {
+    res.render('notes.ejs', {
+			user : req.user
+		});
+  });
+
+  app.get('/notes/:noteId', isLoggedIn, function(req, res) {
+    res.render('view_note.ejs', {
+      user: req.user,
+      ind: req.params.noteId
+    })
+  });
+
+  app.put('/notes/:noteId', isLoggedIn, function(req, res) {
+  });
+
+  app.get('/notes/delete/:noteId', isLoggedIn, function(req, res) {
+    var user = req.user;
+    var ind = req.params.noteId;
+    user.notes.pull({ _id: ind })
+    user.save(function(err) {
+        if (err)
+            throw err;
+    });
+    res.redirect('/notes');
+  });
+
 	app.get('/', function(req, res) {
 		res.render('index.ejs');
 	});
+
 	app.get('/profile', isLoggedIn, function(req, res) {
 		res.render('profile.ejs', {
 			user : req.user

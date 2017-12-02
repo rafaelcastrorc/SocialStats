@@ -25,6 +25,10 @@
     "bootstrap": "^3.3.7",
     "core-js": "^2.4.1",
     "express": "^4.16.2",
+    "neo4j-driver": "^1.5.1",
+    "ng2-dropdown": "0.0.21",
+    "ng2-dropdown-multiselect": "^1.2.0",
+    "ngx-dropdown": "0.0.22",
     "rxjs": "^5.5.2",
     "zone.js": "^0.8.14"
   },

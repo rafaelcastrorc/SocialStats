@@ -9,6 +9,8 @@ const country = require('../models/Country');
 router.get('/', function (req, res) {
   res.send('Religion API works!');
 });
+
+//To get all countries
 router.get('/countries', function (req, res) {
   console.log('Get all countries');
   session
@@ -66,6 +68,37 @@ router.get('/countries/:name', function (req, res) {
     });
 
 });
+
+//To get all countries
+router.get('/religions', function (req, res) {
+  console.log('Get all religions');
+  session
+    .run('MATCH(r:Religion) RETURN r')
+    .then(function (result) {
+      const religionsArr = [];
+
+      result.records.forEach(function (record) {
+
+        const object = record._fields[0].properties;
+        transform(object);
+
+        religionsArr.push({
+          name: object.name,
+          religionCode: object.religionCode
+        });
+        console.log(object);
+
+      });
+
+      res.json(religionsArr);
+    })
+
+    .catch(function (err) {
+      console.log(err);
+    });
+
+});
+
 
 router.post('/video', function(req, res) {
   console.log('Type a country');

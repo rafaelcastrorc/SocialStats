@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, Input, OnChanges, OnInit, SimpleChanges} from '@angular/core';
 
 @Component({
   selector: 'religion-list',
@@ -6,11 +6,22 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./religion-list.component.css'],
 
 })
-export class ReligionListComponent implements OnInit {
+export class ReligionListComponent implements OnInit, OnChanges {
+  @Input() country;
 
-  constructor() { }
+  editTitle = false;
+
+  constructor() {
+  }
 
   ngOnInit() {
   }
 
+  onNameClick() {
+    this.editTitle = true;
+  }
+
+  ngOnChanges(changes: SimpleChanges): void {
+    this.editTitle = false;
+  }
 }

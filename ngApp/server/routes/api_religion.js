@@ -132,11 +132,15 @@ router.get('/queries/:country/:year/:religion', function (req, res) {
   const year = parseInt(req.params.year);
   const religion = req.params.religion;
   console.log(country + year + religion);
+  let countryStr = '';
+  if (country !== 'all') {
+    countryStr = '{name:{'+country+'}}';
+  }
+
   session
-    .run('MATCH(c:Country{name:{countryParam}}), (rel:Religion{name:{religionParam}}),' +
+    .run('MATCH(c:Country'+countryStr+'), (rel:Religion{name:{religionParam}}),' +
       ' (c)-[r:HAS_RELIGION{year:{yearParam}}]->(rel) RETURN {Country: c.name, Religion: rel.name, Year: r.year,' +
       ' Number: r.number_of_members} AS result ORDER BY rel.name', {
-      countryParam: country,
       religionParam: religion,
       yearParam: year
     })

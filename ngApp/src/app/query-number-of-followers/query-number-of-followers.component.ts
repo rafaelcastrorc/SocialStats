@@ -19,7 +19,6 @@ export class Query {
 
 })
 export class QueryNumberOfFollowersComponent implements OnInit {
-
   @Input() countries;
   @Input() religions;
   @Input() years;

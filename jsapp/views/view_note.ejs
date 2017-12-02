@@ -1,0 +1,26 @@
+<html>
+<head>
+    <title>Social Stats</title>
+    <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.0.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="//netdna.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    <style>
+        body        { padding-top:80px; }
+    </style>
+</head>
+<body>
+  <div class="container">
+    <div class="col-sm-6 col-sm-offset-3">
+
+            <div class="well">
+                <p>
+                    <strong>Title</strong>: <%= user.notes[ind].title %><br>
+                    <strong>Content</strong>: <%= user.notes[ind].content %><br><br>
+                    <a href="/notes/" class="btn btn-default btn-md">Back</a>
+                    <a href="/notes/delete/<%= user.notes[ind]._id %>" class="btn btn-warning btn-md">Delete</a>
+                </p>
+            </div>
+        </div>
+    </div>
+  </div>
+</body>
+</html>

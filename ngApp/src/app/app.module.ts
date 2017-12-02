@@ -7,7 +7,6 @@ import { AppComponent } from './app.component';
 import { HomeComponent } from './home/home.component';
 import { ReligionsComponent } from './religions/religions.component';
 import {QueryListComponent} from './query-list/query-list.component';
-import { ReligionListComponent } from './religion-list/religion-list.component';
 import {HttpModule} from '@angular/http';
 import { SafePipe } from './safe.pipe';
 import { ReligionVisualizerComponent } from './religion-visualizer/religion-visualizer.component';
@@ -21,7 +20,6 @@ import { QueryNumberOfFollowersComponent } from './query-number-of-followers/que
     HomeComponent,
     ReligionsComponent,
     QueryListComponent,
-    ReligionListComponent,
     SafePipe,
     ReligionVisualizerComponent,
     QueryNumberOfFollowersComponent

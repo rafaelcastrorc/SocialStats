@@ -58,7 +58,7 @@ export class QueryNumberOfFollowersComponent implements OnInit {
 
   onSelectReligion(religion: Religion) {
     if (religion.name == null) {
-      this.selectedReligionName = 'All religions';
+      this.selectedReligionName = 'All Religions';
     } else {
       // Store the name of the religion
       this.selectedReligionName = religion.name;
@@ -69,7 +69,11 @@ export class QueryNumberOfFollowersComponent implements OnInit {
   }
 
   onSelectYear(year: string) {
-    this.selectedYear = year;
+    if (year === 'All years') {
+      this.selectedYear = 'All Years';
+    } else {
+      this.selectedYear = year;
+    }
     this.hasSelectedYear = true;
   }
 

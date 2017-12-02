@@ -13,7 +13,8 @@ export class ReligionsComponent implements OnInit {
   queries: String[] = [
     'Number of people who follow a religion in a country',
     'Most popular religions'];
-  selectedQuery: String;
+  selectedQuery: string;
+  currentTitle = 'Select a query from the right side panel';
 
 
   constructor() {
@@ -22,8 +23,9 @@ export class ReligionsComponent implements OnInit {
   ngOnInit() {
   }
 
-  onSelectQuery(query: String) {
+  onSelectQuery(query: string) {
     this.selectedQuery = query;
+    this.currentTitle = this.selectedQuery;
     console.log(this.selectedQuery);
   }
 

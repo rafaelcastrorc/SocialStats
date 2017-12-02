@@ -126,20 +126,40 @@ router.get('/years', function (req, res) {
 });
 
 
-//Query: Get the number of people who follow a certain religion
+//Query: Get the number of people who follow a certain religion (query 1)
 router.get('/queries/:country/:year/:religion', function (req, res) {
   const country = req.params.country;
   const year = parseInt(req.params.year);
   const religion = req.params.religion;
-  console.log(country + year + religion);
+  let countryParam, religionParam, yearParam;
+  // Check if user wants to retrieve all the countries
+  if (country !== 'All Countries') {
+    countryParam = '{name:\''+country+'\'}'
+  }
+  else {
+    countryParam = '';
+  }
+  // Check if user wants to retrieve all the countries
+  if (religion !== 'All Religions') {
+    religionParam = '{name:\'' + religion + '\'}'
+  }
+  else {
+    religionParam = '';
+  }
+  // Check if user wants to retrieve all the countries
+  if (!Number.isNaN(year)) {
+    console.log('here');
+    yearParam = '{year:' + year + '}'
+  }
+  else {
+    yearParam = '';
+  }
+  console.log(countryParam + religionParam + yearParam)
+
   session
-    .run('MATCH(c:Country{name:{countryParam}}), (rel:Religion{name:{religionParam}}),' +
-      ' (c)-[r:HAS_RELIGION{year:{yearParam}}]->(rel) RETURN {Country: c.name, Religion: rel.name, Year: r.year,' +
-      ' Number: r.number_of_members} AS result ORDER BY rel.name', {
-      countryParam: country,
-      religionParam: religion,
-      yearParam: year
-    })
+    .run('MATCH(c:Country '+ countryParam +'), (rel:Religion '+ religionParam+'),' +
+      ' (c)-[r:HAS_RELIGION '+ yearParam +']->(rel) RETURN {Country: c.name, Religion: rel.name, Year: r.year,' +
+      ' Number: r.number_of_members} AS result ORDER BY c.name, rel.name, r.year, rel.number_of_members')
     .then(function (result) {
       const queryAns = [];
       result.records.forEach(function (record) {
@@ -153,17 +173,14 @@ router.get('/queries/:country/:year/:religion', function (req, res) {
         });
       });
       //In case the result does not exist
-      console.log(queryAns.length);
       if (queryAns.length === 0) {
         queryAns.push({
           country: country,
           religion: religion,
-          year: year,
+          year: 'No records',
           number: 'No records'
         });
-
       }
-
       res.json(queryAns);
     })
 

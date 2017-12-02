@@ -1,13 +1,9 @@
 <div class="row">
 
   <div class="col-sm-9">
-    <!--Once SelectCountry event happens, we call method onSelectCountry-->
-    <religion-visualizer  [countries]="countries" [religions]="religions"></religion-visualizer>
+    <h1>Select a query from the right side panel</h1>
+    <religion-visualizer  *ngIf="selectedQuery" [query]="selectedQuery"></religion-visualizer>
   </div>
-
-  <!--<div class="col-sm-9">-->
-  <!--<religion-list *ngIf="selectedCountry" [country]="selectedCountry"> </religion-list>-->
-  <!--</div>-->
 
   <div class="col-sm-3">
     <query-list (SelectQuery)="onSelectQuery($event)" [queries]="queries"></query-list>

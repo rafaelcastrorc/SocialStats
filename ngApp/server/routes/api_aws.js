@@ -24,6 +24,43 @@ router.get('/WorldBankTEST', function (req, res) {
   });
 });
 
+router.get('/conflicts', function (req, res) {
+  var year = req.params.year;
+  console.log("Get conflicts for " + year);
+  var query = 'SELECT * FROM Conflicts LIMIT 10;';
+  connection.query(query, function (err, rows) {
+    if (err) console.log(err);
+    else {
+      res.json(rows);
+    }
+  })
+});
+
+router.get('/conflicts/:year', function (req, res) {
+  var year = req.params.year;
+  console.log("Get conflicts for " + year);
+  var query = 'SELECT * FROM Conflicts WHERE year = ' + year + ';';
+  connection.query(query, function (err, rows) {
+    if (err) console.log(err);
+    else {
+      res.json(rows);
+    }
+  })
+});
+
+router.get('/conflicts/:country/:year', function (req, res) {
+  var country = req.params.country;
+  var year = req.params.year;
+  console.log("Get conflicts for " + year);
+  var query = 'SELECT * FROM Conflicts WHERE country = ' + country + ' AND year = ' + year + ';';
+  connection.query(query, function (err, rows) {
+    if (err) console.log(err);
+    else {
+      res.json(rows);
+    }
+  })
+});
+
 connection.connect(function(err) {
   if (err) {
     console.log(err);

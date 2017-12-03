@@ -17,17 +17,17 @@ import {QueriesService} from '../queries.service';
 
 export class WorldbankComponent implements OnInit {
 
-  @Input() countries;
-  @Output() SelectCountry = new EventEmitter();
+  // @Input() countries;
+  //@Output() SelectCountry = new EventEmitter();
 
 
   hasSelectedCountry = false;
   hasSelectedIndicator = false;
 
-  selectedCountryName = "Select a Country";
-  selectedIndicator = "Select an Indicator";
+  // selectedCountryName = "Select a Country";
+  // selectedIndicator = "Select an Indicator";
 
-  queryResults: Array<Query>;
+  // queryResults: Array<Query>;
 
   constructor(private _queriesService: QueriesService) {
   }
@@ -35,24 +35,36 @@ export class WorldbankComponent implements OnInit {
   ngOnInit() {
   }
 
-  onSelectCountry(country: Country) {
-    if (country.name == null) {
-      this.selectedCountryName = 'All Countries';
-    } else {
-      // Store the name of the country
-      this.selectedCountryName = country.name;
-    }
-    console.log(this.selectedCountryName);
-    this.hasSelectedCountry = true;
-    // this.SelectCountry.emit(country);
-  }
+  // onSelectCountry(country: Country) {
+  //   if (country.name == null) {
+  //     this.selectedCountryName = 'All Countries';
+  //   } else {
+  //     // Store the name of the country
+  //     this.selectedCountryName = country.name;
+  //   }
+  //   console.log(this.selectedCountryName);
+  //   this.hasSelectedCountry = true;
+  //   // this.SelectCountry.emit(country);
+  // }
+  //
+  // onSelectIndicator(country: Country) {
+  //   if (country.name == null) {
+  //     this.selectedCountryName = 'All Indicators';
+  //   } else {
+  //     // Store the name of the country
+  //     this.selectedCountryName = indicator.name;
+  //   }
+  //   console.log(this.selectedCountryName);
+  //   this.hasSelectedCountry = true;
+  //   // this.SelectCountry.emit(country);
+  // }
 
 
-  onSubmit() {
-    if (this.hasSelectedCountry && this.hasSelectedIndicator) {
-      this._queriesService.getIndicatorForCountry(this.selectedCountryName, this.selectedIndicator)
-        .subscribe(resQueryData => this.queryResults = resQueryData);
-    }
-  }
+  // onSubmit() {
+  //   if (this.hasSelectedCountry && this.hasSelectedIndicator) {
+  //     this._queriesService.getIndicatorForCountry(this.selectedCountryName, this.selectedIndicator)
+  //       .subscribe(resQueryData => this.queryResults = resQueryData);
+  //   }
+  // }
 
 }

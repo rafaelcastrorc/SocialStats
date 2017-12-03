@@ -1,0 +1,45 @@
+<html>
+<head>
+    <title>Social Stats</title>
+    <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.0.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="//netdna.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    <style>
+        body        { padding-top:20px; }
+    </style>
+</head>
+<body>
+  <div class="container">
+    <div class="page-header text-center">
+        <h1><span class="fa fa-commenting"></span> All Notes</h1>
+        <a href="/new_note" class="btn btn-default btn-sm">Create New Note</a>
+        <a href="/profile" class="btn btn-default btn-sm">Profile</a>
+        <a href="/logout" class="btn btn-default btn-sm">Logout</a>
+    </div>
+
+    <% if (user.notes) { %>
+        <% for(var i = 0; i < user.notes.length; i++) {%>
+            <div class="row">
+                <div class="col-sm-6 col-sm-offset-3">
+                    <div class="well">
+                        <p>
+                            <strong>Title</strong>: <%= user.notes[i].title %><br>
+                            <strong>Content</strong>: <%= user.notes[i].content %><br><br>
+                            <a href="/notes/<%= i %>" class="btn btn-default btn-md">View Note</a>
+
+                        </p>
+                    </div>
+                </div>
+            </div>
+        <% } %>
+    <% } else { %>
+      <div class="row">
+          <div class="col-sm-6 col-sm-offset-3">
+              <div class="well">
+                  <p>No Notes</p>
+              </div>
+          </div>
+      </div>
+    <% } %>
+  </div>
+</body>
+</html>

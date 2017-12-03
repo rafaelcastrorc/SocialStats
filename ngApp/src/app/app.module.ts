@@ -13,6 +13,8 @@ import { SafePipe } from './safe.pipe';
 import { ReligionVisualizerComponent } from './religion-visualizer/religion-visualizer.component';
 import {DropdownModule} from 'ngx-dropdown';
 import { QueryNumberOfFollowersComponent } from './query-number-of-followers/query-number-of-followers.component';
+import { ConflictComponent } from './conflict/conflict.component';
+import { WorldbankComponent } from './worldbank/worldbank.component';
 
 
 @NgModule({
@@ -24,7 +26,9 @@ import { QueryNumberOfFollowersComponent } from './query-number-of-followers/que
     ReligionListComponent,
     SafePipe,
     ReligionVisualizerComponent,
-    QueryNumberOfFollowersComponent
+    QueryNumberOfFollowersComponent,
+    ConflictComponent,
+    WorldbankComponent
   ],
   imports: [
     BrowserModule,

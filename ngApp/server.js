@@ -31,7 +31,7 @@ app.use(session({ secret: 'quackquackquack' }));
 app.use(passport.initialize());
 app.use(passport.session());
 app.use(flash());
-require('./app/routes.js')(app, passport);
+require('./server/routes/user_routes.js')(app, passport);
 //Default page is index
 app.get('*', (req, res) => {
   res.sendFile(path.join(__dirname, 'dist/index.html'))

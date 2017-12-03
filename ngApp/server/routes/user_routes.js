@@ -47,7 +47,7 @@ module.exports = function(app, passport) {
     res.redirect('/notes');
   });
 
-	app.get('/', function(req, res) {
+	app.get('/landing', function(req, res) {
 		res.render('index.ejs');
 	});
 
@@ -67,7 +67,7 @@ module.exports = function(app, passport) {
 	});
 
 	app.post('/login', passport.authenticate('local-login', {
-		successRedirect : '/profile',
+		successRedirect : '/',
 		failureRedirect : '/login',
 		failureFlash : true
 	}));

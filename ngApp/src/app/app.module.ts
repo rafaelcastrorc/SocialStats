@@ -14,6 +14,7 @@ import { ReligionVisualizerComponent } from './religion-visualizer/religion-visu
 import {DropdownModule} from 'ngx-dropdown';
 import { QueryNumberOfFollowersComponent } from './query-number-of-followers/query-number-of-followers.component';
 import { ConflictComponent } from './conflict/conflict.component';
+import { AccountsComponent } from './accounts/accounts.component';
 
 
 @NgModule({
@@ -26,7 +27,8 @@ import { ConflictComponent } from './conflict/conflict.component';
     SafePipe,
     ReligionVisualizerComponent,
     QueryNumberOfFollowersComponent,
-    ConflictComponent
+    ConflictComponent,
+    AccountsComponent
   ],
   imports: [
     BrowserModule,

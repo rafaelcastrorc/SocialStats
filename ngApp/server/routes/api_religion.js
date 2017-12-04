@@ -196,6 +196,3 @@ function transform(object) {
 }
 
 module.exports = router;
-
-
-

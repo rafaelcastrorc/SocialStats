@@ -15,6 +15,7 @@ import {DropdownModule} from 'ngx-dropdown';
 import { QueryNumberOfFollowersComponent } from './query-number-of-followers/query-number-of-followers.component';
 import { ConflictComponent } from './conflict/conflict.component';
 import { WorldbankComponent } from './worldbank/worldbank.component';
+import { AccountsComponent } from './accounts/accounts.component';
 
 
 @NgModule({
@@ -28,7 +29,8 @@ import { WorldbankComponent } from './worldbank/worldbank.component';
     ReligionVisualizerComponent,
     QueryNumberOfFollowersComponent,
     ConflictComponent,
-    WorldbankComponent
+    WorldbankComponent,
+    AccountsComponent
   ],
   imports: [
     BrowserModule,

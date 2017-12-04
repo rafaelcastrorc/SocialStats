@@ -7,7 +7,7 @@ import {WorldbankComponent} from "./worldbank/worldbank.component";
 
 const routes: Routes = [
   {path: '', redirectTo: '/home', pathMatch: 'full'},
-  {path: 'home', component: HomeComponent},
+  {path: 'login', redirectTo: '/landing', pathMatch: 'full'},
   {path: 'religions', component: ReligionsComponent},
   {path: 'conflict', component: ConflictComponent},
   {path: 'worldbank', component: WorldbankComponent}

@@ -1,0 +1,32 @@
+<p>
+  conflict works!
+</p>
+
+<div app.controller = "conflict_query_controller">
+  <p>
+    Please select a country:
+    <input name="country" ng-model="country" value="">
+    <button type="button" ng-click="Submit()" class="button">Find
+    </button>
+  </p>
+
+
+  <table border="0" cellpadding="10" cellspacing="1" width="750"
+         align="center">
+    <tr>
+      <td> Year</td>
+      <td> Side A</td>
+      <td> Side B</td>
+      <td> Deaths A</td>
+      <td> Deaths B</td>
+      <td> Deaths Civilian</td>
+    <tr ng-repeat="x in data">
+      <td> {{x.year}}</td>
+      <td> {{x.side_a}}</td>
+      <td> {{x.side_b}}</td>
+      <td> {{x.deaths_a}}</td>
+      <td> {{x.deaths_b}}</td>
+      <td> {{x.deaths_civilian}}</td>
+    </tr>
+  </table>
+</div>

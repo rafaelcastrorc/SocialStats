@@ -23,38 +23,36 @@
     <div class="dropdown" dropdown [dropdownToggle]="true">
       <button class="btn btn-primary" dropdown-open> {{selectedYear}}<span class="caret"></span></button>
       <ul class="dropdown-menu">
-        <li (click)="onSelectYear('All years')"><a>All years</a></li>
+        <li (click)="onSelectYear()"><a>All years</a></li>
         <li (click)="onSelectYear(year)" *ngFor="let year of years"><a>{{year}}</a></li>
       </ul>
     </div>
   </div>
 
-  <div class="btn-group">
-    <div>
-      <button (click)="onSubmit()" type="submit" class="btn btn-success">Submit</button>
-    </div>
+  <div>
+    <button (click)="onSubmit()" type="submit" class="btn btn-info">Submit</button>
   </div>
 </div>
 
-<p class="h5">The number of people that are part of the religion <code>{{selectedReligionName}}</code> from <code>
+<p class="h4">The the number of people that are part of the religion <code>{{selectedReligionName}}</code> from <code>
   {{selectedCountryName}}</code> during the year <code>{{selectedYear}}</code>:</p>
 
 
-<table class="table table-striped">
-  <thead class="thread-light">
-  <tr>
-    <th scope="country">Country</th>
-    <th scope="religion">Religion</th>
-    <th scope="year">Year</th>
-    <th scope="numberOfPeople">Number of people</th>
-  </tr>
-  </thead>
-  <tbody>
-  <tr *ngFor="let query of queryResults">
-    <td>{{query.country}}</td>
-    <td>{{query.religion}}</td>
-    <td>{{query.year}}</td>
-    <td>{{query.number}}</td>
-  </tr>
-  </tbody>
+<table class = "table">
+    <thead class = "thread-dark">
+    <tr>
+      <th scope="country">Country</th>
+      <th scope="religion">Religion</th>
+      <th scope="year">Year</th>
+      <th scope="numberOfPeople">Number of people</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr *ngFor="let query of queryResults">
+      <td>{{query.country}}</td>
+      <td>{{query.religion}}</td>
+      <td>{{query.year}}</td>
+      <td>{{query.number}}</td>
+    </tr>
+    </tbody>
 </table>

@@ -12,6 +12,9 @@ import { SafePipe } from './safe.pipe';
 import { ReligionVisualizerComponent } from './religion-visualizer/religion-visualizer.component';
 import {DropdownModule} from 'ngx-dropdown';
 import { QueryNumberOfFollowersComponent } from './query-number-of-followers/query-number-of-followers.component';
+import { ConflictComponent } from './conflict/conflict.component';
+import { WorldbankComponent } from './worldbank/worldbank.component';
+import { AccountsComponent } from './accounts/accounts.component';
 import { HttpClientModule } from '@angular/common/http';
 import { NgHttpLoaderModule } from 'ng-http-loader/ng-http-loader.module';
 
@@ -26,6 +29,10 @@ import { NgHttpLoaderModule } from 'ng-http-loader/ng-http-loader.module';
     SafePipe,
     ReligionVisualizerComponent,
     QueryNumberOfFollowersComponent,
+    QueryNumberOfFollowersComponent,
+    ConflictComponent,
+    WorldbankComponent,
+    AccountsComponent
   ],
   imports: [
     BrowserModule,

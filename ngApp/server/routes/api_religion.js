@@ -3,8 +3,8 @@ const router = express.Router();
 const neo4j = require('neo4j-driver').v1;
 const driver = neo4j.driver('bolt://ec2-54-145-205-218.compute-1.amazonaws.com', neo4j.auth.basic('neo4j', 'rafaelcastro'));
 const session = driver.session();
-const Query1 = require('../models/Query1.js')
-
+const CountryReligionYearNumber = require('../models/CountryReligionYearNumber.js')
+const NameYearNumber = require('../models/NameYearNumber.js')
 
 router.get('/', function (req, res) {
   res.send('Religion API works!');
@@ -163,7 +163,7 @@ router.get('/queries/:country/:year/:religion', function (req, res) {
       result.records.forEach(function (record) {
         const object = record.get(0);
         transform(object);
-        let query = new Query1(object.Country, object.Religion, object.Year, object.Number);
+        let query = new CountryReligionYearNumber(object.Country, object.Religion, object.Year, object.Number);
         queryAns.push(query);
       });
       //In case the result does not exist
@@ -185,13 +185,56 @@ router.get('/queries/:country/:year/:religion', function (req, res) {
 
 });
 
-router.post('/video', function (req, res) {
-  console.log('Type a country');
-  var countryName = req.body.name;
-  var abbrev = req.body.abbrev;
 
+//Query: Get the religions followed by the least amount of countries in a year
+router.get('/queries/:year/:limit', function (req, res) {
+  const year = parseInt(req.params.year);
+  const limit = parseInt(req.params.limit);
+  let yearParam, limitParam;
+
+  if (!Number.isNaN(year)) {
+    yearParam = '{year:' + year + '}'
+  }
+  else {
+    yearParam = '';
+  }
+  if (!Number.isNaN(limit)) {
+    limitParam = 'limit ' + limit;
+  }
+  else {
+    limitParam = '';
+  }
+
+  session
+    .run('MATCH (c:Religion) RETURN {Religion: c.name, Number: SIZE((c)<-[:HAS_RELIGION ' + yearParam+']-(:Country))}' +
+      ' AS result ORDER  BY SIZE((c)<-[:HAS_RELIGION ' + yearParam+ ']-(:Country)) ' + limitParam)
+    .then(function (result) {
+      const queryAns = [];
+      result.records.forEach(function (record) {
+        const object = record.get(0);
+        transform(object);
+        let query = new NameYearNumber(object.Religion, req.params.year , object.Number);
+        queryAns.push(query);
+      });
+      //In case the result does not exist
+      if (queryAns.length === 0) {
+        queryAns.push({
+          year: 'No records',
+          number: 'No records'
+        });
+      }
+      res.json(queryAns);
+
+    })
+
+    .catch(function (err) {
+      console.log(err);
+    });
 
 });
+
+
+
 
 //For handling numbers in neo4j
 function transform(object) {
@@ -208,6 +251,3 @@ function transform(object) {
 }
 
 module.exports = router;
-
-
-

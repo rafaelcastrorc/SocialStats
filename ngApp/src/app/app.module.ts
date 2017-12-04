@@ -17,6 +17,7 @@ import { WorldbankComponent } from './worldbank/worldbank.component';
 import { AccountsComponent } from './accounts/accounts.component';
 import { HttpClientModule } from '@angular/common/http';
 import { NgHttpLoaderModule } from 'ng-http-loader/ng-http-loader.module';
+import { QueryReligionFewestCountriesComponent } from './query-religion-fewest-countries/query-religion-fewest-countries.component';
 
 
 
@@ -32,7 +33,8 @@ import { NgHttpLoaderModule } from 'ng-http-loader/ng-http-loader.module';
     QueryNumberOfFollowersComponent,
     ConflictComponent,
     WorldbankComponent,
-    AccountsComponent
+    AccountsComponent,
+    QueryReligionFewestCountriesComponent
   ],
   imports: [
     BrowserModule,

@@ -16,7 +16,6 @@ export class ReligionVisualizerComponent implements OnInit {
   countries: Array<Country>;
   religions: Array<Religion>;
   years: Array<String>;
-
   @Input() query;
 
 

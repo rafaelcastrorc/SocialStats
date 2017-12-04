@@ -1,6 +1,5 @@
 import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {Country} from '../country';
-import {QueriesService} from '../queries.service';
 
 
 
@@ -18,7 +17,7 @@ import {QueriesService} from '../queries.service';
 export class WorldbankComponent implements OnInit {
 
   // @Input() countries;
-  //@Output() SelectCountry = new EventEmitter();
+  // @Output() SelectCountry = new EventEmitter();
 
 
   hasSelectedCountry = false;
@@ -29,7 +28,7 @@ export class WorldbankComponent implements OnInit {
 
   // queryResults: Array<Query>;
 
-  constructor(private _queriesService: QueriesService) {
+  constructor() {
   }
 
   ngOnInit() {

@@ -12,8 +12,16 @@ import {ReligionService} from '../religion.service';
 export class ReligionsComponent implements OnInit {
   queries: String[] = [
     'Number of people who follow a religion in a country',
-    'Most popular religions'];
-  selectedQuery: String;
+    'Religions present in the fewest countries',
+    'Largest religion by country',
+    'Christianity vs. Islam vs. Judaism',
+    'Comparing religions between countries',
+    'Religious vs. non Religious',
+    'Most religious country per region',
+    'Similar countries in terms of religions',
+    'Percent of people who follow a religion in a country'
+  ];
+  selectedQuery = 'Select a query from the right side panel';
 
 
   constructor() {
@@ -22,7 +30,7 @@ export class ReligionsComponent implements OnInit {
   ngOnInit() {
   }
 
-  onSelectQuery(query: String) {
+  onSelectQuery(query: string) {
     this.selectedQuery = query;
     console.log(this.selectedQuery);
   }

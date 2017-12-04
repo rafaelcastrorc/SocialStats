@@ -2,9 +2,10 @@ import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {Country} from '../country';
 import {DropdownModule} from 'ngx-dropdown';
 import {Religion} from '../religion';
-import {QueriesService} from '../queries.service';
+import {HttpClient} from '@angular/common/http';
+console.log('Hello1');
 
-export class Query {
+interface Query1 {
   country: string;
   religion: string;
   year: string;
@@ -15,7 +16,6 @@ export class Query {
   selector: 'query-number-of-followers',
   templateUrl: './query-number-of-followers.component.html',
   styleUrls: ['./query-number-of-followers.component.css'],
-  providers: [QueriesService]
 
 })
 export class QueryNumberOfFollowersComponent implements OnInit {
@@ -34,9 +34,9 @@ export class QueryNumberOfFollowersComponent implements OnInit {
   hasSelectedReligion = false;
   hasSelectedYear = false;
   religion: Religion;
-  queryResults: Array<Query>;
+  queryResults: Query1[];
 
-  constructor(private _queriesService: QueriesService) {
+  constructor(private http: HttpClient) {
   }
 
   ngOnInit() {
@@ -78,10 +78,12 @@ export class QueryNumberOfFollowersComponent implements OnInit {
 
   onSubmit() {
     if (this.hasSelectedYear && this.hasSelectedCountry && this.hasSelectedReligion) {
-      this._queriesService.getNumberOfFollowers(this.selectedCountryName, this.selectedYear, this.selectedReligionName)
-        .subscribe(resQueryData => this.queryResults = resQueryData);
+      this.http.get<Query1[]>('/api_religion/queries' + '/' + this.selectedCountryName + '/' + this.selectedYear + '/' +
+        this.selectedReligionName
+      ).subscribe(data => {
+        this.queryResults = data;
+      });
     }
   }
-
 
 }

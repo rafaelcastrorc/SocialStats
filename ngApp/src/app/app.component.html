@@ -1,9 +1,9 @@
 <nav class="navbar navbar-inverse">
-  <div class = "container-fluid">
-    <div class = "navbar-header">
+  <div class="container-fluid">
+    <div class="navbar-header">
       <a class="navbar-brand" href="#"> PROJECT X</a>
     </div>
-    <ul class = "nav navbar-nav">
+    <ul class="nav navbar-nav">
       <li><a routerLink="/home" routerLinkActive="active">Home</a></li>
       <li><a routerLink="/religions" routerLinkActive="active">Religions</a></li>
     </ul>
@@ -13,3 +13,9 @@
 <div class="container">
   <router-outlet></router-outlet>
 </div>
+
+<!--Controls the spinner-->
+<spinner
+         [spinner]="spinkit.skChasingDots"
+         [debounceDelay]="200"
+></spinner>

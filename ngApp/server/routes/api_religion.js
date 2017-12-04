@@ -3,6 +3,7 @@ const router = express.Router();
 const neo4j = require('neo4j-driver').v1;
 const driver = neo4j.driver('bolt://ec2-54-145-205-218.compute-1.amazonaws.com', neo4j.auth.basic('neo4j', 'rafaelcastro'));
 const session = driver.session();
+const Query1 = require('../models/Query1.js')
 
 
 router.get('/', function (req, res) {
@@ -125,7 +126,6 @@ router.get('/years', function (req, res) {
 
 });
 
-
 //Query: Get the number of people who follow a certain religion (query 1)
 router.get('/queries/:country/:year/:religion', function (req, res) {
   const country = req.params.country;
@@ -148,13 +148,11 @@ router.get('/queries/:country/:year/:religion', function (req, res) {
   }
   // Check if user wants to retrieve all the countries
   if (!Number.isNaN(year)) {
-    console.log('here');
     yearParam = '{year:' + year + '}'
   }
   else {
     yearParam = '';
   }
-  console.log(countryParam + religionParam + yearParam)
 
   session
     .run('MATCH(c:Country '+ countryParam +'), (rel:Religion '+ religionParam+'),' +
@@ -165,12 +163,8 @@ router.get('/queries/:country/:year/:religion', function (req, res) {
       result.records.forEach(function (record) {
         const object = record.get(0);
         transform(object);
-        queryAns.push({
-          country: object.Country,
-          religion: object.Religion,
-          year: object.Year,
-          number: object.Number,
-        });
+        let query = new Query1(object.Country, object.Religion, object.Year, object.Number);
+        queryAns.push(query);
       });
       //In case the result does not exist
       if (queryAns.length === 0) {
@@ -182,6 +176,7 @@ router.get('/queries/:country/:year/:religion', function (req, res) {
         });
       }
       res.json(queryAns);
+
     })
 
     .catch(function (err) {

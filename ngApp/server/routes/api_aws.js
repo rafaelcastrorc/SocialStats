@@ -47,7 +47,7 @@ router.get('/conflicts/:year', function (req, res) {
     }
   })
 });
-
+//
 router.get('/conflicts/:country/:year', function (req, res) {
   var country = req.params.country;
   var year = req.params.year;

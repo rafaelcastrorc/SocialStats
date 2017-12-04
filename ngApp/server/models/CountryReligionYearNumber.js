@@ -1,4 +1,4 @@
-function Query1(country, religion, year, number) {
+function CountryReligionYearNumber(country, religion, year, number) {
   this.country = country;
   this.religion = religion;
   this.year = year;
@@ -6,4 +6,4 @@ function Query1(country, religion, year, number) {
 }
 
 // export the class
-module.exports = Query1;
+module.exports = CountryReligionYearNumber;

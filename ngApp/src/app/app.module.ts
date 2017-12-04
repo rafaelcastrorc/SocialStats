@@ -14,6 +14,7 @@ import { ReligionVisualizerComponent } from './religion-visualizer/religion-visu
 import {DropdownModule} from 'ngx-dropdown';
 import { QueryNumberOfFollowersComponent } from './query-number-of-followers/query-number-of-followers.component';
 import { ConflictComponent } from './conflict/conflict.component';
+import { WorldbankComponent } from './worldbank/worldbank.component';
 import { AccountsComponent } from './accounts/accounts.component';
 
 
@@ -28,6 +29,7 @@ import { AccountsComponent } from './accounts/accounts.component';
     ReligionVisualizerComponent,
     QueryNumberOfFollowersComponent,
     ConflictComponent,
+    WorldbankComponent,
     AccountsComponent
   ],
   imports: [

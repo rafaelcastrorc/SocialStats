@@ -149,7 +149,7 @@ router.get('/queries/:country/:year/:religion', function (req, res) {
           country: object.Country,
           religion: object.Religion,
           year: object.Year,
-          number: object.Number,
+          number: object.Number
         });
       });
       //In case the result does not exist

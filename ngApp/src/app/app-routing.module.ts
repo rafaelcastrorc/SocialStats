@@ -3,12 +3,14 @@ import { Routes, RouterModule } from '@angular/router';
 import {HomeComponent} from './home/home.component';
 import {ReligionsComponent} from './religions/religions.component';
 import {ConflictComponent} from "./conflict/conflict.component";
+import {WorldbankComponent} from "./worldbank/worldbank.component";
 
 const routes: Routes = [
   {path: '', redirectTo: '/home', pathMatch: 'full'},
   {path: 'login', redirectTo: '/landing', pathMatch: 'full'},
   {path: 'religions', component: ReligionsComponent},
-  {path: 'conflict', component: ConflictComponent}
+  {path: 'conflict', component: ConflictComponent},
+  {path: 'worldbank', component: WorldbankComponent}
 
 ];
 

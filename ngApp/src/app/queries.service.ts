@@ -14,4 +14,9 @@ export class QueriesService {
     return this._http.get(this._getUrl + '/' + country + '/' + year + '/' + religion)
       .map((response: Response) => response.json());
   }
+
+  getIndicatorForCountry(country, indicator) {
+    return this._http.get(this._getUrl + '/' + country + '/' + indicator)
+      .map((response: Response) => response.json());
+  }
 }

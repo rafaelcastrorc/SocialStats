@@ -2,6 +2,8 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const path = require('path');
 const api_religion = require('./server/routes/api_religion');
+const api_aws = require('./server/routes/api_aws.js');
+
 const port = 3000;
 const app = express();
 const mongoose = require('mongoose');
@@ -18,6 +20,8 @@ app.use(bodyParser.json());
 
 //religion api
 app.use('/api_religion', api_religion);
+
+app.use('/api_aws', api_aws);
 
 
 mongoose.connect(configDB.url);

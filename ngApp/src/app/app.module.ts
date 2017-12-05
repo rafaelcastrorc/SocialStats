@@ -13,11 +13,13 @@ import { ReligionVisualizerComponent } from './religion-visualizer/religion-visu
 import {DropdownModule} from 'ngx-dropdown';
 import { QueryNumberOfFollowersComponent } from './query-number-of-followers/query-number-of-followers.component';
 import { ConflictComponent } from './conflict/conflict.component';
-import { WorldbankComponent } from './worldbank/worldbank.component';
 import { AccountsComponent } from './accounts/accounts.component';
 import { HttpClientModule } from '@angular/common/http';
 import { NgHttpLoaderModule } from 'ng-http-loader/ng-http-loader.module';
 import { QueryReligionFewestCountriesComponent } from './query-religion-fewest-countries/query-religion-fewest-countries.component';
+import { WorldBankComponent } from './world-bank/world-bank.component';
+import { WorldBankVisualizerComponent } from './world-bank-visualizer/world-bank-visualizer.component';
+import {WorldBankService} from './world-bank.service';
 
 
 
@@ -32,9 +34,10 @@ import { QueryReligionFewestCountriesComponent } from './query-religion-fewest-c
     QueryNumberOfFollowersComponent,
     QueryNumberOfFollowersComponent,
     ConflictComponent,
-    WorldbankComponent,
     AccountsComponent,
-    QueryReligionFewestCountriesComponent
+    QueryReligionFewestCountriesComponent,
+    WorldBankComponent,
+    WorldBankVisualizerComponent
   ],
   imports: [
     BrowserModule,
@@ -45,7 +48,7 @@ import { QueryReligionFewestCountriesComponent } from './query-religion-fewest-c
     HttpClientModule,
     NgHttpLoaderModule,
   ],
-  providers: [],
+  providers: [WorldBankService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

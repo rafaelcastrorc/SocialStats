@@ -1,7 +1,7 @@
 import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
-import {Country} from '../country';
+import {Country} from '../../country';
 import {DropdownModule} from 'ngx-dropdown';
-import {Religion} from '../religion';
+import {Religion} from '../../religion';
 import {HttpClient} from '@angular/common/http';
 console.log('Hello1');
 
@@ -55,7 +55,7 @@ export class QueryReligionFewestCountriesComponent implements OnInit {
 
   onSubmit() {
     if (this.hasSelectedYear && this.hasSelectedLimit) {
-      this.http.get<ReligionYearNumber[]>('/api_religion/queries' + '/' + this.selectedYear + '/' +
+      this.http.get<ReligionYearNumber[]>('/api_religion/queries/leastfollowed' + '/' + this.selectedYear + '/' +
         this.selectedLimit
       ).subscribe(data => {
         this.queryResults2 = data;

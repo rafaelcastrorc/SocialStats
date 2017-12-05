@@ -8,5 +8,5 @@ import {Spinkit} from 'ng-http-loader/spinkits';
 })
 export class AppComponent {
   public spinkit = Spinkit;
-  title = 'app';
+  title = 'Social Stats';
 }

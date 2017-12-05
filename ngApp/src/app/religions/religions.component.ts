@@ -19,7 +19,8 @@ export class ReligionsComponent implements OnInit {
     'Religious vs. non Religious',
     'Most religious country per region',
     'Similar countries in terms of religions',
-    'Percent of people who follow a religion in a country'
+    'Percent of people who follow a religion in a country',
+    'Change in religion over time'
   ];
   selectedQuery = 'Select a query from the right side panel';
 

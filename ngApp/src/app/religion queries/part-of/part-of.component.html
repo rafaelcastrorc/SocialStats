@@ -1,0 +1,14 @@
+<table class="table table-striped">
+  <thead class="thread-light">
+  <tr>
+    <th scope="country">Religion</th>
+    <th scope="religion">Part Of</th>
+  </tr>
+  </thead>
+  <tbody>
+  <tr *ngFor="let partOf of partOfs">
+    <td>{{partOf.religion}}</td>
+    <td>{{partOf.partOf}}</td>
+  </tr>
+  </tbody>
+</table>

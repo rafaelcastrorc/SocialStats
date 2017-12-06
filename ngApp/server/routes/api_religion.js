@@ -130,7 +130,7 @@ router.get('/queries/followers/:country/:year/:religion', function (req, res) {
   let countryParam, religionParam, yearParam;
   // Check if user wants to retrieve all the countries
   if (country !== 'All Countries') {
-    countryParam = '{name:\''+country+'\'}'
+    countryParam = '{name:\'' + country + '\'}'
   }
   else {
     countryParam = '';
@@ -151,8 +151,8 @@ router.get('/queries/followers/:country/:year/:religion', function (req, res) {
   }
 
   session
-    .run('MATCH(c:Country '+ countryParam +'), (rel:Religion '+ religionParam+'),' +
-      ' (c)-[r:HAS_RELIGION '+ yearParam +']->(rel) RETURN {Country: c.name, Religion: rel.name, Year: r.year,' +
+    .run('MATCH(c:Country ' + countryParam + '), (rel:Religion ' + religionParam + '),' +
+      ' (c)-[r:HAS_RELIGION ' + yearParam + ']->(rel) RETURN {Country: c.name, Religion: rel.name, Year: r.year,' +
       ' Number: r.number_of_members} AS result ORDER BY c.name, rel.name, r.year, rel.number_of_members')
     .then(function (result) {
       const queryAns = [];
@@ -202,14 +202,14 @@ router.get('/queries/leastfollowed/:year/:limit', function (req, res) {
   }
 
   session
-    .run('MATCH (c:Religion) RETURN {Religion: c.name, Number: SIZE((c)<-[:HAS_RELIGION ' + yearParam+']-(:Country))}' +
-      ' AS result ORDER  BY SIZE((c)<-[:HAS_RELIGION ' + yearParam+ ']-(:Country)) ' + limitParam)
+    .run('MATCH (c:Religion) RETURN {Religion: c.name, Number: SIZE((c)<-[:HAS_RELIGION ' + yearParam + ']-(:Country))}' +
+      ' AS result ORDER  BY SIZE((c)<-[:HAS_RELIGION ' + yearParam + ']-(:Country)) ' + limitParam)
     .then(function (result) {
       const queryAns = [];
       result.records.forEach(function (record) {
         const object = record.get(0);
         transform(object);
-        let query = new NameYearNumber(object.Religion, req.params.year , object.Number);
+        let query = new NameYearNumber(object.Religion, req.params.year, object.Number);
         queryAns.push(query);
       });
       //In case the result does not exist
@@ -230,40 +230,44 @@ router.get('/queries/leastfollowed/:year/:limit', function (req, res) {
 });
 
 
-
 //Query: Get the most followed religion per country (query 3)
-router.get('/queries/mostpopular/:year/:top', function (req, res) {
+router.get('/queries/mostpopular/:year/:top/:ignore', function (req, res) {
   const year = parseInt(req.params.year);
   const top = parseInt(req.params.top);
+  const ignore = (req.params.ignore === 'true');
+  let ignorePartOf = '';
+  if (ignore) {
+    ignorePartOf = "WHERE NOT (:Religion)-[:PART_OF]->(r)";
+  }
 
-  session
-    .run('MATCH (c:Country)-[has:HAS_RELIGION{year:'+ year +'}]->(r:Religion) WITH c.name AS country, r.name AS' +
-      ' religion, has.number_of_members AS num ORDER BY num DESC WITH country, collect([religion, num])[..'+ top +'] ' +
-      'AS temp UNWIND temp AS res RETURN {Country: country, Religion: res[0],Number: res[1]} ORDER BY country, res[1] DESC')
-    .then(function (result) {
-      const queryAns = [];
-      result.records.forEach(function (record) {
-        const object = record.get(0);
-        transform(object);
-        let query = new CountryReligionNumber(object.Country, object.Religion, object.Number);
-        queryAns.push(query);
-      });
-      //In case the result does not exist
-      if (queryAns.length === 0) {
-        queryAns.push({
-          country: country,
-          religion: religion,
-          year: 'No records',
-          number: 'No records'
+   session
+      .run('MATCH (c:Country)-[has:HAS_RELIGION{year:' + year + '}]->(r:Religion)' + ignorePartOf + ' WITH c.name AS country,' +
+        ' r.name AS religion, has.number_of_members AS num ORDER BY num DESC WITH country, collect([religion, num])[..' + top + '] ' +
+        'AS temp UNWIND temp AS res RETURN {Country: country, Religion: res[0],Number: res[1]} ORDER BY country, res[1] DESC')
+      .then(function (result) {
+        const queryAns = [];
+        result.records.forEach(function (record) {
+          const object = record.get(0);
+          transform(object);
+          let query = new CountryReligionNumber(object.Country, object.Religion, object.Number);
+          queryAns.push(query);
         });
-      }
-      res.json(queryAns);
+        //In case the result does not exist
+        if (queryAns.length === 0) {
+          queryAns.push({
+            country: country,
+            religion: religion,
+            year: 'No records',
+            number: 'No records'
+          });
+        }
+        res.json(queryAns);
 
-    })
+      })
 
-    .catch(function (err) {
-      console.log(err);
-    });
+      .catch(function (err) {
+        console.log(err);
+      });
 
 });
 

@@ -16,7 +16,7 @@ router.get('/', function (req, res) {
 
 //To get all indicators
 router.get('/allIndicators', function (req, res) {
-  console.log('Getting all countries');
+  console.log('Getting all indicators');
   var query = 'select * from Indicators';
 
   console.log(query);
@@ -28,5 +28,42 @@ router.get('/allIndicators', function (req, res) {
   });
 
 });
+
+router.get('/allCountries', function (req, res) {
+  console.log('Getting all countries');
+  var query = 'select * from Countries';
+
+  console.log(query);
+  connection.query(query, function(err, rows, fields) {
+    if (err) console.log(err);
+    else {
+      res.json(rows);
+    }
+  });
+
+});
+
+router.get('/query1/:country/:indicator', function (req, res) {
+
+  const country = req.params.country;
+  const indicator = req.params.indicator;
+
+  console.log('Q1: Getting data for '+country+' for '+indicator);
+  var query = "select y2000, y2001, y2002, y2003, y2004, y2005 from WorldBank where country_code = '"+ country +"' and" +
+    " indicator_code = '" + indicator + "';";
+
+  console.log(query);
+  connection.query(query, function(err, rows, fields) {
+    if (err) console.log(err);
+    else {
+      console.log(rows);
+      res.json(rows);
+    }
+  });
+
+
+});
+
+
 
 module.exports = router;

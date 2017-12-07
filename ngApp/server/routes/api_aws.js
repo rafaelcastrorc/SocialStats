@@ -61,6 +61,19 @@ router.get('/conflicts/:country/:year', function (req, res) {
   })
 });
 
+router.get('/conflictsPerYear/:country', function (req, res) {
+  var country = req.params.country;
+  console.log("Get conflicts for " + country);
+  var query = 'Select year, COUNT(*) as numConflicts FROM Conflicts WHERE country = "' + country + '" GROUP BY year;'
+  connection.query(query, function (err, rows) {
+    if (err) console.log(err);
+    else {
+      res.json(rows);
+      console.log(rows);
+    }
+  })
+});
+
 connection.connect(function(err) {
   if (err) {
     console.log(err);

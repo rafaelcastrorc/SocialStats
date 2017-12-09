@@ -1,8 +1,9 @@
 import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
-import {Country} from '../country';
+import {Country} from '../../country';
 import {DropdownModule} from 'ngx-dropdown';
-import {Religion} from '../religion';
+import {Religion} from '../../religion';
 import {HttpClient} from '@angular/common/http';
+
 console.log('Hello1');
 
 interface ReligionYearNumber {
@@ -24,6 +25,7 @@ export class QueryReligionFewestCountriesComponent implements OnInit {
   selectedLimit = 'Select a Limit';
   hasSelectedLimit = false;
   hasSelectedYear = false;
+  displayAlert = false;
   queryResults2: ReligionYearNumber[];
   limits: String[] = [
     '1', '2', '3', '5', '10', '15', '20'];
@@ -34,12 +36,8 @@ export class QueryReligionFewestCountriesComponent implements OnInit {
   ngOnInit() {
   }
 
-    onSelectYear(year: string) {
-    if (year === 'All years combined') {
-      this.selectedYear = 'All years combined';
-    } else {
-      this.selectedYear = year;
-    }
+  onSelectYear(year: string) {
+    this.selectedYear = year;
     this.hasSelectedYear = true;
   }
 
@@ -55,12 +53,18 @@ export class QueryReligionFewestCountriesComponent implements OnInit {
 
   onSubmit() {
     if (this.hasSelectedYear && this.hasSelectedLimit) {
-      this.http.get<ReligionYearNumber[]>('/api_religion/queries' + '/' + this.selectedYear + '/' +
+      this.http.get<ReligionYearNumber[]>('/api_religion/queries/leastfollowed' + '/' + this.selectedYear + '/' +
         this.selectedLimit
       ).subscribe(data => {
         this.queryResults2 = data;
       });
+    } else {
+      this.displayAlert = true;
     }
+  }
+
+  dismissAlert() {
+    this.displayAlert = false;
   }
 
 }

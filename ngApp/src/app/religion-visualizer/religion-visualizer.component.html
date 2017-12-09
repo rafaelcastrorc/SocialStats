@@ -1,11 +1,21 @@
 <div>
   <!--Switch depending on the selection-->
 
-  <!--Number of people who follow a certain religion-->
   <query-number-of-followers *ngIf="query == 'Number of people who follow a religion in a country'"
-                             [countries]="countries" [religions]="religions" [years]="years"></query-number-of-followers>
+                             [countries]="countries" [religions]="religions"
+                             [years]="years"></query-number-of-followers>
   <query-religion-fewest-countries
     *ngIf="query == 'Religions present in the fewest countries'"
-                                   [years]="years"></query-religion-fewest-countries>
+    [years]="years"></query-religion-fewest-countries>
+  <query-religion-top-religion-per-country
+    *ngIf="query == 'Largest religion by country'" [years]="years"></query-religion-top-religion-per-country>
+
+
 </div>
 
+<footer *ngIf="query != 'Select a query from the right side panel'" class="blockquote-footer">Note that
+  Christianity, Islam, Buddhism, and Judaism group certain religions,
+  click <a (click)="partOfClick()">here</a> to {{partOfText}}.
+</footer>
+
+<part-of *ngIf="showPartOf" [partOfs]="partOfArr" ></part-of>

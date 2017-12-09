@@ -13,6 +13,7 @@ import { ReligionVisualizerComponent } from './religion-visualizer/religion-visu
 import {DropdownModule} from 'ngx-dropdown';
 import { QueryNumberOfFollowersComponent } from './query-number-of-followers/query-number-of-followers.component';
 import { ConflictComponent } from './conflict/conflict.component';
+import { WorldbankComponent } from './worldbank/worldbank.component';
 import { AccountsComponent } from './accounts/accounts.component';
 import { HttpClientModule } from '@angular/common/http';
 import { NgHttpLoaderModule } from 'ng-http-loader/ng-http-loader.module';
@@ -21,6 +22,10 @@ import { WorldBankComponent } from './world-bank/world-bank.component';
 import { WorldBankVisualizerComponent } from './world-bank-visualizer/world-bank-visualizer.component';
 import {WorldBankService} from './world-bank.service';
 import { ChartsModule} from 'ng2-charts';
+import { QueryReligionFewestCountriesComponent } from './religion queries/query-religion-fewest-countries/query-religion-fewest-countries.component';
+import { QueryReligionTopReligionPerCountryComponent } from './religion queries/query-religion-top-religion-per-country/query-religion-top-religion-per-country.component';
+import { PartOfComponent } from './religion queries/part-of/part-of.component';
+
 
 
 @NgModule({
@@ -34,10 +39,14 @@ import { ChartsModule} from 'ng2-charts';
     QueryNumberOfFollowersComponent,
     QueryNumberOfFollowersComponent,
     ConflictComponent,
+    WorldbankComponent,
     AccountsComponent,
     QueryReligionFewestCountriesComponent,
     WorldBankComponent,
     WorldBankVisualizerComponent
+    QueryReligionFewestCountriesComponent,
+    QueryReligionTopReligionPerCountryComponent,
+    PartOfComponent
   ],
   imports: [
     BrowserModule,

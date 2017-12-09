@@ -1,0 +1,56 @@
+<div class='btn-toolbar'>
+  <div class="btn-group">
+    <div class="dropdown" dropdown [dropdownToggle]="true">
+      <button class="btn btn-primary" dropdown-open> {{ selectedYear }}<span class="caret"></span></button>
+      <ul class="dropdown-menu">
+        <li (click)="onSelectYear(year)" *ngFor="let year of years"><a>{{ year }}</a></li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="btn-group">
+    <div class="dropdown" dropdown [dropdownToggle]="true">
+      <button class="btn btn-primary" dropdown-open> {{ selectedTop }}<span class="caret"></span></button>
+      <ul class="dropdown-menu">
+        <li (click)="onSelectTop(top)" *ngFor="let top of tops"><a>{{ top }}</a></li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="btn-group">
+    <div>
+      <button (click)="onSubmit()" type="submit" class="btn btn-success">Submit</button>
+    </div>
+  </div>
+</div>
+
+<p>
+
+
+</p>
+
+<div *ngIf="displayAlert" class="alert alert-danger alert-dismissable">
+  <a class="close" data-dismiss="alert" aria-label="close" (click)="dismissAlert()">×</a>
+  <strong>You have not selected all options!</strong>
+</div>
+
+
+<p class="h5">The top {{selectedTop}} religions during <code>{{ selectedYear }}</code> by country:</p>
+
+
+<table class="table table-striped">
+  <thead class="thread-light">
+  <tr>
+    <th scope="country">Country</th>
+    <th scope="Religion">Religion</th>
+    <th scope="numberOfPeople">Number of people who follow the religion</th>
+  </tr>
+  </thead>
+  <tbody>
+  <tr *ngFor="let query of queryResults3">
+    <td>{{ query.country }}</td>
+    <td>{{ query.religion }}</td>
+    <td>{{ query.number }}</td>
+  </tr>
+  </tbody>
+</table>

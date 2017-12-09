@@ -3,7 +3,6 @@
     <div class="dropdown" dropdown [dropdownToggle]="true">
       <button class="btn btn-primary" dropdown-open> {{selectedYear}}<span class="caret"></span></button>
       <ul class="dropdown-menu">
-        <li (click)="onSelectYear('All years combined')"><a>All years combined</a></li>
         <li (click)="onSelectYear(year)" *ngFor="let year of years"><a>{{year}}</a></li>
       </ul>
     </div>
@@ -25,8 +24,17 @@
     </div>
   </div>
 </div>
+<p>
 
-<p class="h5">The religions followed in the fewest countries during <code>{{selectedYear}}</code>:</p>
+
+</p>
+
+<div *ngIf="displayAlert" class="alert alert-danger alert-dismissable">
+  <a class="close" data-dismiss="alert" aria-label="close" (click)="dismissAlert()">×</a>
+  <strong>You have not selected all options!</strong>
+</div>
+
+<p class="h5">The religions present in the fewest countries during <code>{{selectedYear}}</code>:</p>
 
 
 <table class="table table-striped">
@@ -45,3 +53,5 @@
   </tr>
   </tbody>
 </table>
+
+

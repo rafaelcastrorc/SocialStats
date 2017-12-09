@@ -1,9 +1,8 @@
 import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
-import {Country} from '../country';
+import {Country} from '../../country';
 import {DropdownModule} from 'ngx-dropdown';
-import {Religion} from '../religion';
+import {Religion} from '../../religion';
 import {HttpClient} from '@angular/common/http';
-console.log('Hello1');
 
 interface Query1 {
   country: string;
@@ -29,12 +28,15 @@ export class QueryNumberOfFollowersComponent implements OnInit {
   selectedCountryName = 'Select a Country';
   selectedReligionName = 'Select a Religion';
   selectedYear = 'Select a Year';
+  displayAlert = false;
+
 
   hasSelectedCountry = false;
   hasSelectedReligion = false;
   hasSelectedYear = false;
   religion: Religion;
   queryResults: Query1[];
+
 
   constructor(private http: HttpClient) {
   }
@@ -78,12 +80,19 @@ export class QueryNumberOfFollowersComponent implements OnInit {
 
   onSubmit() {
     if (this.hasSelectedYear && this.hasSelectedCountry && this.hasSelectedReligion) {
-      this.http.get<Query1[]>('/api_religion/queries' + '/' + this.selectedCountryName + '/' + this.selectedYear + '/' +
+      this.http.get<Query1[]>('/api_religion/queries/followers' + '/' + this.selectedCountryName + '/' + this.selectedYear + '/' +
         this.selectedReligionName
       ).subscribe(data => {
         this.queryResults = data;
       });
+    } else {
+      this.displayAlert = true;
     }
   }
 
+  dismissAlert() {
+    this.displayAlert = false;
+  }
 }
+
+

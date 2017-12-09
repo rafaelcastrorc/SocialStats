@@ -36,6 +36,16 @@
   </div>
 </div>
 
+<p>
+
+
+</p>
+
+<div *ngIf="displayAlert" class="alert alert-danger alert-dismissable">
+  <a class="close" data-dismiss="alert" aria-label="close" (click)="dismissAlert()">×</a>
+  <strong>You have not selected all options!</strong>
+</div>
+
 <p class="h5">The number of people that are part of the religion <code>{{selectedReligionName}}</code> from <code>
   {{selectedCountryName}}</code> during the year <code>{{selectedYear}}</code>:</p>
 

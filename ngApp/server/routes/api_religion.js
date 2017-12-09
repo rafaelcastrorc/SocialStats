@@ -1,3 +1,5 @@
+///* By: Rafael Castro
+// */
 const express = require('express');
 const router = express.Router();
 const neo4j = require('neo4j-driver').v1;
@@ -7,6 +9,8 @@ const CountryReligionYearNumber = require('../models/CountryReligionYearNumber.j
 const NameYearNumber = require('../models/NameYearNumber.js');
 const CountryReligionNumber = require('../models/CountryReligionNumber.js');
 const PartOf = require('../models/PartOf.js');
+const YearValue = require('../models/YearValue.js');
+let allYearsArr = [];
 
 
 router.get('/', function (req, res) {
@@ -100,7 +104,7 @@ router.get('/religions', function (req, res) {
 //Gets all the years
 router.get('/years', function (req, res) {
   session
-    .run('MATCH()-[r:HAS_RELIGION]->() RETURN DISTINCT r.year AS year ORDER BY r.year DESC')
+    .run('MATCH()-[r:HAS_RELIGION]->() RETURN DISTINCT r.year AS year ORDER BY r.year')
     .then(function (result) {
       const yearsArr = [];
 
@@ -112,7 +116,7 @@ router.get('/years', function (req, res) {
         );
 
       });
-
+      allYearsArr = yearsArr;
       res.json(yearsArr);
     })
 
@@ -272,6 +276,56 @@ router.get('/queries/mostpopular/:year/:top/:ignore', function (req, res) {
 });
 
 
+//Query: Get the change in number of people who follow  a religion(query 4)
+router.get('/queries/numbers/:country/:religion', function (req, res) {
+  const country = req.params.country;
+  const religion = req.params.religion;
+  let countryParam, religionParam, yearParam;
+  // Check if user wants to retrieve all the countries
+  if (country !== 'All Countries') {
+    countryParam = '{name:\'' + country + '\'}'
+  }
+  else {
+    countryParam = '';
+  }
+  // Check if user wants to retrieve all the countries
+  if (religion !== 'All Religions') {
+    religionParam = '{name:\'' + religion + '\'}'
+  }
+  else {
+    religionParam = '';
+  }
+  // Check if user wants to retrieve all the countries
+
+    yearParam = '';
+
+
+  session
+    .run('MATCH(c:Country ' + countryParam + '), (rel:Religion ' + religionParam + '),' +
+      ' (c)-[r:HAS_RELIGION ' + yearParam + ']->(rel) RETURN { Number: r.number_of_members, Year: r.year} AS result' +
+      ' ORDER BY r.year')
+    .then(function (result) {
+      let queryAns = [];
+      result.records.forEach(function (record) {
+        const object = record.get(0);
+        transform(object);
+        let query = new YearValue(object.Year, parseInt(object.Number));
+        console.log(query.number);
+        queryAns.push(query);
+      });
+
+      let valuesPerYear = mapYearToNumber(queryAns);
+      console.log(valuesPerYear);
+      res.json(valuesPerYear);
+    })
+
+    .catch(function (err) {
+      console.log(err);
+    });
+
+});
+
+
 //Returns the PART_OF relationship between religions (religions that are part of another religion)
 router.get('/partof', function (req, res) {
   session
@@ -297,6 +351,24 @@ router.get('/partof', function (req, res) {
     });
 
 });
+
+
+//Creates an array for the values of each year, if there is no value for a given year, it adds a 0 to the array
+function mapYearToNumber(arrayOfValues) {
+  // Create an array of 0s based on the number of
+  let result = Array.apply(null, Array(allYearsArr.length)).map(Number.prototype.valueOf, 0);
+  console.log(allYearsArr.length);
+  for(let i = 0; i < arrayOfValues.length; i++) {
+    let curr = arrayOfValues[i];
+    //Get the start year value and get its index position
+    let indexToUse = (curr.year -  allYearsArr[0])/5;
+    console.log("Year :"+ curr.year + " curr.number: " + curr.number + " " + indexToUse);
+    result[indexToUse] = curr.number;
+  }
+  return result;
+}
+
+
 
 
 //For handling numbers in neo4j

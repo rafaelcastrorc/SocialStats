@@ -1,0 +1,88 @@
+<div class='btn-toolbar'>
+  <div class="btn-group">
+    <div class="dropdown" dropdown [dropdownToggle]="true">
+      <button class="btn btn-primary" dropdown-open> {{ selectedCountryName }} <span class="caret"></span></button>
+      <ul class="dropdown-menu">
+        <li (click)="onSelectCountry('All countries')"><a>All countries</a></li>
+        <li (click)="onSelectCountry(country)" *ngFor="let country of countries"><a>{{ country.name }}</a></li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="btn-group">
+    <div class="dropdown" dropdown [dropdownToggle]="true">
+      <button class="btn btn-primary" dropdown-open> {{ selectedReligionName2 }}<span class="caret"></span></button>
+      <ul class="dropdown-menu">
+        <li (click)="onSelectReligion('All religions')"><a>All religions</a></li>
+        <li (click)="onSelectReligion(religion)" *ngFor="let religion of religions"><a>{{ religion.name }}</a></li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="btn-group">
+    <div class="dropdown" dropdown [dropdownToggle]="true">
+      <button class="btn btn-primary" dropdown-open> {{ selectedReligionName3 }}<span class="caret"></span></button>
+      <ul class="dropdown-menu">
+        <li (click)="onSelectReligion('All religions')"><a>All religions</a></li>
+        <li (click)="onSelectReligion(religion)" *ngFor="let religion of religions"><a>{{ religion.name }}</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="btn-group">
+    <div class="dropdown" dropdown [dropdownToggle]="true">
+      <button class="btn btn-primary" dropdown-open> {{ selectedReligionName }}<span class="caret"></span></button>
+      <ul class="dropdown-menu">
+        <li (click)="onSelectReligion('All religions')"><a>All religions</a></li>
+        <li (click)="onSelectReligion(religion)" *ngFor="let religion of religions"><a>{{ religion.name }}</a></li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="btn-group">
+    <div>
+      <button (click)="onSubmit()" type="submit" class="btn btn-success">Submit</button>
+    </div>
+  </div>
+</div>
+
+<p>
+
+
+</p>
+
+<div *ngIf="displayAlert" class="alert alert-danger alert-dismissable">
+  <a class="close" data-dismiss="alert" aria-label="close" (click)="dismissAlert()">×</a>
+  <strong>You have not selected all options!</strong>
+</div>
+
+<p class="h5">The change in <code>{{ selectedReligionName }}</code> in <code>
+  {{ selectedCountryName }}</code> over time:</p>
+
+
+ <div >
+    <div style="display: block;">
+      <canvas baseChart width="600"  height="350"
+              [datasets]="lineChartData"
+              [labels]="lineChartLabels"
+              [options]="lineChartOptions"
+              [legend]="lineChartLegend"
+              [chartType]="lineChartType"
+              (chartHover)="chartHovered($event)"
+              (chartClick)="chartClicked($event)">
+        !important
+      </canvas>
+    </div>
+  </div>
+
+
+
+<div style="margin-top: 30px">
+  <table class="table table-striped">
+    <tr>
+      <th *ngFor="let label of lineChartLabels">{{ label }}</th>
+    </tr>
+    <tr *ngFor="let d of lineChartData">
+      <td *ngFor="let label of lineChartLabels; let j=index">{{ d && d.data[j] }}</td>
+    </tr>
+  </table>
+</div>

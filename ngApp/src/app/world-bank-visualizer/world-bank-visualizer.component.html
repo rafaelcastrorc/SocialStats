@@ -25,9 +25,12 @@
   </table>
 </div>
 
-
+<!--------------------------------------------------------------------------------------->
 
 <div *ngIf = "current == 'Rest of the queries'">
+  <script src="node_modules/chart.js/Chart.min.js"></script>
+  <script src="node_modules/angular-chart.js/dist/angular-chart.min.js"></script>
+  <script src="node_modules/chart.js/src/chart.js"></script>
   <p>
     Rest of the queries what!
   </p>
@@ -62,7 +65,7 @@
   <table class="table table-striped">
     <thead class="thread-light">
     <tr>
-      <th scope="col">{{query1.y2000}}</th>
+      <th scope="col">Values</th>
     </tr>
     </thead>
     <tbody>
@@ -76,5 +79,19 @@
     </tr>
     </tbody>
   </table>
+
+  <h2>  {{temp1}} </h2>
+
+  <div>
+  <div style="display: block">
+    <canvas baseChart #baseChart="base-chart"
+            [datasets]="barChartData1"
+            [options]="barChartOptions"
+            [labels]="labels1"
+            [chartType]="barChartType"></canvas>
+  </div>
+  </div>
+
+
 </div>
 

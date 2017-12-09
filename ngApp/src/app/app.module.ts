@@ -20,7 +20,7 @@ import { QueryReligionFewestCountriesComponent } from './query-religion-fewest-c
 import { WorldBankComponent } from './world-bank/world-bank.component';
 import { WorldBankVisualizerComponent } from './world-bank-visualizer/world-bank-visualizer.component';
 import {WorldBankService} from './world-bank.service';
-
+import { ChartsModule} from 'ng2-charts';
 
 
 @NgModule({
@@ -47,6 +47,7 @@ import {WorldBankService} from './world-bank.service';
     DropdownModule,
     HttpClientModule,
     NgHttpLoaderModule,
+    ChartsModule
   ],
   providers: [WorldBankService],
   bootstrap: [AppComponent]

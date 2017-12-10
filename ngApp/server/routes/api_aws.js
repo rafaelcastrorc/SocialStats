@@ -14,6 +14,17 @@ router.get('/', function (req, res) {
   res.send('I am able to connect to AWS');
 });
 
+
+router.get('/getCountries', function (req, res) {
+  var query = 'SELECT code, name FROM Countries;';
+  connection.query(query, function (err, rows) {
+    if (err) console.log(err);
+    else {
+      res.json(rows);
+    }
+  });
+});
+
 router.get('/WorldBankTEST', function (req, res) {
   var query = 'SELECT * FROM WorldBank where indicator_code = \'SP.POP.TOTL\';';
   connection.query(query, function (err, rows) {
@@ -61,15 +72,49 @@ router.get('/conflicts/:country/:year', function (req, res) {
   })
 });
 
-router.get('/conflictsPerYear/:country', function (req, res) {
-  var country = req.params.country;
-  console.log("Get conflicts for " + country);
-  var query = 'Select year, COUNT(*) as numConflicts FROM Conflicts WHERE country = "' + country + '" GROUP BY year;'
+router.get('/conflictsPerYear/:countryCode', function (req, res) {
+  var countryCode = req.params.countryCode;
+  console.log("Get conflicts for " + countryCode);
+  var query = 'Select t.year, COUNT(*) as numConflicts FROM Conflicts t ' +
+    'WHERE t.country_id = "' + countryCode + '" GROUP BY t.year;';
+
   connection.query(query, function (err, rows) {
     if (err) console.log(err);
     else {
       res.json(rows);
-      console.log(rows);
+      // console.log(rows);
+    }
+  })
+});
+
+router.get('/DeathsPerYear/:countryCode', function (req, res) {
+  var countryCode = req.params.countryCode;
+  console.log("Get num deaths for " + countryCode);
+  var query = 'SELECT t.year, (SUM(t.deaths_a) + SUM(t.deaths_b) + SUM(t.deaths_civilians)) as totalDeaths ' +
+    'FROM Conflicts t ' +
+    'WHERE t.country_id = "' + countryCode + '" GROUP BY t.year;';
+
+  connection.query(query, function (err, rows) {
+    if (err) console.log(err);
+    else {
+      res.json(rows);
+      // console.log(rows);
+    }
+  })
+});
+
+router.get('/conflictLocation/:countryCode', function (req, res) {
+  var countryCode = req.params.countryCode;
+  console.log("Get locations of deaths for " + countryCode);
+  var query = 'SELECT (t.deaths_a + t.deaths_b + t.deaths_civilians) as totalDeaths, t.latitude, t.longitude ' +
+    'FROM Conflicts t ' +
+    'WHERE t.country_id = "' + countryCode + '" LIMIT 50;';
+
+  connection.query(query, function (err, rows) {
+    if (err) console.log(err);
+    else {
+      res.json(rows);
+      // console.log(rows);
     }
   })
 });

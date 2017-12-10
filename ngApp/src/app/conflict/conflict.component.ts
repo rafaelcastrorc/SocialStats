@@ -9,7 +9,9 @@ import {CountryService} from '../country.service';
 })
 export class ConflictComponent implements OnInit {
   queries: String[] = [
-    'Number of conflicts in a country'
+    'Number of conflicts in a country per year',
+    'Number of deaths in a country per year',
+    'Show conflicts in a country on a map'
   ];
   selectedQuery = 'Select a query from the right side panel';
   constructor() { }

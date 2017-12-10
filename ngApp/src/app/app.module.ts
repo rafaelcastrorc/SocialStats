@@ -22,7 +22,9 @@ import { QueryReligionTopReligionPerCountryComponent } from './religion-queries/
 import { PartOfComponent } from './religion-queries/part-of/part-of.component';
 import { ConflictVisualizerComponent } from './conflict-visualizer/conflict-visualizer.component';
 import { QueryNumConflictsInCountryComponent } from './conflict-queries/query-num-conflicts-in-country/query-num-conflicts-in-country.component';
-
+import { QueryNumDeathsInCountryComponent } from './conflict-queries/query-num-deaths-in-country/query-num-deaths-in-country.component';
+import { QueryConflictLocationsComponent } from './conflict-queries/query-conflict-locations/query-conflict-locations.component';
+import { NguiMapModule} from '@ngui/map';
 
 @NgModule({
   declarations: [
@@ -42,6 +44,8 @@ import { QueryNumConflictsInCountryComponent } from './conflict-queries/query-nu
     PartOfComponent,
     ConflictVisualizerComponent,
     QueryNumConflictsInCountryComponent,
+    QueryNumDeathsInCountryComponent,
+    QueryConflictLocationsComponent,
   ],
   imports: [
     BrowserModule,
@@ -51,6 +55,9 @@ import { QueryNumConflictsInCountryComponent } from './conflict-queries/query-nu
     DropdownModule,
     HttpClientModule,
     NgHttpLoaderModule,
+    NguiMapModule.forRoot({
+      apiUrl: 'https://maps.google.com/maps/api/js?key=AIzaSyDp4ZKA8Aeq8z9AYTvblrlywNYsJOjS9BI'
+    })
   ],
   providers: [],
   bootstrap: [AppComponent]

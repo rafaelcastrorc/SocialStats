@@ -12,7 +12,7 @@ const routes: Routes = [
   {path: 'religions', component: ReligionsComponent},
   {path: 'conflict', component: ConflictComponent},
   {path: 'world', component: WorldBankComponent},
-
+  {path: 'home', component: HomeComponent}
 
 ];
 

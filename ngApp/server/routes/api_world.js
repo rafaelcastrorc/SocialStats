@@ -31,7 +31,7 @@ router.get('/allIndicators', function (req, res) {
 
 router.get('/allCountries', function (req, res) {
   console.log('Getting all countries');
-  var query = 'select * from Countries';
+  var query = 'select * from Countries order by name';
 
   console.log(query);
   connection.query(query, function(err, rows, fields) {

@@ -6,7 +6,7 @@ import {ReligionService} from '../religion.service';
   selector: 'app-religions',
   templateUrl: './religions.component.html',
   styleUrls: ['./religions.component.css'],
-  providers: [CountryService, ReligionService]
+  providers: [CountryService, ReligionService],
 })
 
 export class ReligionsComponent implements OnInit {
@@ -31,6 +31,8 @@ export class ReligionsComponent implements OnInit {
     this.selectedQuery = query;
     console.log(this.selectedQuery);
   }
+
+
 
 }
 

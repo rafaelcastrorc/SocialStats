@@ -13,7 +13,7 @@ import { ReligionVisualizerComponent } from './religion-visualizer/religion-visu
 import {DropdownModule} from 'ngx-dropdown';
 import { QueryNumberOfFollowersComponent } from './religion-queries/query-number-of-followers/query-number-of-followers.component';
 import { ConflictComponent } from './conflict/conflict.component';
-import { WorldbankComponent } from './worldbank/worldbank.component';
+import {WorldBankComponent} from './world-bank/world-bank.component';
 import { AccountsComponent } from './accounts/accounts.component';
 import { HttpClientModule } from '@angular/common/http';
 import { NgHttpLoaderModule } from 'ng-http-loader/ng-http-loader.module';
@@ -23,6 +23,10 @@ import { PartOfComponent } from './religion-queries/part-of/part-of.component';
 import { QueryChangeOfReligionOverTimeComponent } from './religion-queries/query-change-of-religion-over-time/query-change-of-religion-over-time.component';
 import { ChartsModule } from 'ng2-charts';
 import { ReligionMainComponent } from './religion-queries/religion-main/religion-main.component';
+import { WorldBankVisualizerComponent } from './world-bank-visualizer/world-bank-visualizer.component';
+import {WorldBankService} from './world-bank.service';
+import { SidebarModule } from 'ng-sidebar';
+
 
 
 
@@ -37,8 +41,10 @@ import { ReligionMainComponent } from './religion-queries/religion-main/religion
     QueryNumberOfFollowersComponent,
     QueryNumberOfFollowersComponent,
     ConflictComponent,
-    WorldbankComponent,
     AccountsComponent,
+    QueryReligionFewestCountriesComponent,
+    WorldBankComponent,
+    WorldBankVisualizerComponent,
     QueryReligionFewestCountriesComponent,
     QueryReligionTopReligionPerCountryComponent,
     PartOfComponent,
@@ -54,8 +60,9 @@ import { ReligionMainComponent } from './religion-queries/religion-main/religion
     HttpClientModule,
     NgHttpLoaderModule,
     ChartsModule,
+    SidebarModule.forRoot(),
   ],
-  providers: [],
+  providers: [WorldBankService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

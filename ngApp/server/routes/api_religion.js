@@ -295,12 +295,12 @@ router.get('/queries/numbers/:country/:religion', function (req, res) {
   }
   else {
     religionParam = '';
-    partOf = "WHERE NOT (:Religion)-[:PART_OF]->(rel)";
+    partOf = "WHERE NOT ((:Religion)-[:PART_OF]->(rel) OR rel.name = \"Non. Religious\") ";
 
   }
   session
   //MATCH (rel:Religion) WHERE NOT (:Religion)-[:PART_OF]->(rel)  WITH rel MATCH (c:Country {name:'Albania'}), (c)-[r:HAS_RELIGION]->(rel)  RETURN DISTINCT (r.year) AS Year, SUM(r.number_of_members) AS Number ORDER BY r.year
-    .run('MATCH (rel:Religion '+ religionParam +' )' + partOf +
+    .run('MATCH (rel:Religion '+ religionParam +') ' + partOf +
       'WITH rel ' +
       'MATCH (c:Country '+ countryParam+'), (c)-[r:HAS_RELIGION]->(rel) ' +
       'RETURN DISTINCT (r.year) AS Year, SUM(r.number_of_members) AS Number ORDER BY r.year')

@@ -48,7 +48,7 @@ module.exports = function(app, passport) {
   });
 
 	app.get('/landing', function(req, res) {
-		res.render('index.ejs');
+    res.render('index.ejs');
 	});
 
 	app.get('/profile', isLoggedIn, function(req, res) {
@@ -149,5 +149,5 @@ module.exports = function(app, passport) {
 function isLoggedIn(req, res, next) {
 	if (req.isAuthenticated())
 		return next();
-	res.redirect('/');
+	res.redirect('/landing');
 }

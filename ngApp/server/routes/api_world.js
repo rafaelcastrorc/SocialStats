@@ -43,6 +43,19 @@ router.get('/allCountries', function (req, res) {
 
 });
 
+router.get('/allCountriesDesc', function (req, res){
+  console.log('getting all descriptions');
+  var query = "select * from CountriesDesc;";
+  console.log(query);
+  connection.query(query, function(err, rows, fields) {
+    if (err) console.log(err);
+    else {
+      console.log(rows);
+      res.json(rows);
+    }
+  });
+});
+
 router.get('/query1/:country/:indicator', function (req, res) {
 
   const country = req.params.country;

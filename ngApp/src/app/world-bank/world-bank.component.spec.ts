@@ -1,20 +1,21 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { WorldbankComponent } from './worldbank.component';
+import { WorldBankComponent } from './world-bank.component';
+import {WorldBankService} from '../world-bank.service';
 
-describe('WorldbankComponent', () => {
-  let component: WorldbankComponent;
-  let fixture: ComponentFixture<WorldbankComponent>;
+describe('WorldBankComponent', () => {
+  let component: WorldBankComponent;
+  let fixture: ComponentFixture<WorldBankComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ WorldbankComponent ]
+      declarations: [ WorldBankComponent ]
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(WorldbankComponent);
+    fixture = TestBed.createComponent(WorldBankComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

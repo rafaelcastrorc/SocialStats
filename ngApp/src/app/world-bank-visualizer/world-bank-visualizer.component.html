@@ -1,0 +1,97 @@
+<div *ngIf = "current == 'All Indicators'">
+  <p>
+    All indicators
+  </p>
+
+  <div class="btn-group">
+    <div>
+      <button (click)="onSubmitAllIndicators()" type="submit" class="btn btn-success">Submit</button>
+    </div>
+  </div>
+
+  <table class="table table-striped">
+    <thead class="thread-light">
+    <tr>
+      <th scope="col">Code</th>
+      <th scope="col">Name</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr *ngFor="let row of allIndicators">
+      <td>{{row.code}}</td>
+      <td>{{row.name}}</td>
+    </tr>
+    </tbody>
+  </table>
+</div>
+
+<!--------------------------------------------------------------------------------------->
+
+<div *ngIf = "current == 'Rest of the queries'">
+  <script src="node_modules/chart.js/Chart.min.js"></script>
+  <script src="node_modules/angular-chart.js/dist/angular-chart.min.js"></script>
+  <script src="node_modules/chart.js/src/chart.js"></script>
+  <p>
+    Rest of the queries what!
+  </p>
+  <div class='btn-toolbar'>
+    <div class="btn-group">
+      <div class="dropdown" dropdown [dropdownToggle]="true">
+        <button class="btn btn-primary" dropdown-open> {{country_1.name}} <span class="caret"></span></button>
+        <ul class="dropdown-menu">
+          <li (click)="onSelectCountry_1(country)" *ngFor="let country of allCountries"><a>{{country.name}}</a></li>
+        </ul>
+      </div>
+    </div>
+
+
+
+    <div class="btn-group">
+      <div class="dropdown" dropdown [dropdownToggle]="true">
+        <button class="btn btn-primary" dropdown-open>{{indicator_1.name}} <span class="caret"></span></button>
+        <ul class="dropdown-menu">
+          <li (click)="onSelectIndicator_1(indicator)" *ngFor="let indicator of allIndicators"><a>{{indicator.name}}</a></li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="btn-group">
+      <div>
+        <button (click)="onSubmit_1()" type="submit" class="btn btn-success">Submit</button>
+      </div>
+    </div>
+  </div>
+
+  <table class="table table-striped">
+    <thead class="thread-light">
+    <tr>
+      <th scope="col">Values</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr *ngFor="let query of query1">
+      <td>{{query.y2000}}</td>
+      <td>{{query.y2001}}</td>
+      <td>{{query.y2002}}</td>
+      <td>{{query.y2003}}</td>
+      <td>{{query.y2004}}</td>
+      <td>{{query.y2005}}</td>
+    </tr>
+    </tbody>
+  </table>
+
+  <h2>  {{temp1}} </h2>
+
+  <div>
+  <div style="display: block">
+    <canvas baseChart #baseChart="base-chart"
+            [datasets]="barChartData1"
+            [options]="barChartOptions"
+            [labels]="labels1"
+            [chartType]="barChartType"></canvas>
+  </div>
+  </div>
+
+
+</div>
+

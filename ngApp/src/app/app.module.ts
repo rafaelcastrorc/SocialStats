@@ -22,6 +22,7 @@ import { QueryReligionTopReligionPerCountryComponent } from './religion-queries/
 import { PartOfComponent } from './religion-queries/part-of/part-of.component';
 import { QueryChangeOfReligionOverTimeComponent } from './religion-queries/query-change-of-religion-over-time/query-change-of-religion-over-time.component';
 import { ChartsModule } from 'ng2-charts';
+import { ReligionMainComponent } from './religion-queries/religion-main/religion-main.component';
 
 
 
@@ -41,7 +42,8 @@ import { ChartsModule } from 'ng2-charts';
     QueryReligionFewestCountriesComponent,
     QueryReligionTopReligionPerCountryComponent,
     PartOfComponent,
-    QueryChangeOfReligionOverTimeComponent
+    QueryChangeOfReligionOverTimeComponent,
+    ReligionMainComponent
   ],
   imports: [
     BrowserModule,
@@ -51,7 +53,7 @@ import { ChartsModule } from 'ng2-charts';
     DropdownModule,
     HttpClientModule,
     NgHttpLoaderModule,
-    ChartsModule
+    ChartsModule,
   ],
   providers: [],
   bootstrap: [AppComponent]

@@ -11,10 +11,20 @@
 
   <div class="btn-group">
     <div class="dropdown" dropdown [dropdownToggle]="true">
+      <button class="btn btn-primary" dropdown-open> {{ selectedReligionName }}<span class="caret"></span></button>
+      <ul class="dropdown-menu">
+        <li (click)="onSelectReligion1('All religions')"><a>All religions</a></li>
+        <li (click)="onSelectReligion1(religion)" *ngFor="let religion of religions"><a>{{ religion.name }}</a></li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="btn-group">
+    <div class="dropdown" dropdown [dropdownToggle]="true">
       <button class="btn btn-primary" dropdown-open> {{ selectedReligionName2 }}<span class="caret"></span></button>
       <ul class="dropdown-menu">
-        <li (click)="onSelectReligion('All religions')"><a>All religions</a></li>
-        <li (click)="onSelectReligion(religion)" *ngFor="let religion of religions"><a>{{ religion.name }}</a></li>
+        <li (click)="onSelectReligion2('All religions')"><a>All religions</a></li>
+        <li (click)="onSelectReligion2(religion)" *ngFor="let religion of religions"><a>{{ religion.name }}</a></li>
       </ul>
     </div>
   </div>
@@ -23,20 +33,12 @@
     <div class="dropdown" dropdown [dropdownToggle]="true">
       <button class="btn btn-primary" dropdown-open> {{ selectedReligionName3 }}<span class="caret"></span></button>
       <ul class="dropdown-menu">
-        <li (click)="onSelectReligion('All religions')"><a>All religions</a></li>
-        <li (click)="onSelectReligion(religion)" *ngFor="let religion of religions"><a>{{ religion.name }}</a></li>
+        <li (click)="onSelectReligion3('All religions')"><a>All religions</a></li>
+        <li (click)="onSelectReligion3(religion)" *ngFor="let religion of religions"><a>{{ religion.name }}</a></li>
       </ul>
     </div>
   </div>
-  <div class="btn-group">
-    <div class="dropdown" dropdown [dropdownToggle]="true">
-      <button class="btn btn-primary" dropdown-open> {{ selectedReligionName }}<span class="caret"></span></button>
-      <ul class="dropdown-menu">
-        <li (click)="onSelectReligion('All religions')"><a>All religions</a></li>
-        <li (click)="onSelectReligion(religion)" *ngFor="let religion of religions"><a>{{ religion.name }}</a></li>
-      </ul>
-    </div>
-  </div>
+
 
   <div class="btn-group">
     <div>
@@ -55,34 +57,39 @@
   <strong>You have not selected all options!</strong>
 </div>
 
-<p class="h5">The change in <code>{{ selectedReligionName }}</code> in <code>
-  {{ selectedCountryName }}</code> over time:</p>
+<p class="h5">The change in <code>{{selectedReligionName}}</code>, <code>{{selectedReligionName2}}</code>, and <code>
+  {{selectedReligionName3}}</code> in <code> {{ selectedCountryName }}</code> over time:</p>
 
 
- <div >
-    <div style="display: block;">
-      <canvas baseChart width="600"  height="350"
-              [datasets]="lineChartData"
-              [labels]="lineChartLabels"
-              [options]="lineChartOptions"
-              [legend]="lineChartLegend"
-              [chartType]="lineChartType"
-              (chartHover)="chartHovered($event)"
-              (chartClick)="chartClicked($event)">
-        !important
-      </canvas>
-    </div>
+<div>
+  <div style="display: block;">
+    <canvas baseChart width="600" height="350"
+            [datasets]="lineChartData"
+            [labels]="lineChartLabels"
+            [options]="lineChartOptions"
+            [legend]="lineChartLegend"
+            [chartType]="lineChartType"
+            (chartHover)="chartHovered($event)"
+            (chartClick)="chartClicked($event)">
+      !important
+    </canvas>
   </div>
+</div>
 
 
-
-<div style="margin-top: 30px">
+<div class = "table-responsive" style="margin-top: 30px">
   <table class="table table-striped">
+    <thead class="thread-light">
     <tr>
+      <th>Religion</th>
       <th *ngFor="let label of lineChartLabels">{{ label }}</th>
     </tr>
+    </thead>
+    <tbody>
     <tr *ngFor="let d of lineChartData">
+      <td> {{d.label}}</td>
       <td *ngFor="let label of lineChartLabels; let j=index">{{ d && d.data[j] }}</td>
     </tr>
+    </tbody>
   </table>
 </div>

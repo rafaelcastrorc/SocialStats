@@ -10,3 +10,8 @@
 .blockquote-footer{
   font-size: small;
 }
+
+.table-responsive
+{
+  overflow-x: auto;
+}

@@ -1,3 +1,18 @@
+<meta charset="UTF-8">
+<div class='btn-toolbar'>
+  <div class="btn-group">
+    <div class="dropdown" dropdown [dropdownToggle]="true">
+      <button class="btn btn-primary" dropdown-open> {{country.name}} <span class="caret"></span></button>
+      <ul class="dropdown-menu">
+        <li (click)="onSelectCountry(country)" *ngFor="let country of allCountries"><a>{{country.name}}</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="btn-group">
+  </div>
+</div>
 <div class="jumbotron">
-  <h1> HOME </h1>
+<h1>{{country.name}}</h1>
+<p><a href = {{country.link}}>{{country.link}}</a></p>
+<p>{{country.description}}</p>
 </div>

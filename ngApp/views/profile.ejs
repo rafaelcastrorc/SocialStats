@@ -3,16 +3,27 @@
     <title>Node Authentication</title>
     <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.0.2/css/bootstrap.min.css">
     <link rel="stylesheet" href="//netdna.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
-    <style>
-        body        { padding-top:80px; word-wrap:break-word; }
-    </style>
+
 </head>
 <body>
+  <nav class="navbar navbar-inverse">
+    <div class = "container-fluid">
+      <div class = "navbar-header">
+        <a class="navbar-brand" href="/"> Social Stats</a>
+      </div>
+      <ul class = "nav navbar-nav">
+        <li><a href="/profile" routerLinkActive="active">User Profile</a></li>
+        <li><a href="/notes" routerLinkActive="active">Notes</a></li>
+        <li><a href="/religions" routerLinkActive="active">Religions</a></li>
+        <li><a href="/conflict" routerLinkActive="active">Conflict</a></li>
+        <li><a href="/world" routerLinkActive="active">World Bank</a></li>
+      </ul>
+    </div>
+  </nav>
+
 <div class="container">
     <div class="page-header text-center">
         <h1><span class="fa fa-id-card"></span> Profile Page</h1>
-        <a href="/" class="btn btn-default btn-sm">Home</a>
-        <a href="/notes" class="btn btn-default btn-sm">View Notes</a>
         <a href="/logout" class="btn btn-default btn-sm">Logout</a>
     </div>
 

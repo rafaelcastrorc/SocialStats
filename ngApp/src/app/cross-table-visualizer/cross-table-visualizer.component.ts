@@ -1,5 +1,6 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { Country } from "../countryAWS";
+// import { Country } from "../countryAWS";
+import {Indicator} from '../indicator';
 import { HttpClient } from '@angular/common/http';
 
 @Component({
@@ -9,14 +10,15 @@ import { HttpClient } from '@angular/common/http';
 })
 export class CrossTableVisualizerComponent implements OnInit {
   @Input() query;
-  countries: Country[];
+  indicators: Indicator[];
+  years: number[] = [1970, 1971, 1972, 1973, 1974, 1975, 2000, 2001, 2002, 2003, 2004];
 
   constructor(private http: HttpClient) { }
 
   ngOnInit() {
-    this.http.get<Country[]>('/api_aws/getCountries')
+    this.http.get<Indicator[]>('/api_aws/getIndicators')
       .subscribe(data => {
-        this.countries = data;
+        this.indicators = data;
       });
   }
 

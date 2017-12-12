@@ -42,6 +42,7 @@ import { WorldBankService } from './world-bank.service';
 import { CrossTableVisualizerComponent } from './cross-table-visualizer/cross-table-visualizer.component';
 import { CrossTableComponent } from './cross-table/cross-table.component';
 import { QueryNumConflictsIndicatorComponent } from './cross-table-queries/query-num-conflicts-indicator/query-num-conflicts-indicator.component';
+import { QueryNumDeathsIndicatorComponent } from './cross-table-queries/query-num-deaths-indicator/query-num-deaths-indicator.component';
 
 
 @NgModule({
@@ -69,7 +70,8 @@ import { QueryNumConflictsIndicatorComponent } from './cross-table-queries/query
     QueryChangeOfReligionOverTimeComponent,
     CrossTableVisualizerComponent,
     CrossTableComponent,
-    QueryNumConflictsIndicatorComponent
+    QueryNumConflictsIndicatorComponent,
+    QueryNumDeathsIndicatorComponent
   ],
   imports: [
     BrowserModule,

@@ -9,12 +9,11 @@ interface RawDataPacket {
 }
 
 @Component({
-  selector: 'query-num-conflicts-indicator',
-  templateUrl: './query-num-conflicts-indicator.component.html',
-  styleUrls: ['./query-num-conflicts-indicator.component.css']
+  selector: 'query-num-deaths-indicator',
+  templateUrl: './query-num-deaths-indicator.component.html',
+  styleUrls: ['./query-num-deaths-indicator.component.css']
 })
-
-export class QueryNumConflictsIndicatorComponent implements OnInit {
+export class QueryNumDeathsIndicatorComponent implements OnInit {
   @Input() indicators;
   @Input() years;
   // selectedCountryName = 'Select a country';
@@ -44,7 +43,7 @@ export class QueryNumConflictsIndicatorComponent implements OnInit {
 
   onSubmit() {
     if (this.hasSelectedYear && this.hasSelectedIndicator) {
-      this.http.get<RawDataPacket[]>('/api_aws/numConflictsAndIndicator/' +
+      this.http.get<RawDataPacket[]>('/api_aws/numDeathsAndIndicator/' +
         this.selectedIndicator.code + '/' + this.selectedYear
       ).subscribe(data => {
         this.queryResponse = data;
@@ -58,6 +57,5 @@ export class QueryNumConflictsIndicatorComponent implements OnInit {
   dismissAlert() {
     this.displayAlert = false;
   }
-
 
 }

@@ -1,4 +1,6 @@
 <div>
-  <query-num-conflicts-indicator *ngIf="query === 'Number of conflicts in a country per year'"
-                                  [countries]="countries"> </query-num-conflicts-indicator>
+  <query-num-conflicts-indicator *ngIf="query === 'Number of Conflicts compared to World Bank Indicators'"
+                                  [indicators]="indicators" [years]="years"> </query-num-conflicts-indicator>
+  <query-num-deaths-indicator *ngIf="query === 'Conflict severity compared to World Bank Indicators'"
+                                 [indicators]="indicators" [years]="years"> </query-num-deaths-indicator>
 </div>

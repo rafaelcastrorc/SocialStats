@@ -1,0 +1,8 @@
+<div>
+  <query-num-conflicts-in-country *ngIf="query === 'Number of conflicts in a country per year'"
+                                  [countries]="countries"> </query-num-conflicts-in-country>
+  <query-num-deaths-in-country *ngIf="query === 'Number of deaths in a country per year'"
+                               [countries]="countries"></query-num-deaths-in-country>
+  <query-conflict-locations *ngIf="query === 'Show conflicts in a country on a map'"
+                               [countries]="countries"></query-conflict-locations>
+</div>

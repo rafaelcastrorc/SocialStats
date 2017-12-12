@@ -1,0 +1,52 @@
+<div class='btn-toolbar'>
+  <div class="btn-group">
+    <div class="dropdown" dropdown [dropdownToggle]="true">
+      <button class="btn btn-primary" dropdown-open> {{ selectedCountryName }} <span class="caret"></span></button>
+      <ul class="dropdown-menu">
+        <li (click)="onSelectCountry('All countries')"><a>All countries</a></li>
+        <li (click)="onSelectCountry(country)" *ngFor="let country of countries"><a>{{ country.name }}</a></li>
+      </ul>
+    </div>
+  </div>
+
+
+  <div class="btn-group">
+    <div class="dropdown" dropdown [dropdownToggle]="true">
+      <button class="btn btn-primary" dropdown-open> {{ selectedYear }}<span class="caret"></span></button>
+      <ul class="dropdown-menu">
+        <li (click)="onSelectYear(year)" *ngFor="let year of years"><a>{{ year }}</a></li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="btn-group">
+    <div>
+      <button (click)="onSubmit()" type="submit" class="btn btn-success">Submit</button>
+    </div>
+  </div>
+</div>
+
+<p>
+
+
+</p>
+
+<div *ngIf="displayAlert" class="alert alert-danger alert-dismissable">
+  <a class="close" data-dismiss="alert" aria-label="close" (click)="dismissAlert()">×</a>
+  <strong>You have not selected all options!</strong>
+</div>
+
+<p class="h5">The percentage of followers by religion in <code>
+  {{ selectedCountryName }}</code> during the year <code>{{ selectedYear }}</code>:</p>
+
+<div *ngIf="isDataAvailable">
+
+  <div style="display: block">
+    <canvas baseChart
+            [data]="pieChartData"
+            [labels]="pieChartLabels"
+            [chartType]="pieChartType"
+            (chartHover)="chartHovered($event)"
+            (chartClick)="chartClicked($event)"></canvas>
+  </div>
+</div>

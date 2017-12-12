@@ -14,7 +14,6 @@ export class ReligionsComponent implements OnInit {
     'Number of people who follow a religion in a country',
     'Religions present in the fewest countries',
     'Largest religion by country',
-    'Comparing religions between countries',
     'Percent of people who follow a religion in a country',
     'Change in religion over time'
   ];

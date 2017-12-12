@@ -26,6 +26,7 @@ import { ReligionMainComponent } from './religion-queries/religion-main/religion
 import { WorldBankVisualizerComponent } from './world-bank-visualizer/world-bank-visualizer.component';
 import {WorldBankService} from './world-bank.service';
 import { SidebarModule } from 'ng-sidebar';
+import { QueryReligionPercentageComponent } from './religion-queries/query-religion-percentage/query-religion-percentage.component';
 
 
 
@@ -49,7 +50,8 @@ import { SidebarModule } from 'ng-sidebar';
     QueryReligionTopReligionPerCountryComponent,
     PartOfComponent,
     QueryChangeOfReligionOverTimeComponent,
-    ReligionMainComponent
+    ReligionMainComponent,
+    QueryReligionPercentageComponent
   ],
   imports: [
     BrowserModule,

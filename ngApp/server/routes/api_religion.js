@@ -1,5 +1,6 @@
-///* By: Rafael Castro
-// */
+/**
+ * Developed by Rafael Castro
+ */
 const express = require('express');
 const router = express.Router();
 const neo4j = require('neo4j-driver').v1;
@@ -10,6 +11,8 @@ const NameYearNumber = require('../models/NameYearNumber.js');
 const CountryReligionNumber = require('../models/CountryReligionNumber.js');
 const PartOf = require('../models/PartOf.js');
 const YearValue = require('../models/YearValue.js');
+const NameValue = require('../models/NameValue.js');
+
 let allYearsArr = [];
 
 
@@ -186,7 +189,7 @@ router.get('/queries/followers/:country/:year/:religion', function (req, res) {
 });
 
 
-//Query: Get the religions followed by the least amount of countries in a year
+//Query: Get the religions followed by the least amount of countries in a year (query2)
 router.get('/queries/leastfollowed/:year/:limit', function (req, res) {
   const year = parseInt(req.params.year);
   const limit = parseInt(req.params.limit);
@@ -276,7 +279,71 @@ router.get('/queries/mostpopular/:year/:top/:ignore', function (req, res) {
 });
 
 
-//Query: Get the change in number of people who follow  a religion(query 4)
+//Query: Get the number of people who follow a certain religion (query 4)
+//Ex:
+// MATCH (allRels:Religion)<-[all:HAS_RELIGION{year:2010}]-(:Country{abbrev:"ALB"})
+// WHERE NOT (:Religion)-[:PART_OF]->(allRels)
+// WITH SUM(all.number_of_members) AS TotalPop
+// MATCH (:Country{abbrev:"ALB"})-[r:HAS_RELIGION{year:2010}]->(rel:Religion)
+// WHERE NOT (:Religion)-[:PART_OF]->(rel)
+// RETURN DISTINCT (rel.name) AS Religion,
+// 100.0 * SUM(r.number_of_members) / TotalPop AS Percent
+router.get('/queries/percentage/:country/:year/:group', function (req, res) {
+  const country = req.params.country;
+  const year = parseInt(req.params.year);
+  const group = req.params.group;
+
+  let countryParam, yearParam;
+  // Check if user wants to retrieve all the countries
+  if (country !== 'All Countries') {
+    countryParam = '{name:\'' + country + '\'}'
+  }
+  else {
+    countryParam = '';
+  }
+  let groupPartOf = '';
+  //If user wants to group the religions that are part of other religions
+  if (group) {
+    groupPartOf = "WHERE NOT (:Religion)-[:PART_OF]->(rel)";
+  }
+  else {
+    groupPartOf = "WHERE NOT (:Religion)<-[:PART_OF]-(rel)";
+  }
+  // Check if user wants to retrieve all the countries
+    yearParam = '{year:' + year + '}';
+
+
+  session
+    .run('MATCH (allRels:Religion)<-[all:HAS_RELIGION '+ yearParam +']-(:Country'+ countryParam +') ' +
+      'WHERE NOT (:Religion)-[:PART_OF]->(allRels) ' +
+      'WITH SUM(all.number_of_members) AS TotalPop ' +
+      'MATCH (:Country'+ countryParam +')-[r:HAS_RELIGION' + yearParam + ']->(rel:Religion) ' +
+       groupPartOf + ' ' +
+      'RETURN DISTINCT (rel.name) AS Religion, ' +
+      '100.0 * SUM(r.number_of_members) / TotalPop AS Percent')
+    .then(function (result) {
+
+      let queryAns = [];
+      result.records.forEach(function (record) {
+        transform(record);
+        let query = new NameValue(record._fields[0], parseFloat(record._fields[1]).toFixed(2));
+        console.log(query);
+        queryAns.push(query);
+      });
+
+
+      res.json(queryAns);
+
+    })
+
+    .catch(function (err) {
+      console.log(err);
+    });
+
+});
+
+
+//Query: Get the change in number of people who follow  a religion(query 5)
 router.get('/queries/numbers/:country/:religion', function (req, res) {
   const country = req.params.country;
   const religion = req.params.religion;
@@ -321,6 +388,7 @@ router.get('/queries/numbers/:country/:religion', function (req, res) {
     });
 
 });
+
 
 
 //Returns the PART_OF relationship between religions (religions that are part of another religion)

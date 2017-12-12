@@ -45,6 +45,7 @@ import { QueryNumConflictsIndicatorComponent } from './cross-table-queries/query
 import { ReligionMainComponent } from './religion-queries/religion-main/religion-main.component';
 import { SidebarModule } from 'ng-sidebar';
 import { QueryReligionPercentageComponent } from './religion-queries/query-religion-percentage/query-religion-percentage.component';
+import {QueryReligionWbComponent} from './cross-table-queries/query-religion-wb/query-religion-wb.component';
 
 
 
@@ -76,7 +77,8 @@ import { QueryReligionPercentageComponent } from './religion-queries/query-relig
     CrossTableComponent,
     QueryNumConflictsIndicatorComponent,
     ReligionMainComponent,
-    QueryReligionPercentageComponent
+    QueryReligionPercentageComponent,
+    QueryReligionWbComponent
   ],
   imports: [
     BrowserModule,

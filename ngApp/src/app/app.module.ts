@@ -38,6 +38,11 @@ import { WorldBankComponent } from './world-bank/world-bank.component';
 import { WorldBankVisualizerComponent } from './world-bank-visualizer/world-bank-visualizer.component';
 import { WorldBankService } from './world-bank.service';
 
+// Cross Tables in AWS
+import { CrossTableVisualizerComponent } from './cross-table-visualizer/cross-table-visualizer.component';
+import { CrossTableComponent } from './cross-table/cross-table.component';
+import { QueryNumConflictsInidicatorComponent } from './cross-table-queries/query-num-conflicts-inidicator/query-num-conflicts-inidicator.component';
+
 
 @NgModule({
   declarations: [
@@ -61,7 +66,10 @@ import { WorldBankService } from './world-bank.service';
     QueryNumDeathsInCountryComponent,
     QueryConflictLocationsComponent,
     PartOfComponent,
-    QueryChangeOfReligionOverTimeComponent
+    QueryChangeOfReligionOverTimeComponent,
+    CrossTableVisualizerComponent,
+    CrossTableComponent,
+    QueryNumConflictsInidicatorComponent
   ],
   imports: [
     BrowserModule,

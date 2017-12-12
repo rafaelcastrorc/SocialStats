@@ -22,11 +22,12 @@ export class QueryConflictLocationsComponent implements OnInit {
   @Input() countries;
   // @Output() SelectCountry = new EventEmitter();
   selectedCountryName = 'Select a country';
+  mapCenter = "0, 0"
   selectedCountryCode = '';
-  hasSelectedCountry = false;
+  // hasSelectedCountry = false;
   displayAlert = false;
   queryLocations: RawDataPacket[];
-  positions = [];
+  // positions = [];
 
   constructor(private http: HttpClient) { }
 
@@ -37,21 +38,24 @@ export class QueryConflictLocationsComponent implements OnInit {
     // Store the name of the country
     this.selectedCountryName = country.name;
     this.selectedCountryCode = country.code;
+    this.mapCenter = country.name;
     // }
     console.log(this.selectedCountryName, this.selectedCountryCode);
-    this.hasSelectedCountry = true;
+    // this.hasSelectedCountry = true;
     this.onSubmit();
     // this.SelectCountry.emit(country);
   }
 
   getRadius(numDeaths) {
-    return Math.sqrt(numDeaths) * 100;
+    let radius = Math.min((Math.sqrt(numDeaths) * 1000), 30000);
+    // console.log(radius);
+    return radius;
   }
 
   formattedCoord(lat, long) {
-    var formattedCoord = [];
-    formattedCoord[0] = lat.toString();
-    formattedCoord[1] = long.toString();
+    // let coord =
+    // formattedCoord[0] = lat.toString();
+    // formattedCoord[1] = long.toString();
   //   if (lat < 0) {
   //     formattedCoord[0] = lat + " S";
   //   } else {
@@ -65,31 +69,32 @@ export class QueryConflictLocationsComponent implements OnInit {
   //   }
   //
 
-    return formattedCoord;
+    return {lat: lat, lng: long};
   }
 
   onSubmit() {
-    if (this.hasSelectedCountry) {
-      this.http.get<RawDataPacket[]>('/api_aws/conflictLocation/' + this.selectedCountryCode
-      ).subscribe(data => {
-        this.queryLocations = data;
-        this.updateLocations();
-        console.log(data);
-      });
-    } else {
-      this.displayAlert = true;
-    }
-
+    this.http.get<RawDataPacket[]>('/api_aws/conflictLocation/' + this.selectedCountryCode
+    ).subscribe(data => {
+      this.queryLocations = data;
+      // this.updateLocations();
+      // console.log(data);
+      if (this.queryLocations.length < 1) {
+        this.displayAlert = true;
+      } else {
+        this.displayAlert = false;
+      }
+    });
   }
 
-  updateLocations() {
-    this.positions = [];
-    for (let q of this.queryLocations) {
-      let latlong = {lat: q.latitude, lng: q.longitude}
-      this.positions.push(latlong);
-    }
-    console.log(this.positions);
-  }
+
+  // updateLocations() {
+  //   this.positions = [];
+  //   for (let q of this.queryLocations) {
+  //     let latlong = {lat: q.latitude, lng: q.longitude}
+  //     this.positions.push(latlong);
+  //   }
+  //   console.log(this.positions);
+  // }
 
   dismissAlert() {
     this.displayAlert = false;

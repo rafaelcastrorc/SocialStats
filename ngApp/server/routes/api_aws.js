@@ -108,7 +108,7 @@ router.get('/conflictLocation/:countryCode', function (req, res) {
   console.log("Get locations of deaths for " + countryCode);
   var query = 'SELECT (t.deaths_a + t.deaths_b + t.deaths_civilians) as totalDeaths, t.latitude, t.longitude ' +
     'FROM Conflicts t ' +
-    'WHERE t.country_id = "' + countryCode + '" LIMIT 50;';
+    'WHERE t.country_id = "' + countryCode + '" ORDER BY totalDeaths DESC LIMIT 50;';
 
   connection.query(query, function (err, rows) {
     if (err) console.log(err);

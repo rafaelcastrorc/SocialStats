@@ -141,9 +141,12 @@ router.get('/top10/:indicator/:year/:mode', function (req, res) {
     console.log('Q1: Getting top 10 data for ' + indicator + ' for ' + year);
 
     query = "select name, " + year + " from WorldBank inner join Countries on country_code = code where indicator_code" +
-      " = '" + indicator + "' order by " + year + " desc" +
-      " limit" +
-      " 10;";
+      " = '" + indicator + "' and name <> 'World' and name <> 'IDA & IBRD total' and name <> 'Low & middle income'" +
+      " and" +
+      " name <> 'Middle income' and name <> 'IBRD only' and name <> 'Early-demographic dividend' and name <> 'Lower" +
+      " middle income' and name <> 'Upper middle income' " +
+      "and name <> 'East Asia & Pacific' and name <> 'Late-demographic dividend' order by " + year + " desc" +
+      " limit 10;";
   }
   if(mode == 'bottom') {
     console.log('Q1: Getting top 10 data for ' + indicator + ' for ' + year);

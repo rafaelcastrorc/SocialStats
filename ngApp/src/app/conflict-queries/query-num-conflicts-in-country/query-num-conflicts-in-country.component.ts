@@ -7,11 +7,6 @@ interface RawDataPacket {
   numConflicts: number;
 }
 
-// interface Country2 {
-//   code: string;
-//   name: string;
-// }
-
 @Component({
   selector: 'query-num-conflicts-in-country',
   templateUrl: './query-num-conflicts-in-country.component.html',
@@ -29,20 +24,14 @@ export class QueryNumConflictsInCountryComponent implements OnInit {
   constructor(private http: HttpClient) { }
 
   ngOnInit() {
-
   }
 
   onSelectCountry(country: Country) {
-    // if (country.name == null) {
-    //   this.selectedCountry = 'All Countries';
-    // } else {
-      // Store the name of the country
     this.selectedCountryName = country.name;
     this.selectedCountryCode = country.code;
     // }
     console.log(this.selectedCountryName, this.selectedCountryCode);
     this.hasSelectedCountry = true;
-    // this.SelectCountry.emit(country);
   }
 
   onSubmit() {
@@ -50,7 +39,6 @@ export class QueryNumConflictsInCountryComponent implements OnInit {
       this.http.get<RawDataPacket[]>('/api_aws/conflictsPerYear/' + this.selectedCountryCode
       ).subscribe(data => {
         this.queryConflictsCountry = data;
-        console.log(data);
       });
     } else {
       this.displayAlert = true;

@@ -29,16 +29,6 @@ export class QueryNumDeathsInCountryComponent implements OnInit {
     this.selectedCountryCode = country.code;
     console.log(this.selectedCountryName, this.selectedCountryCode);
     this.hasSelectedCountry = true;
-
-    // if (country.name == null) {
-    //   this.selectedCountry = 'All Countries';
-    // } else {
-    //   // Store the name of the country
-    //   this.selectedCountry = country.name;
-    // }
-    // console.log(this.selectedCountry);
-    // this.hasSelectedCountry = true;
-    // this.SelectCountry.emit(country);
   }
 
   onSubmit() {
@@ -46,7 +36,6 @@ export class QueryNumDeathsInCountryComponent implements OnInit {
       this.http.get<RawDataPacket[]>('/api_aws/DeathsPerYear/' + this.selectedCountryCode
       ).subscribe(data => {
         this.queryDeathsCountry = data;
-        console.log(data);
       });
     } else {
       this.displayAlert = true;

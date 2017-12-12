@@ -21,7 +21,6 @@ export class ConflictComponent implements OnInit {
 
   onSelectQuery(query: string) {
     this.selectedQuery = query;
-    console.log(this.selectedQuery);
   }
 
 }

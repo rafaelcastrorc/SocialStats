@@ -1,0 +1,40 @@
+<div class='btn-toolbar'>
+  <div class="btn-group">
+    <div class="dropdown" dropdown [dropdownToggle]="true">
+      <button class="btn btn-primary" dropdown-open> {{selectedCountryName}}<span class="caret"></span></button>
+      <ul class="dropdown-menu">
+        <li (click)="onSelectCountry(country)" *ngFor="let country of countries"><a>{{country.name}}</a></li>
+        <!--Refactor above to submit upon selecting a country-->
+      </ul>
+    </div>
+  </div>
+
+  <div class="btn-group">
+    <div>
+      <button (click)="onSubmit()" type="submit" class="btn btn-success">Submit</button>
+    </div>
+  </div>
+</div>
+
+<div *ngIf="displayAlert" class="alert alert-danger alert-dismissible">
+  <a class="close" data-dismiss="alert" aria-label="close" (click)="dismissAlert()">×</a>
+  <strong>You have not selected all options!</strong>
+</div>
+
+<p class="h5">The number of conflicts per year in <code>{{selectedCountryName}}</code>:</p>
+
+
+<table class="table table-striped">
+  <thead class="thread-light">
+  <tr>
+    <th scope="col">Year</th>
+    <th scope="col">Number of Conflicts</th>
+  </tr>
+  </thead>
+  <tbody>
+  <tr *ngFor="let query of queryConflictsCountry">
+    <td>{{query.year}}</td>
+    <td>{{query.numConflicts}}</td>
+  </tr>
+  </tbody>
+</table>

@@ -116,6 +116,48 @@ router.get('/conflictLocation/:countryCode', function (req, res) {
   })
 });
 
+router.get('/numConflictsAndIndicator/:indicatorCode/:year', function (req, res) {
+  var indicatorCode = req.params.indicatorCode;
+  var year = req.params.year;
+  console.log("Get correlation between " + indicatorCode + " and number of conflicts in " + year);
+  var query = 'SELECT e.country_code, cc.numConflicts, e.y' + year + ' ' +
+    ' FROM WorldBank e INNER JOIN (' +
+      'SELECT c.country_id, COUNT(*) as numConflicts ' +
+      'FROM Conflicts c ' +
+      'WHERE c.year = ' + year + ' ' +
+      'GROUP BY (c.country_id)) ' +
+    'cc ON e.country_code = cc.country_id ' +
+    'WHERE e.indicator_code = "' + indicatorCode + '";';
+
+  connection.query(query, function (err, rows) {
+    if (err) console.log(err);
+    else {
+      res.json(rows);
+    }
+  })
+});
+
+router.get('/numDeathsAndIndicator/:indicatorCode/:year', function (req, res) {
+  var indicatorCode = req.params.indicatorCode;
+  var year = req.params.year;
+  console.log("Get correlation between " + indicatorCode + " and number of deaths in " + year);
+  var query = 'SELECT e.country_code, cc.numDeaths, e.y' + year + ' ' +
+    ' FROM WorldBank e INNER JOIN (' +
+    'SELECT c.country_id, (SUM(c.deaths_a) + SUM(c.deaths_b) + SUM(c.deaths_civilians)) as numDeaths ' +
+    'FROM Conflicts c ' +
+    'WHERE c.year = ' + year + ' ' +
+    'GROUP BY (c.country_id)) ' +
+    'cc ON e.country_code = cc.country_id ' +
+    'WHERE e.indicator_code = "' + indicatorCode + '";';
+
+  connection.query(query, function (err, rows) {
+    if (err) console.log(err);
+    else {
+      res.json(rows);
+    }
+  })
+});
+
 connection.connect(function(err) {
   if (err) {
     console.log(err);

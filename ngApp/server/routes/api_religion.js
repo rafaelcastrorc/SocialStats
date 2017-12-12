@@ -320,14 +320,13 @@ router.get('/queries/percentage/:country/:year/:group', function (req, res) {
       'MATCH (:Country'+ countryParam +')-[r:HAS_RELIGION' + yearParam + ']->(rel:Religion) ' +
        groupPartOf + ' ' +
       'RETURN DISTINCT (rel.name) AS Religion, ' +
-      '100.0 * SUM(r.number_of_members) / TotalPop AS Percent')
+      '100.0 * SUM(r.number_of_members) / TotalPop AS Percent ORDER BY Percent DESC')
     .then(function (result) {
 
       let queryAns = [];
       result.records.forEach(function (record) {
         transform(record);
         let query = new NameValue(record._fields[0], parseFloat(record._fields[1]).toFixed(2));
-        console.log(query);
         queryAns.push(query);
       });
 

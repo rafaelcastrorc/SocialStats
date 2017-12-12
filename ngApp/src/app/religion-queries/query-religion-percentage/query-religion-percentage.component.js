@@ -17,6 +17,7 @@ var QueryReligionPercentageComponent = (function () {
         this.pieChartData = [0];
         this.pieChartType = 'pie';
         this.isDataAvailable = false;
+        this.thereAreRecords = false;
         this.selectedCountryName = 'Select a Country';
         this.selectedYear = 'Select a Year';
         this.groupReligions = false;
@@ -62,6 +63,10 @@ var QueryReligionPercentageComponent = (function () {
                 if (values.length === 0) {
                     values = [1];
                     labels = ['No records'];
+                    _this.thereAreRecords = false;
+                }
+                else {
+                    _this.thereAreRecords = true;
                 }
                 // Change labels
                 _this.pieChartLabels.length = 0;
@@ -81,10 +86,10 @@ var QueryReligionPercentageComponent = (function () {
     };
     // events
     QueryReligionPercentageComponent.prototype.chartClicked = function (e) {
-        console.log(e);
+        console.log(e + '%');
     };
     QueryReligionPercentageComponent.prototype.chartHovered = function (e) {
-        console.log(e);
+        console.log(e + '%');
     };
     __decorate([
         core_1.Input()

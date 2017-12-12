@@ -169,4 +169,44 @@ religion in {};
     baseChart[data];
 "pieChartData"[labels] = "pieChartLabels"[chartType] = "pieChartType"(chartHover) = "chartHovered($event)"(chartClick) = "chartClicked($event)" > /canvas>
     < /div>
+    < div * ngIf;
+"thereAreRecords";
+var default_6 = (function () {
+    function default_6() {
+    }
+    return default_6;
+}());
+"table-responsive";
+style = "margin-top: 30px" >
+    (function () {
+        function class_12() {
+        }
+        return class_12;
+    }());
+"table table-striped" >
+    (function () {
+        function class_13() {
+        }
+        return class_13;
+    }());
+"thread-light" >
+     * ngFor;
+"let label of pieChartLabels" > {};
+{
+    label;
+}
+/th>
+    < /tr>
+    < /thead>
+    < tbody >
+     * ngFor;
+"let d of pieChartData" > {};
+{
+    d + '%';
+}
+/td>
+    < /tr>
+    < /tbody>
+    < /table>
+    < /div>
     < /div>;

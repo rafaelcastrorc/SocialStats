@@ -1,7 +1,6 @@
 import {Component, EventEmitter, Input, OnInit, Output, ViewChild} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
 import {Country} from '../../country';
-import {BaseChartDirective} from 'ng2-charts';
 
 interface Query4 {
   name: string;
@@ -23,13 +22,11 @@ export class QueryReligionPercentageComponent implements OnInit {
   pieChartData = [0];
   pieChartType = 'pie';
   isDataAvailable = false;
-
+  thereAreRecords = false;
   selectedCountryName = 'Select a Country';
   selectedYear = 'Select a Year';
   groupReligions = false;
   displayAlert = false;
-
-
   hasSelectedCountry = false;
   hasSelectedYear = false;
   queryResults: Query4[];
@@ -79,6 +76,9 @@ export class QueryReligionPercentageComponent implements OnInit {
         if (values.length === 0) {
           values = [1];
           labels = ['No records'];
+          this.thereAreRecords = false;
+        } else {
+          this.thereAreRecords = true;
         }
         // Change labels
         this.pieChartLabels.length = 0;
@@ -99,10 +99,10 @@ export class QueryReligionPercentageComponent implements OnInit {
 
   // events
   chartClicked(e: any): void {
-    console.log(e);
+    console.log(e + '%');
   }
 
   chartHovered(e: any): void {
-    console.log(e);
+    console.log(e + '%');
   }
 }

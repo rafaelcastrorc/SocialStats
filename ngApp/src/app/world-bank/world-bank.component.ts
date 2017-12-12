@@ -13,13 +13,12 @@ export class WorldBankComponent implements OnInit {
     code : 'ADV',
     name : 'America'
   };
-  currentQuery = 'All Indicators'
+  currentQuery = 'Two Indicators';
 
   queries: string[] = [
-    'All Indicators',
-    'Rest of the queries',
     'Two Indicators',
-    'Compare two Countries'
+    'Compare two Countries',
+    'Top Ten'
   ];
 
 

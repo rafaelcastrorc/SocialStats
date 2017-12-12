@@ -1,18 +1,22 @@
-<meta charset="UTF-8">
-<div class='btn-toolbar'>
-  <div class="btn-group">
-    <div class="dropdown" dropdown [dropdownToggle]="true">
-      <button class="btn btn-primary" dropdown-open> {{country.name}} <span class="caret"></span></button>
-      <ul class="dropdown-menu">
-        <li (click)="onSelectCountry(country)" *ngFor="let country of allCountries"><a>{{country.name}}</a></li>
-      </ul>
-    </div>
-  </div>
-  <div class="btn-group">
-  </div>
+<div>
+  <h3>
+    <strong>Global Stats</strong> is a application to learn a more about the world we live in.
+  </h3>
 </div>
 <div class="jumbotron">
-<h1>{{country.name}}</h1>
-<p><a href = {{country.link}}>{{country.link}}</a></p>
-<p>{{country.description}}</p>
+  <div style="display: inline-block"class='btn-toolbar'>
+    <div class="btn-group">
+      <div class="dropdown" dropdown [dropdownToggle]="true">
+        <button class="btn btn-primary" dropdown-open> {{selectedCountryName}} <span class="caret"></span></button>
+        <ul class="dropdown-menu">
+          <li (click)="onSelectCountry(country)" *ngFor="let country of allCountries"><a>{{country.name}}</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="btn-group">
+    </div>
+  </div>
+  <h3>{{country.name}}</h3>
+  <p><a target="_blank" href = {{country.link}}>{{country.link}}</a></p>
+  <p>{{country.description}}</p>
 </div>

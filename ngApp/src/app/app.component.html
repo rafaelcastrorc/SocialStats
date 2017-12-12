@@ -1,7 +1,7 @@
 <nav class="navbar navbar-inverse">
   <div class = "container-fluid">
     <div class = "navbar-header">
-      <a class="navbar-brand" href="#"> Social Stats</a>
+      <a class="navbar-brand" href="#">Global Stats</a>
     </div>
     <ul class = "nav navbar-nav">
       <li><a href="/profile" routerLinkActive="active">User Profile</a></li>
@@ -9,6 +9,7 @@
       <li><a routerLink="/religions" routerLinkActive="active">Religions</a></li>
       <li><a routerLink="/conflict" routerLinkActive="active">Conflict</a></li>
       <li><a routerLink="/world" routerLinkActive="active">World Bank</a></li>
+      <li><a routerLink="/multi" routerLinkActive="active">Multiple Datasets</a></li>
     </ul>
   </div>
 </nav>
@@ -22,3 +23,8 @@
          [spinner]="spinkit.skChasingDots"
          [debounceDelay]="150"
 ></spinner>
+
+<!--For Displaying the charts-->
+<script src="node_modules/chart.js/src/chart.js"></script>
+
+

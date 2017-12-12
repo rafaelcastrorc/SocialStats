@@ -1,3 +1,5 @@
+///* By: Rafael Castro
+// */
 const express = require('express');
 const router = express.Router();
 const neo4j = require('neo4j-driver').v1;
@@ -7,6 +9,8 @@ const CountryReligionYearNumber = require('../models/CountryReligionYearNumber.j
 const NameYearNumber = require('../models/NameYearNumber.js');
 const CountryReligionNumber = require('../models/CountryReligionNumber.js');
 const PartOf = require('../models/PartOf.js');
+const YearValue = require('../models/YearValue.js');
+let allYearsArr = [];
 
 
 router.get('/', function (req, res) {
@@ -100,7 +104,7 @@ router.get('/religions', function (req, res) {
 //Gets all the years
 router.get('/years', function (req, res) {
   session
-    .run('MATCH()-[r:HAS_RELIGION]->() RETURN DISTINCT r.year AS year ORDER BY r.year DESC')
+    .run('MATCH()-[r:HAS_RELIGION]->() RETURN DISTINCT r.year AS year ORDER BY r.year')
     .then(function (result) {
       const yearsArr = [];
 
@@ -112,7 +116,7 @@ router.get('/years', function (req, res) {
         );
 
       });
-
+      allYearsArr = yearsArr;
       res.json(yearsArr);
     })
 
@@ -130,7 +134,7 @@ router.get('/queries/followers/:country/:year/:religion', function (req, res) {
   let countryParam, religionParam, yearParam;
   // Check if user wants to retrieve all the countries
   if (country !== 'All Countries') {
-    countryParam = '{name:\''+country+'\'}'
+    countryParam = '{name:\'' + country + '\'}'
   }
   else {
     countryParam = '';
@@ -151,8 +155,8 @@ router.get('/queries/followers/:country/:year/:religion', function (req, res) {
   }
 
   session
-    .run('MATCH(c:Country '+ countryParam +'), (rel:Religion '+ religionParam+'),' +
-      ' (c)-[r:HAS_RELIGION '+ yearParam +']->(rel) RETURN {Country: c.name, Religion: rel.name, Year: r.year,' +
+    .run('MATCH(c:Country ' + countryParam + '), (rel:Religion ' + religionParam + '),' +
+      ' (c)-[r:HAS_RELIGION ' + yearParam + ']->(rel) RETURN {Country: c.name, Religion: rel.name, Year: r.year,' +
       ' Number: r.number_of_members} AS result ORDER BY c.name, rel.name, r.year, rel.number_of_members')
     .then(function (result) {
       const queryAns = [];
@@ -202,14 +206,14 @@ router.get('/queries/leastfollowed/:year/:limit', function (req, res) {
   }
 
   session
-    .run('MATCH (c:Religion) RETURN {Religion: c.name, Number: SIZE((c)<-[:HAS_RELIGION ' + yearParam+']-(:Country))}' +
-      ' AS result ORDER  BY SIZE((c)<-[:HAS_RELIGION ' + yearParam+ ']-(:Country)) ' + limitParam)
+    .run('MATCH (c:Religion) RETURN {Religion: c.name, Number: SIZE((c)<-[:HAS_RELIGION ' + yearParam + ']-(:Country))}' +
+      ' AS result ORDER  BY SIZE((c)<-[:HAS_RELIGION ' + yearParam + ']-(:Country)) ' + limitParam)
     .then(function (result) {
       const queryAns = [];
       result.records.forEach(function (record) {
         const object = record.get(0);
         transform(object);
-        let query = new NameYearNumber(object.Religion, req.params.year , object.Number);
+        let query = new NameYearNumber(object.Religion, req.params.year, object.Number);
         queryAns.push(query);
       });
       //In case the result does not exist
@@ -230,15 +234,19 @@ router.get('/queries/leastfollowed/:year/:limit', function (req, res) {
 });
 
 
-
 //Query: Get the most followed religion per country (query 3)
-router.get('/queries/mostpopular/:year/:top', function (req, res) {
+router.get('/queries/mostpopular/:year/:top/:ignore', function (req, res) {
   const year = parseInt(req.params.year);
   const top = parseInt(req.params.top);
+  const ignore = (req.params.ignore === 'true');
+  let ignorePartOf = '';
+  if (ignore) {
+    ignorePartOf = "WHERE NOT (:Religion)-[:PART_OF]->(r)";
+  }
 
   session
-    .run('MATCH (c:Country)-[has:HAS_RELIGION{year:'+ year +'}]->(r:Religion) WITH c.name AS country, r.name AS' +
-      ' religion, has.number_of_members AS num ORDER BY num DESC WITH country, collect([religion, num])[..'+ top +'] ' +
+    .run('MATCH (c:Country)-[has:HAS_RELIGION{year:' + year + '}]->(r:Religion)' + ignorePartOf + ' WITH c.name AS country,' +
+      ' r.name AS religion, has.number_of_members AS num ORDER BY num DESC WITH country, collect([religion, num])[..' + top + '] ' +
       'AS temp UNWIND temp AS res RETURN {Country: country, Religion: res[0],Number: res[1]} ORDER BY country, res[1] DESC')
     .then(function (result) {
       const queryAns = [];
@@ -259,6 +267,53 @@ router.get('/queries/mostpopular/:year/:top', function (req, res) {
       }
       res.json(queryAns);
 
+    })
+
+    .catch(function (err) {
+      console.log(err);
+    });
+
+});
+
+
+//Query: Get the change in number of people who follow  a religion(query 4)
+router.get('/queries/numbers/:country/:religion', function (req, res) {
+  const country = req.params.country;
+  const religion = req.params.religion;
+  let countryParam, religionParam, partOf;
+  // Check if user wants to retrieve all the countries
+  if (country !== 'All Countries') {
+    countryParam = '{name:\'' + country + '\'}'
+  }
+  else {
+    countryParam = '';
+  }
+  // Check if user wants to retrieve all the religions
+  if (religion !== 'All Religions') {
+    religionParam = '{name:\'' + religion + '\'}'
+    partOf = '';
+  }
+  else {
+    religionParam = '';
+    partOf = "WHERE NOT (:Religion)-[:PART_OF]->(rel)";
+
+  }
+  session
+  //MATCH (rel:Religion) WHERE NOT (:Religion)-[:PART_OF]->(rel)  WITH rel MATCH (c:Country {name:'Albania'}), (c)-[r:HAS_RELIGION]->(rel)  RETURN DISTINCT (r.year) AS Year, SUM(r.number_of_members) AS Number ORDER BY r.year
+    .run('MATCH (rel:Religion '+ religionParam +' )' + partOf +
+      'WITH rel ' +
+      'MATCH (c:Country '+ countryParam+'), (c)-[r:HAS_RELIGION]->(rel) ' +
+      'RETURN DISTINCT (r.year) AS Year, SUM(r.number_of_members) AS Number ORDER BY r.year')
+    .then(function (result) {
+      let queryAns = [];
+      result.records.forEach(function (record) {
+        transform(record);
+        let query = new YearValue(parseInt(record._fields[0]), parseInt(record._fields[1]));
+        queryAns.push(query);
+      });
+
+      let valuesPerYear = mapYearToNumber(queryAns);
+      res.json(valuesPerYear);
     })
 
     .catch(function (err) {
@@ -293,6 +348,20 @@ router.get('/partof', function (req, res) {
     });
 
 });
+
+
+//Creates an array for the values of each year, if there is no value for a given year, it adds a 0 to the array
+function mapYearToNumber(arrayOfValues) {
+  // Create an array of 0s based on the number of
+  let result = Array.apply(null, Array(allYearsArr.length)).map(Number.prototype.valueOf, 0);
+  for (let i = 0; i < arrayOfValues.length; i++) {
+    let curr = arrayOfValues[i];
+    //Get the start year value and get its index position
+    let indexToUse = (parseInt(curr.year - allYearsArr[0])) / 5;
+    result[indexToUse] = curr.number;
+  }
+  return result;
+}
 
 
 //For handling numbers in neo4j

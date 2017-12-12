@@ -21,6 +21,7 @@ export class QueryReligionTopReligionPerCountryComponent implements OnInit {
   hasSelectedTop = false;
   hasSelectedYear = false;
   displayAlert = false;
+  ignoreReligionsThatGroup = false;
   queryResults3: CountryReligionNumber[];
   tops: String[] = [
     '1', '2', '3'];
@@ -45,13 +46,17 @@ export class QueryReligionTopReligionPerCountryComponent implements OnInit {
   onSubmit() {
     if (this.hasSelectedYear && this.hasSelectedTop) {
       this.http.get<CountryReligionNumber[]>('/api_religion/queries/mostpopular' + '/' + this.selectedYear + '/' +
-        this.selectedTop
+        this.selectedTop + '/' + String(this.ignoreReligionsThatGroup)
       ).subscribe(data => {
         this.queryResults3 = data;
       });
     } else {
       this.displayAlert = true;
     }
+  }
+
+  checkBox() {
+      this.ignoreReligionsThatGroup = !this.ignoreReligionsThatGroup;
   }
 
   dismissAlert() {

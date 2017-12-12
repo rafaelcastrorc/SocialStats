@@ -1,6 +1,6 @@
 .dropdown-menu{
   max-height: 300px; /*Provide height in pixels or in other units as per your layout*/
-  overflow-y: auto; /*Provide an auto overflow to display scroll*/
+  overflow-y: auto; /*Provide an auto overflow to diaply scroll*/
 }
 
 .btn {
@@ -9,4 +9,9 @@
 
 .blockquote-footer{
   font-size: small;
+}
+
+.table-responsive
+{
+  overflow-x: auto;
 }

@@ -82,7 +82,6 @@ router.get('/conflictsPerYear/:countryCode', function (req, res) {
     if (err) console.log(err);
     else {
       res.json(rows);
-      // console.log(rows);
     }
   })
 });
@@ -98,7 +97,6 @@ router.get('/DeathsPerYear/:countryCode', function (req, res) {
     if (err) console.log(err);
     else {
       res.json(rows);
-      // console.log(rows);
     }
   })
 });
@@ -114,7 +112,6 @@ router.get('/conflictLocation/:countryCode', function (req, res) {
     if (err) console.log(err);
     else {
       res.json(rows);
-      // console.log(rows);
     }
   })
 });
@@ -123,7 +120,6 @@ connection.connect(function(err) {
   if (err) {
     console.log(err);
   }
-  //console.log('You are now connected...');
 });
 
 module.exports = router;

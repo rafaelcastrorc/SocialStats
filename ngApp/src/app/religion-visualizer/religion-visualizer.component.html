@@ -12,6 +12,10 @@
   <query-religion-top-religion-per-country
     *ngIf="query == 'Largest religion by country'" [years]="years"></query-religion-top-religion-per-country>
 
+  <query-religion-percentage
+    *ngIf="query == 'Percent of people who follow a religion in a country'"[years]="years" [countries]="countries"
+  ></query-religion-percentage>
+
   <query-change-of-religion-over-time
     *ngIf="query == 'Change in religion over time'"[years]="years" [countries]="countries" [religions]="religions"
   ></query-change-of-religion-over-time>

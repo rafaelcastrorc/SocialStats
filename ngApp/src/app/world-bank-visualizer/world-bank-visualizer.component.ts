@@ -28,18 +28,37 @@ export class WorldBankVisualizerComponent implements OnInit {
 
   allIndicators: Indicator[];
   allCountries: Country[];
+  allYears: number[] = [1970, 1971, 1972, 1973, 1974, 1975, 2000, 2001, 2002, 2003, 2004];
   country_1: Country;
   indicator_1: Indicator;
   query1: Query1[];
   temp1: number;
   graphdata1: number[] = [1, 2, null, null, 1, 2];
-  labels1: string[] = ['y2000', 'y2001', 'y2002', 'y2003', 'y2004', 'y2005'];
+  labels1: string[] = ['y2000', 'y2001', 'y2002', 'y2003', 'y2d004', 'y2d005', 'y2006', 'y2007', 'y2008', 'y2009', 'y2010'];
   barChartData1: any[] = [{data: this.graphdata1, label: 'Series A'}];
-  barChartType = 'bar';
+  barChartType = 'line';
   barChartOptions: any = {
     scaleShowVerticalLines: false,
     responsive: true
   };
+  country1_2: Country;
+  country2_2: Country;
+  indicator_2: Indicator;
+  graphdata1_2: number[] = [1, 2, null, null, 1, 2];
+  graphdata2_2: number[] = [1, 2, null, null, 1, 2];
+  labels_2: string[] = ['y2000', 'y2001', 'y2002', 'y2003', 'y20d04', 'y20d05', 'y2006', 'y2007', 'y2008', 'y2009', 'y2010'];
+  lineChartData_2: any[] = [{data: this.graphdata1_2, label: 'Series A'},
+                          {data: this.graphdata2_2, label: 'Series B'}];
+  country1_3: Country;
+  country2_3: Country;
+  graphdata1_3: number[] = [1, 2, null, null, 1, 2];
+  graphdata2_3: number[] = [1, 2, null, null, 1, 2];
+  year_3: number;
+  labels_3: string[] = ['y2000', 'y2001', 'y2002', 'y2003', 'y20d04', 'y20d05', 'y2006', 'y2007', 'y2008', 'y2009', 'y2010'];
+  lineChartData_3: any[] = [{data: this.graphdata1_2, label: 'Series A'},
+    {data: this.graphdata2_2, label: 'Series B'}];
+  chartType_3 = 'radar';
+  divide: number[] = [];
 
   constructor(private http: HttpClient) {
   }
@@ -78,15 +97,103 @@ export class WorldBankVisualizerComponent implements OnInit {
     // this.graphdata1 = [1, 1, 1, 1, 1, 1];
     this.http.get<Query1[]>('/api_world/query1' + '/' + this.country_1.code + '/' + this.indicator_1.code
     ).subscribe(data => {
-      this.query1 = data;
-      // for (var key in data) {
-      //   if (data.hasOwnProperty(key)) {
-      //     this.graphdata1.push(data[key]);
-      //     // ...
-      //   }
-      // }
       this.graphdata1 = Object.values(data[0]);
-      this.barChartData1 = [{data: this.graphdata1, label: 'Series A'}];
+      this.labels1 = Object.keys(data[0]);
+      this.barChartData1 = [{data: this.graphdata1, label: this.country_1.name}];
     });
   }
+
+  onSubmit_2() {
+    this.http.get<Query1[]>('/api_world/query1' + '/' + this.country1_2.code + '/' + this.indicator_2.code
+    ).subscribe(data => {
+      this.graphdata1_2 = Object.values(data[0]);
+      this.graphdata1_2.shift();
+      this.graphdata1_2.shift();
+      let temp = Object.keys(data[0]);
+      temp.shift();
+      temp.shift();
+      this.labels_2 = temp;
+    });
+    this.http.get<Query1[]>('/api_world/query1' + '/' + this.country2_2.code + '/' + this.indicator_2.code
+    ).subscribe(data => {
+      this.graphdata2_2 = Object.values(data[0]);
+      this.graphdata2_2.shift();
+      this.graphdata2_2.shift();
+    });
+    this.lineChartData_2 = [{data: this.graphdata1_2, label: this.country1_2.name},
+      {data: this.graphdata2_2, label: this.country2_2.name}];
+  }
+
+  onSelectIndicator_2(indicator: Indicator) {
+    if (indicator.code != null) {
+      this.indicator_2 = indicator;
+    }
+  }
+
+  onSelectCountryTwo_2(indicator: Indicator) {
+    if (indicator.code != null) {
+      this.country2_2 = indicator;
+    }
+  }
+
+  onSelectCountryOne_2(country: Country) {
+    if (country.code != null) {
+      this.country1_2 = country;
+    }
+  }
+
+  onSelectCountryOne_3(country: Country) {
+    if (country.code != null) {
+      this.country1_3 = country;
+    }
+  }
+
+  onSelectCountryTwo_3(country: Country) {
+    if (country.code != null) {
+      this.country2_3 = country;
+    }
+  }
+
+  onSelectYear_3(year: number) {
+    if (year != null) {
+      this.year_3 = year;
+    }
+  }
+
+  onSubmit_3() {
+    const usa = 'USA';
+    this.http.get<any[]>('/api_world/query3' + '/' + usa + '/' + this.year_3
+    ).subscribe(data => {
+      let index;
+      this.divide = [];
+      for (index = 0; index < data.length; index++) {
+        this.divide.push((Object.values(data[index]))[0]);
+      }
+    });
+    this.http.get<any[]>('/api_world/query3' + '/' + this.country1_3.code + '/' + this.year_3
+    ).subscribe(data => {
+      let index;
+      this.graphdata1_3 = [];
+      for (index = 0; index < data.length; index++) {
+        this.graphdata1_3.push((Object.values(data[index]))[0] / this.divide[index]);
+      }
+      this.labels_3 = [];
+      for (index = 0; index < this.allIndicators.length; index++) {
+        this.labels_3.push(this.allIndicators[index].name);
+      }
+    });
+    this.http.get<Query1[]>('/api_world/query3' + '/' + this.country2_3.code + '/' + this.year_3
+    ).subscribe(data => {
+      this.graphdata2_3 = [];
+      let index;
+      for (index = 0; index < data.length; index++) {
+        this.graphdata2_3.push((Object.values(data[index]))[0] / this.divide[index]);
+      }
+    });
+    // this.labels_3.splice(3, 1);
+    // this.graphdata1_3.splice(3, 1);
+    // this.graphdata2_3.splice(3, 1);
+    this.lineChartData_3 = [{data: this.graphdata1_3, label: this.country1_3.name},
+      {data: this.graphdata2_3, label: this.country2_3.name}];
+}
 }

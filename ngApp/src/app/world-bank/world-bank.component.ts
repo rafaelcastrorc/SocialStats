@@ -17,7 +17,9 @@ export class WorldBankComponent implements OnInit {
 
   queries: string[] = [
     'All Indicators',
-    'Rest of the queries'
+    'Rest of the queries',
+    'Two Indicators',
+    'Compare two Countries'
   ];
 
 

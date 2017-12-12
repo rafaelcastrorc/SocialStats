@@ -16,6 +16,7 @@ interface Country {
 export class HomeComponent implements OnInit {
   allCountries: Country[];
   country: Country;
+  selectedCountryName = "Select a country";
   constructor(private http: HttpClient) { }
 
   ngOnInit() {
@@ -27,6 +28,7 @@ export class HomeComponent implements OnInit {
 
   onSelectCountry(country: Country) {
     this.country = country;
+    this.selectedCountryName = country.name;
   }
 
 }

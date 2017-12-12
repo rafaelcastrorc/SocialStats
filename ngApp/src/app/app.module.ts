@@ -31,8 +31,10 @@ import { ConflictVisualizerComponent } from './conflict-visualizer/conflict-visu
 import { QueryNumConflictsInCountryComponent } from './conflict-queries/query-num-conflicts-in-country/query-num-conflicts-in-country.component';
 import { QueryNumDeathsInCountryComponent } from './conflict-queries/query-num-deaths-in-country/query-num-deaths-in-country.component';
 import { QueryConflictLocationsComponent } from './conflict-queries/query-conflict-locations/query-conflict-locations.component';
-import { NguiMapModule} from '@ngui/map';
-import { PartOfComponent } from './religion-queries/part-of/part-of.component';
+import { NguiMapModule } from '@ngui/map';
+import {WorldBankComponent} from './world-bank/world-bank.component';
+import {WorldBankVisualizerComponent} from './world-bank-visualizer/world-bank-visualizer.component';
+import {WorldBankService} from './world-bank.service';
 
 
 
@@ -47,11 +49,10 @@ import { PartOfComponent } from './religion-queries/part-of/part-of.component';
     QueryNumberOfFollowersComponent,
     QueryNumberOfFollowersComponent,
     ConflictComponent,
-    WorldbankComponent,
     AccountsComponent,
     QueryReligionFewestCountriesComponent,
     WorldBankComponent,
-    WorldBankVisualizerComponent
+    WorldBankVisualizerComponent,
     QueryReligionFewestCountriesComponent,
     QueryReligionTopReligionPerCountryComponent,
     PartOfComponent

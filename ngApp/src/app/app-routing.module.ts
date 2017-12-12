@@ -4,7 +4,7 @@ import { HomeComponent } from './home/home.component';
 import { ReligionsComponent } from './religions/religions.component';
 import { ConflictComponent } from './conflict/conflict.component';
 import { WorldBankComponent } from './world-bank/world-bank.component';
-import {CrossTableComponent} from "./cross-table/cross-table.component";
+import {CrossTableComponent} from './cross-table/cross-table.component';
 
 
 const routes: Routes = [

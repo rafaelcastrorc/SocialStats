@@ -16,7 +16,7 @@ interface RawDataPacket {
 export class QueryConflictLocationsComponent implements OnInit {
   @Input() countries;
   selectedCountryName = 'Select a country';
-  mapCenter = "0, 0"
+  mapCenter = "0, 0";
   selectedCountryCode = '';
   displayAlert = false;
   queryLocations: RawDataPacket[];

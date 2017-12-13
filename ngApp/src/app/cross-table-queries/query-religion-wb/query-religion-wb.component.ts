@@ -1,5 +1,11 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, Input, OnInit} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
+
+interface Indicator {
+  code: string;
+  name: string;
+  description: string;
+}
 
 @Component({
   selector: 'query-religion-wb',
@@ -7,11 +13,21 @@ import {HttpClient} from '@angular/common/http';
   styleUrls: ['./query-religion-wb.component.css']
 })
 export class QueryReligionWbComponent implements OnInit {
+  @Input() countriesReligion;
+  @Input() yearsReligion;
+  @Input() years;
+  @Input() religions;
+  @Input() indicators;
 
-  constructor(private http: HttpClient) { }
+  namesTopTen = [];
+  valuesTopTen = [];
+
+  constructor(private http: HttpClient) {
+  }
 
   ngOnInit() {
   }
+
   getTopTen(indicator: string, year: number, mode: string) {
     this.http.get<any[]>('/api_world/top' + '/' + indicator + '/' + year + '/' + mode
     ).subscribe(data => {
@@ -19,8 +35,8 @@ export class QueryReligionWbComponent implements OnInit {
       const names = [];
       const values = [];
       for (index = 0; index < data.length; index++) {
-        names.push((Object.values(data[index]))[0]);
-        values.push((Object.values(data[index]))[1]);
+        this.namesTopTen.push((Object.values(data[index]))[0]);
+        this.valuesTopTen.push((Object.values(data[index]))[1]);
       }
     });
   }

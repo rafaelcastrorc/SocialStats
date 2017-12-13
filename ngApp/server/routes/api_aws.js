@@ -25,6 +25,18 @@ router.get('/getCountries', function (req, res) {
   });
 });
 
+router.get('/getIndicators', function (req, res) {
+  // console.log('Getting all indicators');
+  var query = 'SELECT code, name from Indicators ORDER BY code';
+  connection.query(query, function(err, rows) {
+    if (err) console.log(err);
+    else {
+      res.json(rows);
+    }
+  });
+
+});
+
 router.get('/WorldBankTEST', function (req, res) {
   var query = 'SELECT * FROM WorldBank where indicator_code = \'SP.POP.TOTL\';';
   connection.query(query, function (err, rows) {
@@ -120,15 +132,14 @@ router.get('/numConflictsAndIndicator/:indicatorCode/:year', function (req, res)
   var indicatorCode = req.params.indicatorCode;
   var year = req.params.year;
   console.log("Get correlation between " + indicatorCode + " and number of conflicts in " + year);
-  var query = 'SELECT e.country_code, cc.numConflicts, e.y' + year + ' ' +
-    ' FROM WorldBank e INNER JOIN (' +
+  var query = 'SELECT e.country_code, cc.numConflicts, e.y' + year + ' as indicatorVal ' +
+    'FROM WorldBank e INNER JOIN (' +
       'SELECT c.country_id, COUNT(*) as numConflicts ' +
       'FROM Conflicts c ' +
       'WHERE c.year = ' + year + ' ' +
       'GROUP BY (c.country_id)) ' +
     'cc ON e.country_code = cc.country_id ' +
     'WHERE e.indicator_code = "' + indicatorCode + '";';
-
   connection.query(query, function (err, rows) {
     if (err) console.log(err);
     else {
@@ -141,7 +152,7 @@ router.get('/numDeathsAndIndicator/:indicatorCode/:year', function (req, res) {
   var indicatorCode = req.params.indicatorCode;
   var year = req.params.year;
   console.log("Get correlation between " + indicatorCode + " and number of deaths in " + year);
-  var query = 'SELECT e.country_code, cc.numDeaths, e.y' + year + ' ' +
+  var query = 'SELECT e.country_code, cc.numDeaths, e.y' + year + ' as indicatorVal ' +
     ' FROM WorldBank e INNER JOIN (' +
     'SELECT c.country_id, (SUM(c.deaths_a) + SUM(c.deaths_b) + SUM(c.deaths_civilians)) as numDeaths ' +
     'FROM Conflicts c ' +
@@ -149,7 +160,21 @@ router.get('/numDeathsAndIndicator/:indicatorCode/:year', function (req, res) {
     'GROUP BY (c.country_id)) ' +
     'cc ON e.country_code = cc.country_id ' +
     'WHERE e.indicator_code = "' + indicatorCode + '";';
+  connection.query(query, function (err, rows) {
+    if (err) console.log(err);
+    else {
+      res.json(rows);
+    }
+  })
+});
 
+router.get('/deadliestConflicts', function (req, res) {
+  console.log("Get the deadliest conflict of each nation, limited to top 50");
+  var query = 'SELECT c.name as countryName, t.date_start as startDate, t.date_end as endDate, max((t.deaths_a + t.deaths_b + t.deaths_civilians)) as totalDeaths ' +
+    'FROM Countries c INNER JOIN Conflicts t ON c.code = t.country_id ' +
+    'GROUP BY c.name ' +
+    'ORDER BY totalDeaths DESC ' +
+    'LIMIT 50;';
   connection.query(query, function (err, rows) {
     if (err) console.log(err);
     else {

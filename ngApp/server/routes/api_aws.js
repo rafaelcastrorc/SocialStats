@@ -170,7 +170,7 @@ router.get('/numDeathsAndIndicator/:indicatorCode/:year', function (req, res) {
 
 router.get('/deadliestConflicts', function (req, res) {
   console.log("Get the deadliest conflict of each nation, limited to top 50");
-  var query = 'SELECT c.name, t.date_start, t.date_end, max((t.deaths_a + t.deaths_b + t.deaths_civilians)) as totalDeaths ' +
+  var query = 'SELECT c.name as countryName, t.date_start as startDate, t.date_end as endDate, max((t.deaths_a + t.deaths_b + t.deaths_civilians)) as totalDeaths ' +
     'FROM Countries c INNER JOIN Conflicts t ON c.code = t.country_id ' +
     'GROUP BY c.name ' +
     'ORDER BY totalDeaths DESC ' +

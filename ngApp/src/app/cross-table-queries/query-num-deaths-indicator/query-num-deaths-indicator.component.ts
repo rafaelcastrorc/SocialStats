@@ -95,7 +95,13 @@ export class QueryNumDeathsIndicatorComponent implements OnInit {
       legend: {
         display: false
       },
-      multiTooltipTemplate: "<%=datasetLabel%> : <%=value%>",
+      tooltips: {
+        callbacks: {
+          label: function(tooltipItem, data) {
+            return data.datasets[tooltipItem.datasetIndex].label;
+          }
+        }
+      },
       responsive: true,
       maintainAspectRatio: false,
       scales: {
@@ -113,7 +119,7 @@ export class QueryNumDeathsIndicatorComponent implements OnInit {
           },
           scaleLabel: {
             display: true,
-            labelString: 'Number of conflicts'
+            labelString: 'Number of deaths'
           }
         }]
       }

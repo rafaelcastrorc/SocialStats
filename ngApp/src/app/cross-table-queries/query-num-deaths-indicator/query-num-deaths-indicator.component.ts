@@ -80,6 +80,8 @@ export class QueryNumDeathsIndicatorComponent implements OnInit {
       let color = 'rgba(' + r + ', ' + g + ', ' + b +', 0.5)';
       let countryData = {'data': [{'x': q[index].indicatorVal, 'y': q[index].numDeaths}],
         'label': q[index].country_code,
+        'borderColor' : color,
+        'backgroundColor' : color,
         'pointBackgroundColor': color,
         'pointBorderColor' : color
       };

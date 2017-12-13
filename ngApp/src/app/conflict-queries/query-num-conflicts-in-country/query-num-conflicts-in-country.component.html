@@ -1,3 +1,5 @@
+<!--<script src="/node_modules/chart.js/src/chart.js"></script>-->
+
 <div class='btn-toolbar'>
   <div class="btn-group">
     <div class="dropdown" dropdown [dropdownToggle]="true">
@@ -21,9 +23,23 @@
   <strong>You have not selected all options!</strong>
 </div>
 
+<div *ngIf="displayNoData" class="alert alert-danger alert-dismissible">
+  <a class="close" data-dismiss="alert" aria-label="close" (click)="dismissNoData()">×</a>
+  <strong>No conflict data for this country</strong>
+</div>
+
 <p class="h5">The number of conflicts per year in <code>{{selectedCountryName}}</code>:</p>
 
-
+<div *ngIf="displayChart">
+  <div style="display: block;">
+    <canvas baseChart width="600" height="350"
+            [datasets]="lineChartData"
+            [labels]="lineChartLabels"
+            [options]="lineChartOptions"
+            [chartType]="lineChartType">
+    </canvas>
+  </div>
+</div>
 <table class="table table-striped">
   <thead class="thread-light">
   <tr>

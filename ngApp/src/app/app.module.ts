@@ -42,10 +42,11 @@ import { WorldBankService } from './world-bank.service';
 import { CrossTableVisualizerComponent } from './cross-table-visualizer/cross-table-visualizer.component';
 import { CrossTableComponent } from './cross-table/cross-table.component';
 import { QueryNumConflictsIndicatorComponent } from './cross-table-queries/query-num-conflicts-indicator/query-num-conflicts-indicator.component';
+import { QueryNumDeathsIndicatorComponent } from './cross-table-queries/query-num-deaths-indicator/query-num-deaths-indicator.component';
 import { ReligionMainComponent } from './religion-queries/religion-main/religion-main.component';
 import { SidebarModule } from 'ng-sidebar';
 import { QueryReligionPercentageComponent } from './religion-queries/query-religion-percentage/query-religion-percentage.component';
-import {QueryReligionWbComponent} from './cross-table-queries/query-religion-wb/query-religion-wb.component';
+import { QueryReligionWbComponent } from './cross-table-queries/query-religion-wb/query-religion-wb.component';
 import { QueryAllDbComponent } from './cross-table-queries/query-all-db/query-all-db.component';
 
 
@@ -77,6 +78,7 @@ import { QueryAllDbComponent } from './cross-table-queries/query-all-db/query-al
     CrossTableVisualizerComponent,
     CrossTableComponent,
     QueryNumConflictsIndicatorComponent,
+    QueryNumDeathsIndicatorComponent,
     ReligionMainComponent,
     QueryReligionPercentageComponent,
     QueryReligionWbComponent,

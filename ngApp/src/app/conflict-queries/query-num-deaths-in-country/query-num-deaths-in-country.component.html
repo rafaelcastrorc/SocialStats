@@ -21,20 +21,20 @@
   <strong>You have not selected all options!</strong>
 </div>
 
+<div *ngIf="displayNoData" class="alert alert-danger alert-dismissible">
+  <a class="close" data-dismiss="alert" aria-label="close" (click)="dismissNoData()">×</a>
+  <strong>No conflict data for this country</strong>
+</div>
+
 <p class="h5">The number of deaths per year in <code>{{selectedCountryName}}</code>:</p>
 
-
-<table class="table table-striped">
-  <thead class="thread-light">
-  <tr>
-    <th scope="col">Year</th>
-    <th scope="col">Number of Deaths</th>
-  </tr>
-  </thead>
-  <tbody>
-  <tr *ngFor="let query of queryDeathsCountry">
-    <td>{{query.year}}</td>
-    <td>{{query.totalDeaths}}</td>
-  </tr>
-  </tbody>
-</table>
+<div *ngIf="displayChart">
+  <div style="display: block;">
+    <canvas baseChart width="600" height="350"
+            [datasets]="lineChartData"
+            [labels]="lineChartLabels"
+            [options]="lineChartOptions"
+            [chartType]="lineChartType">
+    </canvas>
+  </div>
+</div>

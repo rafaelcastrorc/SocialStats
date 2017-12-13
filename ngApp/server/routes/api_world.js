@@ -167,6 +167,36 @@ router.get('/top10/:indicator/:year/:mode', function (req, res) {
 
 });
 
+router.get('/percentDifference/:country/:indicator/:year1/:year2', function (req, res) {
+
+  const indicator = req.params.indicator;
+  const country = req.params.country;
+  var year1 = req.params.year1;
+  var year2 = req.params.year2;
+  year1 = 'y' + year1 ;
+  year2 = 'y' + year2;
+  console.log('year1: '+year1);
+
+  console.log('Q1: Getting percent difference '+country+' for '+year1);
+
+  var query = "select (( "+year2+"-"+year1+")/"+year1+")*100 as percent from WorldBank inner join Countries on" +
+    " country_code =" +
+    " code" +
+    " where" +
+    " indicator_code" + " = '"+ indicator + "' and name = '"+ country +"';";
+
+  console.log(query);
+  connection.query(query, function(err, rows, fields) {
+    if (err) console.log(err);
+    else {
+      console.log(rows);
+      res.json(rows);
+    }
+  });
+
+
+});
+
 
 
 

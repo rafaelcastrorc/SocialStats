@@ -7,23 +7,25 @@ import {Country} from '../country';
 @Component({
   selector: 'app-cross-table-visualizer',
   templateUrl: './cross-table-visualizer.component.html',
-  styleUrls: ['./cross-table-visualizer.component.css']
+  styleUrls: ['./cross-table-visualizer.component.css'],
 })
 export class CrossTableVisualizerComponent implements OnInit {
   @Input() query;
+  indicators: Indicator[];
   countries: Country[];
   countriesReligion: Array<Country>;
   religions: Array<Religion>;
   yearsReligion: Array<String>;
   allIndicators: Array<Indicator>;
 
-  constructor(private http: HttpClient) {
+  constructor(
+    private http: HttpClient) {
   }
 
   ngOnInit() {
-    this.http.get<Country[]>('/api_aws/getCountries')
+    this.http.get<Indicator[]>('/api_aws/getIndicators')
       .subscribe(data => {
-        this.countries = data;
+        this.indicators = data;
       });
 
     // Get indicators from world bank
@@ -46,4 +48,6 @@ export class CrossTableVisualizerComponent implements OnInit {
       this.yearsReligion = data;
     });
   }
+
+
 }

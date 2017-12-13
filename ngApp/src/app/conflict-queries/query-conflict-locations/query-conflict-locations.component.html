@@ -16,14 +16,16 @@
 
 <p class="h5">These are the locations for the most deadly conflicts in <code>{{selectedCountryName}}</code>:</p>
 
-<ngui-map zoom="3" center="{{mapCenter}}">
-  <map-circle *ngFor="let q of queryLocations" [center]="formattedCoord(q.latitude, q.longitude)"
-           [strokeColor]="'#FF0000'"
-           [strokeOpacity]="0.8"
-           [strokeWeight]="2"
-           [editable]="false"
-           [fillColor]="'#FF0000'"
-           [radius]="getRadius(q.totalDeaths)"
-           draggable="false"></map-circle>
-</ngui-map>
-
+<!--TODO: Figure out how to dynamically resize map-->
+<div>
+  <ngui-map style="height: 500px" zoom="3" center="{{mapCenter}}">
+    <map-circle *ngFor="let q of queryLocations" [center]="formattedCoord(q.latitude, q.longitude)"
+             [strokeColor]="'#FF0000'"
+             [strokeOpacity]="0.8"
+             [strokeWeight]="2"
+             [editable]="false"
+             [fillColor]="'#FF0000'"
+             [radius]="getRadius(q.totalDeaths)"
+             draggable="false"></map-circle>
+  </ngui-map>
+</div>

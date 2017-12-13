@@ -100,6 +100,13 @@ export class QueryNumConflictsIndicatorComponent implements OnInit {
         display: false
       },
       responsive: true,
+      tooltips: {
+        callbacks: {
+          label: function(tooltipItem, data) {
+            return data.datasets[tooltipItem.datasetIndex].label;
+          }
+        }
+      },
       maintainAspectRatio: false,
       scales: {
         xAxes: [{

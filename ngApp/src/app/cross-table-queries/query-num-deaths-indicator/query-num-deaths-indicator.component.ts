@@ -6,21 +6,20 @@ import {ChartsModule} from 'chart.js';
 
 interface RawDataPacket {
   country_code: string;
-  numConflicts: number;
+  numDeaths: number;
   indicatorVal: number;
 }
 
 @Component({
-  selector: 'query-num-conflicts-indicator',
-  templateUrl: './query-num-conflicts-indicator.component.html',
-  styleUrls: ['./query-num-conflicts-indicator.component.css']
+  selector: 'query-num-deaths-indicator',
+  templateUrl: './query-num-deaths-indicator.component.html',
+  styleUrls: ['./query-num-deaths-indicator.component.css']
 })
-
-export class QueryNumConflictsIndicatorComponent implements OnInit {
+export class QueryNumDeathsIndicatorComponent implements OnInit {
   @Input() indicators;
   years: number[] = [1989, 1990, 1991, 1992, 1993, 1994, 1995, 1996, 1997,
-    1998, 1999, 2000, 2001, 2002, 2003, 2004, 2005, 2006,
-    2007, 2008, 2009, 2010, 2011, 2012, 2013, 2014, 2015];
+                     1998, 1999, 2000, 2001, 2002, 2003, 2004, 2005, 2006,
+                     2007, 2008, 2009, 2010, 2011, 2012, 2013, 2014, 2015];
   // selectedCountryName = 'Select a country';
   selectedIndicatorName = 'Select an indicator';
   selectedIndicator: Indicator;
@@ -29,11 +28,12 @@ export class QueryNumConflictsIndicatorComponent implements OnInit {
   hasSelectedYear = false;
   displayAlert = false;
   queryResponse: RawDataPacket[];
-  // numConflicts = [];
+  numDeaths = [];
   scatterOptions = {};
   scatterChartData = [];
   displayChart = false;
   displayNoData = false;
+
 
   constructor(private http: HttpClient) { }
 
@@ -55,7 +55,7 @@ export class QueryNumConflictsIndicatorComponent implements OnInit {
     this.displayNoData = false;
     if (this.hasSelectedYear && this.hasSelectedIndicator) {
       this.displayChart = false;
-      this.http.get<RawDataPacket[]>('/api_aws/numConflictsAndIndicator/' +
+      this.http.get<RawDataPacket[]>('/api_aws/numDeathsAndIndicator/' +
         this.selectedIndicator.code + '/' + this.selectedYear
       ).subscribe(data => {
         this.queryResponse = data;
@@ -78,7 +78,7 @@ export class QueryNumConflictsIndicatorComponent implements OnInit {
       let g = Math.floor(Math.random() * 256);
       let b = Math.floor(Math.random() * 256);
       let color = 'rgba(' + r + ', ' + g + ', ' + b +', 0.5)';
-      let countryData = {'data': [{'x': q[index].indicatorVal, 'y': q[index].numConflicts}],
+      let countryData = {'data': [{'x': q[index].indicatorVal, 'y': q[index].numDeaths}],
         'label': q[index].country_code,
         'pointBackgroundColor': color,
         'pointBorderColor' : color
@@ -90,15 +90,12 @@ export class QueryNumConflictsIndicatorComponent implements OnInit {
       // this.numConflicts.push(data[index].numConflicts);
     }
 
-    // this.lineChartData[0].data = this.numConflicts;
-    // console.log(this.lineChartLabels, this.numConflicts);
-    console.log('ScatterChartData', this.scatterChartData);
-
     // TODO: figure out how to display country code in tooltip
     this.scatterOptions = {
       legend: {
         display: false
       },
+      multiTooltipTemplate: "<%=datasetLabel%> : <%=value%>",
       responsive: true,
       maintainAspectRatio: false,
       scales: {
@@ -119,9 +116,12 @@ export class QueryNumConflictsIndicatorComponent implements OnInit {
             labelString: 'Number of conflicts'
           }
         }]
-      },
-      multiTooltipTemplate: "<%=datasetLabel%> : <%=value%>",
+      }
     };
+
+    // this.lineChartData[0].data = this.numConflicts;
+    // console.log(this.lineChartLabels, this.numConflicts);
+    console.log('ScatterChartData', this.scatterChartData);
     this.displayChart = true;
   }
 
@@ -132,5 +132,6 @@ export class QueryNumConflictsIndicatorComponent implements OnInit {
   dismissNoData() {
     this.displayNoData = false;
   }
+
 
 }

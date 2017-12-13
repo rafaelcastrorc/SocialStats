@@ -3,4 +3,7 @@
                                   [indicators]="indicators"> </query-num-conflicts-indicator>
   <query-num-deaths-indicator *ngIf="query === 'Conflict severity compared to World Bank Indicators'"
                                  [indicators]="indicators"> </query-num-deaths-indicator>
+  <query-religion-wb *ngIf="query === 'Religion & World Bank'"
+                     [countriesReligion]="countriesReligion" [yearsReligion]="yearsReligion"
+                     [religions]="religions" [indicators] = "indicators"> </query-religion-wb>
 </div>

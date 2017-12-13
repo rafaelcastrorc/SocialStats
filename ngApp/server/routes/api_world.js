@@ -11,7 +11,7 @@ var connection = mysql.createConnection({
 });
 
 router.get('/', function (req, res) {
-  res.send('Fuck, it works');
+  res.send('It works');
 });
 
 //To get all indicators
@@ -96,6 +96,70 @@ router.get('/query3/:country/:year', function (req, res) {
     if (err) console.log(err);
     else {
       console.log(rows);
+      res.json(rows);
+    }
+  });
+
+
+});
+
+router.get('/query4/:indicator/:year', function (req, res) {
+
+  const indicator = req.params.indicator;
+  var year = req.params.year;
+  year = 'y' + year ;
+  console.log('year: '+year);
+
+  console.log('Q1: Getting top 10 data for '+indicator+' for '+year);
+
+  var query = "select name, "+year+" from WorldBank inner join Countries on country_code = code where indicator_code" +
+    " = '"+ indicator + "' order by "+year+" desc" +
+    " limit" +
+    " 10;";
+
+  console.log(query);
+  connection.query(query, function(err, rows, fields) {
+    if (err) console.log(err);
+    else {
+      console.log(rows);
+      res.json(rows);
+    }
+  });
+
+
+});
+
+router.get('/top10/:indicator/:year/:mode', function (req, res) {
+
+  const indicator = req.params.indicator;
+  var year = req.params.year;
+  var mode = req.params.mode;
+  year = 'y' + year ;
+  console.log('year: '+year);
+  var query;
+  if(mode == 'top') {
+    console.log('Q1: Getting top 10 data for ' + indicator + ' for ' + year);
+
+    query = "select name, " + year + " from WorldBank inner join Countries on country_code = code where indicator_code" +
+      " = '" + indicator + "' and name <> 'World' and name <> 'IDA & IBRD total' and name <> 'Low & middle income'" +
+      " and" +
+      " name <> 'Middle income' and name <> 'IBRD only' and name <> 'Early-demographic dividend' and name <> 'Lower" +
+      " middle income' and name <> 'Upper middle income' " +
+      "and name <> 'East Asia & Pacific' and name <> 'Late-demographic dividend' order by " + year + " desc" +
+      " limit 10;";
+  }
+  if(mode == 'bottom') {
+    console.log('Q1: Getting top 10 data for ' + indicator + ' for ' + year);
+
+    query = "select name, " + year + " from WorldBank inner join Countries on country_code = code where indicator_code" +
+      " = '" + indicator + "' order by " + year +
+      " limit" +
+      " 10;";
+  }
+  console.log(query);
+  connection.query(query, function(err, rows, fields) {
+    if (err) console.log(err);
+    else {
       res.json(rows);
     }
   });

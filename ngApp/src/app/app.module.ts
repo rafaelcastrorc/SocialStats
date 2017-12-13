@@ -43,6 +43,13 @@ import { CrossTableVisualizerComponent } from './cross-table-visualizer/cross-ta
 import { CrossTableComponent } from './cross-table/cross-table.component';
 import { QueryNumConflictsIndicatorComponent } from './cross-table-queries/query-num-conflicts-indicator/query-num-conflicts-indicator.component';
 import { QueryNumDeathsIndicatorComponent } from './cross-table-queries/query-num-deaths-indicator/query-num-deaths-indicator.component';
+import { ReligionMainComponent } from './religion-queries/religion-main/religion-main.component';
+import { SidebarModule } from 'ng-sidebar';
+import { QueryReligionPercentageComponent } from './religion-queries/query-religion-percentage/query-religion-percentage.component';
+import { QueryReligionWbComponent } from './cross-table-queries/query-religion-wb/query-religion-wb.component';
+import { QueryAllDbComponent } from './cross-table-queries/query-all-db/query-all-db.component';
+
+
 
 
 @NgModule({
@@ -71,7 +78,11 @@ import { QueryNumDeathsIndicatorComponent } from './cross-table-queries/query-nu
     CrossTableVisualizerComponent,
     CrossTableComponent,
     QueryNumConflictsIndicatorComponent,
-    QueryNumDeathsIndicatorComponent
+    QueryNumDeathsIndicatorComponent,
+    ReligionMainComponent,
+    QueryReligionPercentageComponent,
+    QueryReligionWbComponent,
+    QueryAllDbComponent
   ],
   imports: [
     BrowserModule,
@@ -84,7 +95,8 @@ import { QueryNumDeathsIndicatorComponent } from './cross-table-queries/query-nu
     NguiMapModule.forRoot({
       apiUrl: 'https://maps.google.com/maps/api/js?key=AIzaSyDp4ZKA8Aeq8z9AYTvblrlywNYsJOjS9BI'
     }),
-    ChartsModule
+    ChartsModule,
+    SidebarModule.forRoot(),
   ],
   providers: [WorldBankService],
   bootstrap: [AppComponent]

@@ -5,6 +5,7 @@ import {BaseChartDirective, ChartsModule} from 'ng2-charts';
 interface Indicator {
   code: string;
   name: string;
+  description: string;
 }
 
 interface Country {
@@ -29,36 +30,48 @@ export class WorldBankVisualizerComponent implements OnInit {
   allIndicators: Indicator[];
   allCountries: Country[];
   allYears: number[] = [1970, 1971, 1972, 1973, 1974, 1975, 2000, 2001, 2002, 2003, 2004];
-  country_1: Country;
-  indicator_1: Indicator;
-  query1: Query1[];
-  temp1: number;
-  graphdata1: number[] = [1, 2, null, null, 1, 2];
-  labels1: string[] = ['y2000', 'y2001', 'y2002', 'y2003', 'y2d004', 'y2d005', 'y2006', 'y2007', 'y2008', 'y2009', 'y2010'];
-  barChartData1: any[] = [{data: this.graphdata1, label: 'Series A'}];
+  // country_1: Country;
+  // indicator_1: Indicator;
+  // query1: Query1[];
+  // temp1: number;
+  graphdata1: number[] = [1, 2, 1, 1, 1, 2];
+  // labels1: string[] = ['y2000', 'y2001', 'y2002', 'y2003', 'y2d004', 'y2d005', 'y2006', 'y2007', 'y2008', 'y2009', 'y2010'];
+  // barChartData1: any[] = [{data: this.graphdata1, label: 'Series A'}];
   barChartType = 'line';
   barChartOptions: any = {
     scaleShowVerticalLines: false,
     responsive: true
   };
-  country1_2: Country;
-  country2_2: Country;
-  indicator_2: Indicator;
-  graphdata1_2: number[] = [1, 2, null, null, 1, 2];
-  graphdata2_2: number[] = [1, 2, null, null, 1, 2];
-  labels_2: string[] = ['y2000', 'y2001', 'y2002', 'y2003', 'y20d04', 'y20d05', 'y2006', 'y2007', 'y2008', 'y2009', 'y2010'];
+  country1_2: Country = {name: 'India', code: 'IND'};
+  country2_2: Country = {name: 'India', code: 'IND'};
+  indicator_2: Indicator = {name: 'Population', code: 'SP.POP.TOTL', description:'Total Population'};
+  graphdata1_2: number[] = [];
+  graphdata2_2: number[] = [];
+  labels_2: string[] = [];
+  // labels_2: string[] = [];
   lineChartData_2: any[] = [{data: this.graphdata1_2, label: 'Series A'},
                           {data: this.graphdata2_2, label: 'Series B'}];
-  country1_3: Country;
-  country2_3: Country;
+  country1_3: Country = {name: 'India', code: 'IND'};
+  country2_3: Country = {name: 'India', code: 'IND'};
   graphdata1_3: number[] = [1, 2, null, null, 1, 2];
   graphdata2_3: number[] = [1, 2, null, null, 1, 2];
-  year_3: number;
+  year_3 = 2004;
   labels_3: string[] = ['y2000', 'y2001', 'y2002', 'y2003', 'y20d04', 'y20d05', 'y2006', 'y2007', 'y2008', 'y2009', 'y2010'];
   lineChartData_3: any[] = [{data: this.graphdata1_2, label: 'Series A'},
     {data: this.graphdata2_2, label: 'Series B'}];
   chartType_3 = 'radar';
   divide: number[] = [];
+  indicator_4: Indicator;
+  year_4: number;
+  graphdata_4: number[] = [];
+  labels_4: string[] = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10'];
+  lineChartData_4: any[] = [{data: this.graphdata_4, label: 'Series A'}];
+  barChartType_4 = 'bar';
+  barChartOptions_4: any = {
+    scaleShowVerticalLines: false,
+    responsive: true
+  };
+  private labels_5: string[];
 
   constructor(private http: HttpClient) {
   }
@@ -72,36 +85,43 @@ export class WorldBankVisualizerComponent implements OnInit {
     ).subscribe(data => {
       this.allIndicators = data;
     });
+    this.indicator_2 = this.allIndicators[0];
+    this.country1_2 = this.allCountries[0];
+    this.country2_2 = this.allCountries[0];
+    this.country1_3 = this.allCountries[0];
+    this.country2_3 = this.allCountries[0];
+    this.year_3 = 2001;
+    this.year_4 = 2001;
   }
 
-  onSubmitAllIndicators() {
-    this.http.get<Indicator[]>('/api_world/allIndicators'
-    ).subscribe(data => {
-      this.allIndicators = data;
-    });
-  }
+  // onSubmitAllIndicators() {
+  //   this.http.get<Indicator[]>('/api_world/allIndicators'
+  //   ).subscribe(data => {
+  //     this.allIndicators = data;
+  //   });
+  // }
 
-  onSelectCountry_1(country: Country) {
-    if (country.code != null) {
-      this.country_1 = country;
-    }
-  }
+  // onSelectCountry_1(country: Country) {
+  //   if (country.code != null) {
+  //     this.country_1 = country;
+  //   }
+  // }
 
-  onSelectIndicator_1(indicator: Indicator) {
-    if (indicator.code != null) {
-      this.indicator_1 = indicator;
-    }
-  }
+  // onSelectIndicator_1(indicator: Indicator) {
+  //   if (indicator.code != null) {
+  //     this.indicator_1 = indicator;
+  //   }
+  // }
 
-  onSubmit_1() {
-    // this.graphdata1 = [1, 1, 1, 1, 1, 1];
-    this.http.get<Query1[]>('/api_world/query1' + '/' + this.country_1.code + '/' + this.indicator_1.code
-    ).subscribe(data => {
-      this.graphdata1 = Object.values(data[0]);
-      this.labels1 = Object.keys(data[0]);
-      this.barChartData1 = [{data: this.graphdata1, label: this.country_1.name}];
-    });
-  }
+  // onSubmit_1() {
+  //   // this.graphdata1 = [1, 1, 1, 1, 1, 1];
+  //   this.http.get<Query1[]>('/api_world/query1' + '/' + this.country_1.code + '/' + this.indicator_1.code
+  //   ).subscribe(data => {
+  //     this.graphdata1 = Object.values(data[0]);
+  //     this.labels1 = Object.keys(data[0]);
+  //     this.barChartData1 = [{data: this.graphdata1, label: this.country_1.name}];
+  //   });
+  // }
 
   onSubmit_2() {
     this.http.get<Query1[]>('/api_world/query1' + '/' + this.country1_2.code + '/' + this.indicator_2.code
@@ -196,4 +216,43 @@ export class WorldBankVisualizerComponent implements OnInit {
     this.lineChartData_3 = [{data: this.graphdata1_3, label: this.country1_3.name},
       {data: this.graphdata2_3, label: this.country2_3.name}];
 }
+
+  onSelectIndicator_4(indicator: Indicator) {
+    if (indicator.code != null) {
+      this.indicator_4 = indicator;
+    }
+  }
+
+  onSelectYear_4(year) {
+    if (year != null) {
+      this.year_4 = year;
+    }
+  }
+
+  onSubmit_4() {
+    this.http.get<any[]>('/api_world/query4' + '/' + this.indicator_4.code + '/' + this.year_4
+    ).subscribe(data => {
+      let index;
+      this.graphdata_4 = [];
+      this.labels_4 = [];
+      for (index = 0; index < data.length; index++) {
+        this.labels_4.push((Object.values(data[index]))[0]);
+        this.graphdata_4.push((Object.values(data[index]))[1] );
+      }
+      this.lineChartData_4 = [{data: this.graphdata_4, label: this.indicator_4.name}];
+    });
+  }
+
+  getTopTen(indicator: string, year: number, mode: string) {
+    this.http.get<any[]>('/api_world/top' + '/' + indicator  + '/' + year + '/' + mode
+    ).subscribe(data => {
+      let index;
+      let names = [];
+      let values = [];
+      for (index = 0; index < data.length; index++) {
+        names.push((Object.values(data[index]))[0]);
+        values.push((Object.values(data[index]))[1] );
+      }
+    });
+  }
 }

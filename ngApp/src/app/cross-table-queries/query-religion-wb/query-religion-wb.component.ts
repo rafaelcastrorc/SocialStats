@@ -25,6 +25,8 @@ export class QueryReligionWbComponent implements OnInit {
 
 
   selectedIndicator = 'Select an Indicator';
+  selectedIndicatorCode = '';
+
   selectedMode = 'Select a Mode';
   selectedYear = 'Select a Year';
   displayAlert = false;
@@ -60,9 +62,10 @@ export class QueryReligionWbComponent implements OnInit {
   }
 
 
-  onSelectIndicator(indicator: string) {
-    this.selectedIndicator = indicator;
+  onSelectIndicator(indicator: Indicator) {
+    this.selectedIndicator = indicator.name;
     this.hasSelectedIndicator = true;
+    this.selectedIndicatorCode = indicator.code;
   }
 
   onSelectMode(mode: string) {
@@ -70,12 +73,13 @@ export class QueryReligionWbComponent implements OnInit {
     this.hasSelectedMode = true;
   }
 
-  onSubmit() {
+  onSubmit1() {
     if (this.hasSelectedYear && this.hasSelectedIndicator && this.hasSelectedMode) {
       this.graphChanged = false;
       this.barChartData = [];
+      this.barChartLabels = [];
       // Get data from world bank
-      this.http.get<any[]>('/api_world/top' + '/' + this.selectedIndicator + '/' + Number(this.selectedYear) + '/' + this.selectedMode
+      this.http.get<any[]>('/api_world/top10/' + this.selectedIndicatorCode + '/' + Number(this.selectedYear) + '/' + this.selectedMode
       ).subscribe(data => {
         let index;
         console.log(data);
@@ -90,9 +94,16 @@ export class QueryReligionWbComponent implements OnInit {
             'All Religions' + '/' + this.selectedYear)
             .subscribe(data2 => {
               this.barChartData.push({data: data2, label: this.namesTopTen[i]});
+              this.barChartLabels.push(this.namesTopTen[i]);
             });
 
         }
+        this.http.get<number[]>('/api_religion/queries/numbers2' + '/' + 'All Countries' + '/' +
+          'All Religions' + '/' + this.selectedYear)
+          .subscribe(data3 => {
+            this.barChartData.push({data: data3, label: 'All Countries'});
+            this.barChartLabels.push('All Countries');
+          });
       });
       this.graphChanged = true;
 

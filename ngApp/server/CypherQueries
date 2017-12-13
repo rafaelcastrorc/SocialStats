@@ -207,4 +207,21 @@ RETURN c, SIZE((c)<-[:HAS_RELIGION{year:2010}]-(:Country)) as rating_count
 //Get all the countries with orthodox in 2010
 MATCH p=(c:Country)-[r:HAS_RELIGION{year:2010}]->(l:Religion{religionCode: "judorth"}) RETURN p ORDER BY r.number_of_members DESC;
 
+
+//Get percentage of religious people per year
+MATCH()-[y:HAS_RELIGION]->()
+WITH y
+WITH COLLECT (DISTINCT y.year) AS years
+UNWIND years as curr
+//Get total population for every year
+MATCH (allRels:Religion)<-[all:HAS_RELIGION{year:curr}]-(:Country{})
+  WHERE NOT (:Religion)-[:PART_OF]->(allRels)
+WITH SUM(all.number_of_members) AS TotalPop, curr
+//Get percentage of religion per year
+MATCH (:Country{})-[r:HAS_RELIGION{year:curr}]->(rel:Religion{})
+  WHERE NOT ((:Religion)-[:PART_OF]->(rel) OR rel.name = "Non. Religious")
+RETURN DISTINCT curr AS Year,
+                100.0 * SUM(r.number_of_members) / TotalPop AS Percent
+  ORDER BY Year DESC;
+
 ////////////////

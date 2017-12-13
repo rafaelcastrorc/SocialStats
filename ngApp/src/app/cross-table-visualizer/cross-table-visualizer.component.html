@@ -2,7 +2,6 @@
   <query-num-conflicts-indicator *ngIf="query === 'Number of conflicts in a country per year'"
                                   [countries]="countries"> </query-num-conflicts-indicator>
 
-  <query-religion-wb *ngIf="query === 'Religion & World Bank'"
-                                 [countriesReligion]="countriesReligion" [yearsReligion]="yearsReligion"
-                     [religions]="religions" [indicators] = "indicators"> </query-religion-wb>
+  <query-religion-wb *ngIf="query === 'Religion and World Bank'" [countriesReligion]="countriesReligion"
+                     [religions]="religions" [indicators] = "allIndicators"> </query-religion-wb>
 </div>

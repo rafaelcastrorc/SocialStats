@@ -25,7 +25,7 @@ export class QueryReligionPercentageComponent implements OnInit {
   thereAreRecords = false;
   selectedCountryName = 'Select a Country';
   selectedYear = 'Select a Year';
-  groupReligions = false;
+  groupReligions = 'no';
   displayAlert = false;
   hasSelectedCountry = false;
   hasSelectedYear = false;
@@ -55,8 +55,12 @@ export class QueryReligionPercentageComponent implements OnInit {
     this.hasSelectedYear = true;
   }
 
-  onSelectGroup(group: boolean) {
-    this.groupReligions = group;
+  onSelectGroup() {
+    if (this.groupReligions === 'yes') {
+      this.groupReligions = 'no';
+    } else {
+      this.groupReligions = 'yes';
+    }
   }
 
   onSubmit() {

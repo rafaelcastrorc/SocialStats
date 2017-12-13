@@ -132,12 +132,12 @@ router.get('/query4/:indicator/:year', function (req, res) {
 router.get('/top10/:indicator/:year/:mode', function (req, res) {
 
   const indicator = req.params.indicator;
-  var year = req.params.year;
-  var mode = req.params.mode;
+  let year = req.params.year;
+  const mode = req.params.mode;
   year = 'y' + year ;
   console.log('year: '+year);
   var query;
-  if(mode == 'top') {
+  if(mode === 'top') {
     console.log('Q1: Getting top 10 data for ' + indicator + ' for ' + year);
 
     query = "select name, " + year + " from WorldBank inner join Countries on country_code = code where indicator_code" +
@@ -148,7 +148,7 @@ router.get('/top10/:indicator/:year/:mode', function (req, res) {
       "and name <> 'East Asia & Pacific' and name <> 'Late-demographic dividend' order by " + year + " desc" +
       " limit 10;";
   }
-  if(mode == 'bottom') {
+  if(mode === 'bottom') {
     console.log('Q1: Getting top 10 data for ' + indicator + ' for ' + year);
 
     query = "select name, " + year + " from WorldBank inner join Countries on country_code = code where indicator_code" +

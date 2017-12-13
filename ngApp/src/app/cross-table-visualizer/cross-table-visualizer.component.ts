@@ -1,11 +1,8 @@
 import {Component, OnInit, Input} from '@angular/core';
-import {Country} from '../countryAWS';
 import {HttpClient} from '@angular/common/http';
-import {CountryService} from '../country.service';
-import {ReligionService} from '../religion.service';
-import {YearService} from '../year.service';
 import {Religion} from '../religion';
 import {Indicator} from '../Indicator';
+import {Country} from '../country';
 
 @Component({
   selector: 'app-cross-table-visualizer',
@@ -20,8 +17,7 @@ export class CrossTableVisualizerComponent implements OnInit {
   yearsReligion: Array<String>;
   allIndicators: Array<Indicator>;
 
-  constructor(private _countryService: CountryService, private _religionService: ReligionService, private _yearService: YearService,
-              private http: HttpClient) {
+  constructor(private http: HttpClient) {
   }
 
   ngOnInit() {
@@ -29,19 +25,25 @@ export class CrossTableVisualizerComponent implements OnInit {
       .subscribe(data => {
         this.countries = data;
       });
+
     // Get indicators from world bank
     this.http.get<Indicator[]>('/api_world/allIndicators'
     ).subscribe(data => {
       this.allIndicators = data;
     });
+
     // Get data from religion server
-    this._countryService.getCountries()
-      .subscribe(resCountryData => this.countries = resCountryData);
-    this._religionService.getReligions()
-      .subscribe(resReligionData => this.religions = resReligionData);
-    this._yearService.getYears()
-      .subscribe(resYearData => this.yearsReligion = resYearData);
+    this.http.get<Country[]>('/api_religion/countries'
+    ).subscribe(data => {
+      this.countriesReligion = data;
+    });
+    this.http.get<Religion[]>('/api_religion/religions'
+    ).subscribe(data => {
+      this.religions = data;
+    });
+    this.http.get<String[]>('/api_religion/years'
+    ).subscribe(data => {
+      this.yearsReligion = data;
+    });
   }
-
-
 }

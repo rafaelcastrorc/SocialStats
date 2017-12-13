@@ -17,10 +17,17 @@ export class QueryChangeOfReligionOverTimeComponent implements OnInit {
   hasSelectedReligion1 = false;
   hasSelectedReligion2 = false;
   hasSelectedReligion3 = false;
+  // The user clicked the checkbox
+  hasShownPercentageChange = true;
+  // Deals with displaying the graph
+  graphHasChanged = false;
+  showPercentage = 'no';
+
   // Keeps track if the user is searching for a different religion
   religion1Changed = false;
   religion2Changed = false;
   religion3Changed = false;
+
 
   displayAlert = false;
   queryResults = [];
@@ -32,22 +39,7 @@ export class QueryChangeOfReligionOverTimeComponent implements OnInit {
   selectedReligionName2 = 'Select another Religion';
   selectedReligionName3 = 'Select another Religion';
 
-  lineChartOptions: any = {
-    responsive: true,
-    maintainAspectRatio: false,
-    scales: {
-      yAxes: [{
-        ticks: {
-          beginAtZero: true
-        },
-        scaleLabel: {
-          display: true,
-          labelString: 'Number of people'
-        }
-      }]
-    }
-  };
-
+  lineChartOptions;
   lineChartLabels = [];
   lineChartData = [];
   lineChartLegend = true;
@@ -67,11 +59,55 @@ export class QueryChangeOfReligionOverTimeComponent implements OnInit {
   }
 
   onSubmit() {
+    let url = '';
+    // Check if user wants to see percentage
+    if (this.showPercentage === 'no') {
+      url = '/api_religion/queries/numbers';
+    } else {
+      url = '/api_religion/queries/numbers2';
+    }
     if (this.hasSelectedCountry && (this.hasSelectedReligion1 || this.hasSelectedReligion2 || this.hasSelectedReligion3 )) {
+      // Check if we are displaying percentages to reload table
+      if (this.hasShownPercentageChange) {
+        if (this.showPercentage === 'no') {
+          this.lineChartOptions = {
+            responsive: true,
+            maintainAspectRatio: false,
+            scales: {
+              yAxes: [{
+                ticks: {
+                  beginAtZero: true
+                },
+                scaleLabel: {
+                  display: true,
+                  labelString: 'Number of people',
+                }
+              }]
+            }
+          };
+        } else {
+          this.lineChartOptions = {
+            responsive: true,
+            maintainAspectRatio: false,
+            scales: {
+              yAxes: [{
+                ticks: {
+                  beginAtZero: true,
+                },
+                scaleLabel: {
+                  display: true,
+                  labelString: 'Percentage of people (out of 100)',
+                }
+              }]
+            }
+          };
+        }
+        this.graphHasChanged = false;
+      }
       // Fill in the data for the religion chosen
-      if (this.hasSelectedReligion1 && this.religion1Changed) {
-        this.http.get<number[]>('/api_religion/queries/numbers' + '/' + this.selectedCountryName + '/' +
-          this.selectedReligionName
+      if ((this.hasSelectedReligion1 && this.religion1Changed) || this.hasShownPercentageChange) {
+        this.http.get<number[]>(url + '/' + this.selectedCountryName + '/' +
+          this.selectedReligionName + '/all'
         ).subscribe(data => {
           this.queryResults = data;
           this.lineChartData = [
@@ -82,10 +118,10 @@ export class QueryChangeOfReligionOverTimeComponent implements OnInit {
         });
         this.religion1Changed = false;
       }
-      if (this.hasSelectedReligion2 && this.religion2Changed) {
+      if ((this.hasSelectedReligion2 && this.religion2Changed) || this.hasShownPercentageChange) {
         // Check if there is another chosen religion
-        this.http.get<number[]>('/api_religion/queries/numbers' + '/' + this.selectedCountryName + '/' +
-          this.selectedReligionName2
+        this.http.get<number[]>(url + '/' + this.selectedCountryName + '/' +
+          this.selectedReligionName2 + '/all'
         ).subscribe(data => {
           this.queryResults2 = data;
           this.lineChartData = [
@@ -97,10 +133,10 @@ export class QueryChangeOfReligionOverTimeComponent implements OnInit {
         this.religion2Changed = false;
 
       }
-      if (this.hasSelectedReligion3 && this.religion3Changed) {
+      if ((this.hasSelectedReligion3 && this.religion3Changed) || this.hasShownPercentageChange) {
         // Check if there is another chosen religion
-        this.http.get<number[]>('/api_religion/queries/numbers' + '/' + this.selectedCountryName + '/' +
-          this.selectedReligionName3
+        this.http.get<number[]>(url + '/' + this.selectedCountryName + '/' +
+          this.selectedReligionName3 + '/all'
         ).subscribe(data => {
           this.queryResults3 = data;
           this.lineChartData = [
@@ -112,6 +148,10 @@ export class QueryChangeOfReligionOverTimeComponent implements OnInit {
         this.religion3Changed = false;
 
       }
+      this.hasShownPercentageChange = false;
+      // Keep canvas drawn
+      this.graphHasChanged = true;
+
     } else {
       this.displayAlert = true;
     }
@@ -169,6 +209,18 @@ export class QueryChangeOfReligionOverTimeComponent implements OnInit {
     this.hasSelectedReligion3 = true;
     this.religion3Changed = true;
   }
+
+  // Handles click event to display percentages instead of number of people
+  onSelectPercentage() {
+    if (this.showPercentage === 'yes') {
+      this.showPercentage = 'no';
+    } else {
+      this.showPercentage = 'yes';
+    }
+    this.hasShownPercentageChange = true;
+    this.graphHasChanged = true;
+  }
+
   // Handles click event on chart
   public chartClicked(e: any): void {
     if (e.active.length > 0) {

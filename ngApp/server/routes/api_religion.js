@@ -288,6 +288,7 @@ router.get('/queries/mostpopular/:year/:top/:ignore', function (req, res) {
 // WHERE NOT (:Religion)-[:PART_OF]->(rel)
 // RETURN DISTINCT (rel.name) AS Religion,
 // 100.0 * SUM(r.number_of_members) / TotalPop AS Percent
+// ORDER BY Percent DESC
 router.get('/queries/percentage/:country/:year/:group', function (req, res) {
   const country = req.params.country;
   const year = parseInt(req.params.year);
@@ -301,26 +302,25 @@ router.get('/queries/percentage/:country/:year/:group', function (req, res) {
   else {
     countryParam = '';
   }
-  let groupPartOf = '';
   //If user wants to group the religions that are part of other religions
-  if (group) {
+  let groupPartOf = "WHERE NOT (:Religion)<-[:PART_OF]-(rel)";
+  if (group === 'no') {
+    console.log(group)
     groupPartOf = "WHERE NOT (:Religion)-[:PART_OF]->(rel)";
   }
-  else {
-    groupPartOf = "WHERE NOT (:Religion)<-[:PART_OF]-(rel)";
-  }
-  // Check if user wants to retrieve all the countries
-    yearParam = '{year:' + year + '}';
 
+  // Check if user wants to retrieve all the countries
+  yearParam = '{year:' + year + '}';
 
   session
-    .run('MATCH (allRels:Religion)<-[all:HAS_RELIGION '+ yearParam +']-(:Country'+ countryParam +') ' +
+    .run('MATCH (allRels:Religion)<-[all:HAS_RELIGION ' + yearParam + ']-(:Country' + countryParam + ') ' +
       'WHERE NOT (:Religion)-[:PART_OF]->(allRels) ' +
       'WITH SUM(all.number_of_members) AS TotalPop ' +
-      'MATCH (:Country'+ countryParam +')-[r:HAS_RELIGION' + yearParam + ']->(rel:Religion) ' +
-       groupPartOf + ' ' +
+      'MATCH (:Country' + countryParam + ')-[r:HAS_RELIGION' + yearParam + ']->(rel:Religion) ' +
+      groupPartOf + ' ' +
       'RETURN DISTINCT (rel.name) AS Religion, ' +
-      '100.0 * SUM(r.number_of_members) / TotalPop AS Percent ORDER BY Percent DESC')
+      '100.0 * SUM(r.number_of_members) / TotalPop AS Percent ' +
+      'ORDER BY Percent DESC')
     .then(function (result) {
 
       let queryAns = [];
@@ -343,7 +343,7 @@ router.get('/queries/percentage/:country/:year/:group', function (req, res) {
 
 
 //Query: Get the change in number of people who follow  a religion(query 5)
-router.get('/queries/numbers/:country/:religion', function (req, res) {
+router.get('/queries/numbers/:country/:religion/:year', function (req, res) {
   const country = req.params.country;
   const religion = req.params.religion;
   let countryParam, religionParam, partOf;
@@ -366,9 +366,10 @@ router.get('/queries/numbers/:country/:religion', function (req, res) {
   }
   session
   //MATCH (rel:Religion) WHERE NOT (:Religion)-[:PART_OF]->(rel)  WITH rel MATCH (c:Country {name:'Albania'}), (c)-[r:HAS_RELIGION]->(rel)  RETURN DISTINCT (r.year) AS Year, SUM(r.number_of_members) AS Number ORDER BY r.year
-    .run('MATCH (rel:Religion '+ religionParam +') ' + partOf +
+  //By percent:
+    .run('MATCH (rel:Religion ' + religionParam + ') ' + partOf +
       'WITH rel ' +
-      'MATCH (c:Country '+ countryParam+'), (c)-[r:HAS_RELIGION]->(rel) ' +
+      'MATCH (c:Country ' + countryParam + '), (c)-[r:HAS_RELIGION]->(rel) ' +
       'RETURN DISTINCT (r.year) AS Year, SUM(r.number_of_members) AS Number ORDER BY r.year')
     .then(function (result) {
       let queryAns = [];
@@ -389,6 +390,79 @@ router.get('/queries/numbers/:country/:religion', function (req, res) {
 });
 
 
+//Query: Get the change in PERCENTAGE of people who follow  a religion(query 5)
+//MATCH()-[y:HAS_RELIGION]->()
+// WITH y
+// WITH COLLECT (DISTINCT y.year) AS years
+// UNWIND years as curr
+// //Get total population for every year
+// MATCH (allRels:Religion)<-[all:HAS_RELIGION{year:curr}]-(:Country{})
+// WHERE NOT (:Religion)-[:PART_OF]->(allRels)
+// WITH SUM(all.number_of_members) AS TotalPop, curr
+// //Get percentage of religion per year
+// MATCH (:Country{})-[r:HAS_RELIGION{year:curr}]->(rel:Religion{})
+// WHERE NOT ((:Religion)-[:PART_OF]->(rel) OR rel.name = "Non. Religious")
+// RETURN DISTINCT curr AS Year,
+// 100.0 * SUM(r.number_of_members) / TotalPop AS Percent
+// ORDER BY Year DESC;
+router.get('/queries/numbers2/:country/:religion/:year', function (req, res) {
+  const country = req.params.country;
+  const religion = req.params.religion;
+  const year = parseInt(req.params.year);
+  let countryParam, religionParam, partOf, yearParam;
+  // Check if user wants to retrieve all the countries
+  if (country !== 'All Countries') {
+    countryParam = '{name:\'' + country + '\'}'
+  }
+  else {
+    countryParam = '';
+  }
+  // Check if user wants to retrieve all the religions
+  if (religion !== 'All Religions') {
+    religionParam = '{name:\'' + religion + '\'}'
+    partOf = '';
+  }
+  else {
+    religionParam = '';
+    partOf = "WHERE NOT ((:Religion)-[:PART_OF]->(rel) OR rel.name = \"Non. Religious\") ";
+  }
+  if (!Number.isNaN(year)) {
+    yearParam = '{year:' + year + '}'
+  }
+  else {
+    yearParam = '';
+  }
+  console.log(yearParam);
+  session
+    .run('MATCH()-[y:HAS_RELIGION' + yearParam+ ']->() ' +
+      'WITH y ' +
+      'WITH COLLECT (DISTINCT y.year) AS years ' +
+      'UNWIND years as curr ' +
+      'MATCH (allRels:Religion)<-[all:HAS_RELIGION{year:curr}]-(:Country' + countryParam + ') ' +
+      'WHERE NOT (:Religion)-[:PART_OF]->(allRels) ' +
+      'WITH SUM(all.number_of_members) AS TotalPop, curr ' +
+      'MATCH (c:Country ' + countryParam + ')-[r:HAS_RELIGION{year:curr}]->(rel:Religion' + religionParam + ') ' +
+      partOf + ' ' +
+      'RETURN DISTINCT curr AS Year,\n' +
+      '100.0 * SUM(r.number_of_members) / TotalPop AS Number ' +
+      'ORDER BY Year')
+    .then(function (result) {
+      let queryAns = [];
+      result.records.forEach(function (record) {
+        transform(record);
+        let query = new YearValue(parseInt(record._fields[0]), parseInt(record._fields[1]));
+        queryAns.push(query);
+      });
+
+      let valuesPerYear = mapYearToNumber(queryAns);
+      res.json(valuesPerYear);
+    })
+
+    .catch(function (err) {
+      console.log(err);
+    });
+
+});
 
 //Returns the PART_OF relationship between religions (religions that are part of another religion)
 router.get('/partof', function (req, res) {

@@ -47,6 +47,13 @@
   </div>
 </div>
 
+<div class="form-check">
+  <label class="form-check-label">
+    <input (click)="onSelectPercentage()" type="checkbox" class="form-check-input">
+    Show percentages
+  </label>
+</div>
+
 <p>
 
 
@@ -61,7 +68,7 @@
   {{selectedReligionName3}}</code> in <code> {{ selectedCountryName }}</code> over time:</p>
 
 
-<div>
+<div *ngIf="graphHasChanged">
   <div style="display: block;">
     <canvas baseChart width="600" height="350"
             [datasets]="lineChartData"
@@ -77,7 +84,24 @@
 </div>
 
 
-<div class = "table-responsive" style="margin-top: 30px">
+<div *ngIf="showPercentage === 'yes'" class = "table-responsive" style="margin-top: 30px">
+  <table class="table table-striped">
+    <thead class="thread-light">
+    <tr>
+      <th>Religion</th>
+      <th *ngFor="let label of lineChartLabels">{{ label }}</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr *ngFor="let d of lineChartData">
+      <td> {{d.label}}</td>
+      <td *ngFor="let label of lineChartLabels; let j=index">{{ d && d.data[j]+'%' }}</td>
+    </tr>
+    </tbody>
+  </table>
+</div>
+
+<div *ngIf="showPercentage === 'no'" class = "table-responsive" style="margin-top: 30px">
   <table class="table table-striped">
     <thead class="thread-light">
     <tr>

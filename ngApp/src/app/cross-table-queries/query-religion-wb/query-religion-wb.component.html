@@ -1,3 +1,63 @@
+<div class='btn-toolbar'>
+  <div class="btn-group">
+    <div class="dropdown" dropdown [dropdownToggle]="true">
+      <button class="btn btn-primary" dropdown-open> {{ selectedIndicator }} <span class="caret"></span></button>
+      <ul class="dropdown-menu">
+        <li (click)="onSelectIndicator(indicator.name)"
+            *ngFor="let indicator of indicators"><a>{{ indicator.name }}</a></li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="btn-group">
+    <div class="dropdown" dropdown [dropdownToggle]="true">
+      <button class="btn btn-primary" dropdown-open> {{ selectedMode}}<span class="caret"></span></button>
+      <ul class="dropdown-menu">
+        <li (click)="onSelectMode('top')"><a>top</a></li>
+        <li (click)="onSelectMode('bottom')"><a>bottom</a></li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="btn-group">
+    <div class="dropdown" dropdown [dropdownToggle]="true">
+      <button class="btn btn-primary" dropdown-open> {{ selectedYear }}<span class="caret"></span></button>
+      <ul class="dropdown-menu">
+        <li (click)="onSelectYear(year)" *ngFor="let year of yearsReligion"><a>{{ year }}</a></li>
+      </ul>
+    </div>
+  </div>
+
+
+  <div class="btn-group">
+    <div>
+      <button (click)="onSubmit()" type="submit" class="btn btn-success">Submit</button>
+    </div>
+  </div>
+</div>
+
 <p>
-  query-religion-wb works!
+
+
 </p>
+
+<div *ngIf="displayAlert" class="alert alert-danger alert-dismissable">
+  <a class="close" data-dismiss="alert" aria-label="close" (click)="dismissAlert()">×</a>
+  <strong>You have not selected all options!</strong>
+</div>
+
+<p class="h5">The relation  in <code>{{selectedIndicator}}</code> and religiosity for the <code>{{selectedMode}} </code>
+  countries in the year <code>{{ selectedYear }}</code>: </p>
+
+<div *ngIf="graphChanged">
+  <div style="display: block">
+    <canvas baseChart
+            [datasets]="barChartData"
+            [labels]="barChartLabels"
+            [options]="barChartOptions"
+            [legend]="barChartLegend"
+            [chartType]="barChartType"
+            (chartHover)="chartHovered($event)"
+            (chartClick)="chartClicked($event)"></canvas>
+  </div>
+</div>

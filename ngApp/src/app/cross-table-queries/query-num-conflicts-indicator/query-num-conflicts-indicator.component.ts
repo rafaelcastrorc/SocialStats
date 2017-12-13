@@ -97,7 +97,11 @@ export class QueryNumConflictsIndicatorComponent implements OnInit {
     // TODO: figure out how to display country code in tooltip
     this.scatterOptions = {
       legend: {
-        display: false
+        display: true,
+        position: 'bottom',
+        labels: {
+          boxWidth: 20
+        }
       },
       responsive: true,
       tooltips: {
@@ -110,6 +114,9 @@ export class QueryNumConflictsIndicatorComponent implements OnInit {
       maintainAspectRatio: false,
       scales: {
         xAxes: [{
+          ticks: {
+            beginAtZero: true
+          },
           type: 'linear',
           position: 'bottom',
           scaleLabel: {

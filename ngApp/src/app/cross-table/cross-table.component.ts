@@ -10,7 +10,6 @@ export class CrossTableComponent implements OnInit {
     'Number of Conflicts compared to World Bank Indicators',
     'Religion and World Bank',
     'Conflict severity compared to World Bank Indicators',
-    'Religion & World Bank',
     'All Datasets'
   ];
 

@@ -3,7 +3,7 @@
     <div class="dropdown" dropdown [dropdownToggle]="true">
       <button class="btn btn-primary" dropdown-open> {{ selectedIndicator }} <span class="caret"></span></button>
       <ul class="dropdown-menu">
-        <li (click)="onSelectIndicator(indicator.name)"
+        <li (click)="onSelectIndicator(indicator)"
             *ngFor="let indicator of indicators"><a>{{ indicator.name }}</a></li>
       </ul>
     </div>
@@ -31,7 +31,7 @@
 
   <div class="btn-group">
     <div>
-      <button (click)="onSubmit()" type="submit" class="btn btn-success">Submit</button>
+      <button (click)="onSubmit1()" type="submit" class="btn btn-success">Submit</button>
     </div>
   </div>
 </div>

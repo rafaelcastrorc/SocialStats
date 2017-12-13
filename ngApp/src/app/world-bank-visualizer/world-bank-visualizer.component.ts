@@ -263,6 +263,7 @@ export class WorldBankVisualizerComponent implements OnInit {
     });
   }
 
+
   getPercentChange(country: string, indicator: string, year1: number, year2: number) {
     this.http.get<any[]>('/api_world/percentDifference' + '/' + country  + '/' + indicator + '/' + year1 + '/' + year2
     ).subscribe(data => {

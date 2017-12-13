@@ -1,3 +1,43 @@
+<div class='btn-toolbar'>
+  <div class="btn-group">
+    <div class="dropdown" dropdown [dropdownToggle]="true">
+      <button class="btn btn-primary" dropdown-open> {{ selectedIndicator }} <span class="caret"></span></button>
+      <ul class="dropdown-menu">
+        <li (click)="onSelectIndicator(indicator.name)"
+            *ngFor="let indicator of indicators"><a>{{ indicator.name }}</a></li>
+      </ul>
+    </div>
+  </div>
+
+
+  <div class="btn-group">
+    <div>
+      <button (click)="onSubmit()" type="submit" class="btn btn-success">Submit</button>
+    </div>
+  </div>
+</div>
+
 <p>
-  query-all-db works!
+
+
 </p>
+<div *ngIf="updateTable">
+<table class="table table-striped">
+  <thead class="thread-light">
+  <tr>
+    <th>Field</th>
+    <th *ngFor="let conflict of worstConflicts">{{conflict.countryName}}</th>
+  </tr>
+  </thead>
+  <tbody>
+  <tr>
+    <td>Number of casualties</td>
+    <td *ngFor="let conflict of worstConflicts">{{conflict.totalDeaths}}</td>
+  </tr>
+  <tr>
+    <td>Percent change of indicator</td>
+    <td *ngFor="let percent of indicatorChanges">{{percent + ' %'}}</td>
+  </tr>
+  </tbody>
+</table>
+</div>

@@ -93,7 +93,11 @@ export class QueryNumDeathsIndicatorComponent implements OnInit {
     // TODO: figure out how to display country code in tooltip
     this.scatterOptions = {
       legend: {
-        display: false
+        display: true,
+        position: 'bottom',
+        labels: {
+          boxWidth: 20
+        }
       },
       tooltips: {
         callbacks: {
@@ -106,6 +110,9 @@ export class QueryNumDeathsIndicatorComponent implements OnInit {
       maintainAspectRatio: false,
       scales: {
         xAxes: [{
+          ticks: {
+            beginAtZero: true
+          },
           type: 'linear',
           position: 'bottom',
           scaleLabel: {

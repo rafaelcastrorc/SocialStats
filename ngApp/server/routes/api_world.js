@@ -11,7 +11,7 @@ var connection = mysql.createConnection({
 });
 
 router.get('/', function (req, res) {
-  res.send('Fuck, it works');
+  res.send('It works');
 });
 
 //To get all indicators

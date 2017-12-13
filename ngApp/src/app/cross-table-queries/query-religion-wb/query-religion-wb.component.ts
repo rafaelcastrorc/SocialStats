@@ -16,7 +16,7 @@ export class QueryReligionWbComponent implements OnInit {
   @Input() countriesReligion;
   @Input() yearsReligion;
   @Input() years;
-  @Input() religion;
+  @Input() religions;
   @Input() indicators;
 
   namesTopTen = [];

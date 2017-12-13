@@ -86,7 +86,7 @@ export class QueryNumConflictsInCountryComponent implements OnInit {
     }
 
     this.lineChartData[0].data = this.numConflicts;
-    console.log(this.lineChartLabels, this.numConflicts);
+    // console.log(this.lineChartLabels, this.numConflicts);
     this.displayChart = true;
   }
 

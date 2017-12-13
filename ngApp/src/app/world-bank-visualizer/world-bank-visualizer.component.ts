@@ -72,6 +72,8 @@ export class WorldBankVisualizerComponent implements OnInit {
     responsive: true
   };
   private labels_5: string[];
+  tempnames = ['a', 'b'];
+  tempvalues = [1 , 2];
 
   constructor(private http: HttpClient) {
   }
@@ -243,6 +245,7 @@ export class WorldBankVisualizerComponent implements OnInit {
       this.lineChartData_4 = [{data: this.graphdata_4, label: this.indicator_4.name}];
       this.current = 'Top Ten';
     });
+    // this.getPercentChange('India','SP.POP.TOTL', 2004, 2010);
   }
 
   getTopTen(indicator: string, year: number, mode: string) {
@@ -255,6 +258,8 @@ export class WorldBankVisualizerComponent implements OnInit {
         names.push((Object.values(data[index]))[0]);
         values.push((Object.values(data[index]))[1] );
       }
+      this.tempvalues = [];
+      this.tempnames = [];
     });
   }
 
@@ -263,6 +268,7 @@ export class WorldBankVisualizerComponent implements OnInit {
     ).subscribe(data => {
       let percent;
       percent = data[0].percent;
+      this.tempvalues.push(percent);
     });
   }
 }

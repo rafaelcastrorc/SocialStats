@@ -75,7 +75,7 @@ export class QueryReligionWbComponent implements OnInit {
       this.graphChanged = false;
       this.barChartData = [];
       // Get data from world bank
-      this.http.get<any[]>('/api_world/top10' + '/' + this.selectedIndicator + '/' + Number(this.selectedYear) + '/' + this.selectedMode
+      this.http.get<any[]>('/api_world/top' + '/' + this.selectedIndicator + '/' + Number(this.selectedYear) + '/' + this.selectedMode
       ).subscribe(data => {
         let index;
         console.log(data);

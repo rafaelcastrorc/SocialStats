@@ -174,7 +174,7 @@ router.get('/deadliestConflicts', function (req, res) {
     'FROM Countries c INNER JOIN Conflicts t ON c.code = t.country_id ' +
     'GROUP BY c.name ' +
     'ORDER BY totalDeaths DESC ' +
-    'LIMIT 50;';
+    'LIMIT 10;';
   connection.query(query, function (err, rows) {
     if (err) console.log(err);
     else {

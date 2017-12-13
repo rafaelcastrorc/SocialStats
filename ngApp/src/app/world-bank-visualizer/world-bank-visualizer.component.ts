@@ -246,7 +246,7 @@ export class WorldBankVisualizerComponent implements OnInit {
   }
 
   getTopTen(indicator: string, year: number, mode: string) {
-    this.http.get<any[]>('/api_world/top' + '/' + indicator  + '/' + year + '/' + mode
+    this.http.get<any[]>('/api_world/top10' + '/' + indicator  + '/' + year + '/' + mode
     ).subscribe(data => {
       let index;
       let names = [];

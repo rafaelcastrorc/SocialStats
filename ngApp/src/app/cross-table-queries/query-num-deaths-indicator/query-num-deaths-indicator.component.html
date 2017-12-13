@@ -29,3 +29,18 @@
   <a class="close" data-dismiss="alert" aria-label="close" (click)="dismissAlert()">×</a>
   <strong>You have not selected all options!</strong>
 </div>
+
+<div *ngIf="displayNoData" class="alert alert-danger alert-dismissible">
+  <a class="close" data-dismiss="alert" aria-label="close" (click)="dismissNoData()">×</a>
+  <strong>No conflict data for this time period</strong>
+</div>
+
+<div *ngIf="displayChart">
+  <div style="display: block;">
+    <canvas baseChart width="600" height="600"
+            [datasets]="scatterChartData"
+            [options]="scatterOptions"
+            chartType="scatter">
+    </canvas>
+  </div>
+</div>

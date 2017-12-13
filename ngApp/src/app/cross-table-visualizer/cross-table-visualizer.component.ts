@@ -11,7 +11,6 @@ import { HttpClient } from '@angular/common/http';
 export class CrossTableVisualizerComponent implements OnInit {
   @Input() query;
   indicators: Indicator[];
-  years: number[] = [1970, 1971, 1972, 1973, 1974, 1975, 2000, 2001, 2002, 2003, 2004];
 
   constructor(private http: HttpClient) { }
 

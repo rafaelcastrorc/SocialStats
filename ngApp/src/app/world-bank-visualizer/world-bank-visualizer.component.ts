@@ -230,6 +230,7 @@ export class WorldBankVisualizerComponent implements OnInit {
   }
 
   onSubmit_4() {
+    this.current = 'temp';
     this.http.get<any[]>('/api_world/query4' + '/' + this.indicator_4.code + '/' + this.year_4
     ).subscribe(data => {
       let index;
@@ -240,6 +241,7 @@ export class WorldBankVisualizerComponent implements OnInit {
         this.graphdata_4.push((Object.values(data[index]))[1] );
       }
       this.lineChartData_4 = [{data: this.graphdata_4, label: this.indicator_4.name}];
+      this.current = 'Top Ten';
     });
   }
 
@@ -253,6 +255,14 @@ export class WorldBankVisualizerComponent implements OnInit {
         names.push((Object.values(data[index]))[0]);
         values.push((Object.values(data[index]))[1] );
       }
+    });
+  }
+
+  getPercentChange(country: string, indicator: string, year1: number, year2: number) {
+    this.http.get<any[]>('/api_world/percentDifference' + '/' + country  + '/' + indicator + '/' + year1 + '/' + year2
+    ).subscribe(data => {
+      let percent;
+      percent = data[0].percent;
     });
   }
 }

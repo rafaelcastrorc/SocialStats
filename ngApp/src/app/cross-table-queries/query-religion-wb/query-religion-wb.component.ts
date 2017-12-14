@@ -153,7 +153,7 @@ export class QueryReligionWbComponent implements OnInit {
             console.log(numOfNon0);
 
             const total = sum / numOfNon0;
-            array.push(total);
+            array.push(total.toFixed(2));
 
             this.barChartLabels.push('Average');
 

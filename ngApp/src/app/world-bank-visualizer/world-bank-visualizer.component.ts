@@ -29,7 +29,11 @@ export class WorldBankVisualizerComponent implements OnInit {
 
   allIndicators: Indicator[];
   allCountries: Country[];
-  allYears: number[] = [1970, 1971, 1972, 1973, 1974, 1975, 2000, 2001, 2002, 2003, 2004];
+  allYears: number[] = [1970, 1971, 1972, 1973, 1974, 1975, 1976, 1977, 1978, 1979, 1980,
+                        1981, 1982, 1983, 1984, 1985, 1986, 1987, 1988, 1989, 1990,
+                        1991, 1992, 1993, 1994, 1995, 1996, 1997, 1998, 1999,
+                        2000, 2001, 2002, 2003, 2004, 2005, 2006, 2007, 2008, 2009, 2010,
+                        2011, 2012, 2013, 2014, 2015];
   // country_1: Country;
   // indicator_1: Indicator;
   // query1: Query1[];
@@ -43,7 +47,7 @@ export class WorldBankVisualizerComponent implements OnInit {
     responsive: true
   };
   country1_2: Country = {name: 'India', code: 'IND'};
-  country2_2: Country = {name: 'India', code: 'IND'};
+  country2_2: Country = {name: 'USA', code: 'USA'};
   indicator_2: Indicator = {name: 'Population', code: 'SP.POP.TOTL', description:'Total Population'};
   graphdata1_2: number[] = [];
   graphdata2_2: number[] = [];
@@ -52,7 +56,7 @@ export class WorldBankVisualizerComponent implements OnInit {
   lineChartData_2: any[] = [{data: this.graphdata1_2, label: 'Series A'},
                           {data: this.graphdata2_2, label: 'Series B'}];
   country1_3: Country = {name: 'India', code: 'IND'};
-  country2_3: Country = {name: 'India', code: 'IND'};
+  country2_3: Country = {name: 'USA', code: 'USA'};
   graphdata1_3: number[] = [1, 2, null, null, 1, 2];
   graphdata2_3: number[] = [1, 2, null, null, 1, 2];
   year_3 = 2004;
@@ -61,8 +65,8 @@ export class WorldBankVisualizerComponent implements OnInit {
     {data: this.graphdata2_2, label: 'Series B'}];
   chartType_3 = 'radar';
   divide: number[] = [];
-  indicator_4: Indicator;
-  year_4: number;
+  indicator_4: Indicator = {name: 'Population', code: 'SP.POP.TOTL', description: 'Total Population'};
+  year_4: number = 2004;
   graphdata_4: number[] = [];
   labels_4: string[] = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10'];
   lineChartData_4: any[] = [{data: this.graphdata_4, label: 'Series A'}];
@@ -126,6 +130,7 @@ export class WorldBankVisualizerComponent implements OnInit {
   // }
 
   onSubmit_2() {
+    this.current = 'temp';
     this.http.get<Query1[]>('/api_world/query1' + '/' + this.country1_2.code + '/' + this.indicator_2.code
     ).subscribe(data => {
       this.graphdata1_2 = Object.values(data[0]);
@@ -141,9 +146,10 @@ export class WorldBankVisualizerComponent implements OnInit {
       this.graphdata2_2 = Object.values(data[0]);
       this.graphdata2_2.shift();
       this.graphdata2_2.shift();
+      this.lineChartData_2 = [{data: this.graphdata1_2, label: this.country1_2.name},
+        {data: this.graphdata2_2, label: this.country2_2.name}];
+      this.current = 'Two Indicators';
     });
-    this.lineChartData_2 = [{data: this.graphdata1_2, label: this.country1_2.name},
-      {data: this.graphdata2_2, label: this.country2_2.name}];
   }
 
   onSelectIndicator_2(indicator: Indicator) {
@@ -183,6 +189,7 @@ export class WorldBankVisualizerComponent implements OnInit {
   }
 
   onSubmit_3() {
+    this.current = 'temp';
     const usa = 'USA';
     this.http.get<any[]>('/api_world/query3' + '/' + usa + '/' + this.year_3
     ).subscribe(data => {
@@ -211,12 +218,13 @@ export class WorldBankVisualizerComponent implements OnInit {
       for (index = 0; index < data.length; index++) {
         this.graphdata2_3.push((Object.values(data[index]))[0] / this.divide[index]);
       }
+      this.lineChartData_3 = [{data: this.graphdata1_3, label: this.country1_3.name},
+        {data: this.graphdata2_3, label: this.country2_3.name}];
+      this.current = 'Compare two Countries';
     });
     // this.labels_3.splice(3, 1);
     // this.graphdata1_3.splice(3, 1);
     // this.graphdata2_3.splice(3, 1);
-    this.lineChartData_3 = [{data: this.graphdata1_3, label: this.country1_3.name},
-      {data: this.graphdata2_3, label: this.country2_3.name}];
 }
 
   onSelectIndicator_4(indicator: Indicator) {

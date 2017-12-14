@@ -20,7 +20,7 @@ export class QueryReligionWbComponent implements OnInit {
   @Input() religions;
   @Input() indicators;
 
-  namesTopTen: Array<string>;
+  namesTopTen = [];
   valuesTopTen = [];
 
 
@@ -82,11 +82,15 @@ export class QueryReligionWbComponent implements OnInit {
       this.http.get<any[]>('/api_world/top10/' + this.selectedIndicatorCode + '/' + Number(this.selectedYear) + '/' + this.selectedMode
       ).subscribe(data => {
         let index;
+        let names = [];
+        let values = [];
         console.log(data);
         for (index = 0; index < data.length; index++) {
-          this.namesTopTen.push((Object.values(data[index]))[0]);
-          this.valuesTopTen.push((Object.values(data[index]))[1]);
+          names.push((Object.values(data[index]))[0]);
+          values.push((Object.values(data[index]))[1]);
         }
+        this.namesTopTen = names;
+        this.valuesTopTen = values;
 
         // Get religion data at that year
         for (let i = 0; i < this.namesTopTen.length; i++) {

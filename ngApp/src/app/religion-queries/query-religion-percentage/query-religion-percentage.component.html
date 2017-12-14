@@ -57,7 +57,7 @@
             (chartHover)="chartHovered($event)"
             (chartClick)="chartClicked($event)"></canvas>
   </div>
-  <div *ngIf="thereAreRecords" class="table-responsive" style="margin-top: 30px">
+  <div class="table-responsive" style="margin-top: 30px">
     <table class="table table-striped">
       <thead class="thread-light">
       <tr>
@@ -66,7 +66,7 @@
       </thead>
       <tbody>
       <tr>
-        <td *ngFor="let d of pieChartData">{{d + '%'}}</td>
+        <td *ngFor="let d of pieChartData">{{d}}</td>
       </tr>
       </tbody>
     </table>

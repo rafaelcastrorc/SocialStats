@@ -38,7 +38,7 @@ export class QueryReligionPercentageComponent implements OnInit {
   ngOnInit() {
   }
 
-  onSelectCountry(country: Country) {
+  onSelectCountry(country: any) {
     if (country.name == null) {
       this.selectedCountryName = 'All Countries';
     } else {

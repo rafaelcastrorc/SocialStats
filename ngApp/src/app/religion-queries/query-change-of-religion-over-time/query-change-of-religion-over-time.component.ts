@@ -161,7 +161,7 @@ export class QueryChangeOfReligionOverTimeComponent implements OnInit {
     this.displayAlert = false;
   }
 
-  onSelectCountry(country: Country) {
+  onSelectCountry(country: any) {
     if (country.name == null) {
       this.selectedCountryName = 'All Countries';
     } else {
@@ -177,7 +177,7 @@ export class QueryChangeOfReligionOverTimeComponent implements OnInit {
   }
 
 
-  onSelectReligion1(religion: Religion) {
+  onSelectReligion1(religion: any) {
     if (religion.name == null) {
       this.selectedReligionName = 'All Religions';
     } else {
@@ -189,7 +189,7 @@ export class QueryChangeOfReligionOverTimeComponent implements OnInit {
     this.religion1Changed = true;
   }
 
-  onSelectReligion2(religion: Religion) {
+  onSelectReligion2(religion: any) {
     if (religion.name == null) {
       this.selectedReligionName2 = 'All Religions';
     } else {
@@ -200,7 +200,7 @@ export class QueryChangeOfReligionOverTimeComponent implements OnInit {
 
   }
 
-  onSelectReligion3(religion: Religion) {
+  onSelectReligion3(religion: any) {
     if (religion.name == null) {
       this.selectedReligionName3 = 'All Religions';
     } else {

@@ -44,7 +44,7 @@ export class QueryNumberOfFollowersComponent implements OnInit {
   ngOnInit() {
   }
 
-  onSelectCountry(country: Country) {
+  onSelectCountry(country: any) {
     if (country.name == null) {
       this.selectedCountryName = 'All Countries';
     } else {
@@ -57,7 +57,7 @@ export class QueryNumberOfFollowersComponent implements OnInit {
   }
 
 
-  onSelectReligion(religion: Religion) {
+  onSelectReligion(religion: any) {
     if (religion.name == null) {
       this.selectedReligionName = 'All Religions';
     } else {

@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import {Indicator} from './Indicator';
+import {Indicator} from './indicator';
 
 @Injectable()
 export class WorldBankService {

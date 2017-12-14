@@ -1,7 +1,7 @@
 import {Component, OnInit, Input} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
 import {Religion} from '../religion';
-import {Indicator} from '../Indicator';
+import {Indicator} from '../indicator';
 import {Country} from '../country';
 
 @Component({

@@ -4,10 +4,8 @@
 <query-num-deaths-indicator *ngIf="query === 'Conflict severity compared to World Bank Indicators'"
                                  [indicators]="indicators"> </query-num-deaths-indicator>
 
-  <query-religion-wb *ngIf="query === 'Religion and World Bank'"
+  <query-religion-wb *ngIf="query === 'Religion and World Bank Data'"
                                  [countriesReligion]="countriesReligion"
                      [religions]="religions" [indicators] = "allIndicators">
   </query-religion-wb>
-
-  <query-all-db *ngIf="query === 'All Datasets'" [indicators] = "allIndicators"></query-all-db>
 </div>

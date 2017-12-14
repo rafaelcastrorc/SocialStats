@@ -272,4 +272,5 @@ export class WorldBankVisualizerComponent implements OnInit {
       this.tempvalues.push(percent);
     });
   }
+
 }

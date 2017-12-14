@@ -8,9 +8,9 @@ import { Component, OnInit } from '@angular/core';
 export class CrossTableComponent implements OnInit {
   queries: String[] = [
     'Number of Conflicts compared to World Bank Indicators',
-    'Religion and World Bank',
     'Conflict severity compared to World Bank Indicators',
-    'All Datasets'
+    'Religion and World Bank Data',
+
   ];
 
   selectedQuery = 'Select a query from the right side panel';

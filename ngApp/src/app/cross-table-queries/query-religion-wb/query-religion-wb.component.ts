@@ -40,14 +40,44 @@ export class QueryReligionWbComponent implements OnInit {
 
   // Bar chart
   barChartOptions = {
-    scaleShowVerticalLines: false,
-    responsive: true
+    scaleShowValues: true,
+    scales: {
+      yAxes: [{
+        ticks: {
+          beginAtZero: true
+        }
+      }],
+      xAxes: [{
+        ticks: {
+          autoSkip: false
+        }
+      }]
+    }
+
   };
 
-  barChartLabels: string[] = ['2006', '2007', '2008', '2009', '2010', '2011', '2012'];
+  colorsC = [
+    'rgba(255, 99, 132, 0.4)',
+    'rgba(54, 162, 235, 0.4)',
+    'rgba(255, 206, 86, 0.4)',
+    'rgba(75, 192, 192, 0.4)',
+    'rgba(153, 102, 255, 0.4)',
+    'rgba(255, 159, 64, 0.4)',
+    'rgba(200, 60, 192, 0.4)',
+    'rgba(255, 206, 86, 0.4)',
+    'rgba(20, 206, 100, 0.4)',
+    'rgba(60, 50, 100, 0.6)',
+    'rgba(20, 40, 50, 0.6)',
+  ];
+
+  barChartLabels: string[] = ['Select a Country'];
   barChartType = 'bar';
   barChartLegend = true;
-  barChartData = [{data: [1], label: 'Select a Country'}];
+  barChartData = [{
+    data: [1], label: 'Religiosity Percentage',
+    backgroundColor: [
+      'rgba(255, 99, 132, 0.2)']
+  }];
   graphChanged = true;
 
   constructor(private http: HttpClient) {
@@ -66,6 +96,7 @@ export class QueryReligionWbComponent implements OnInit {
     this.selectedIndicator = indicator.name;
     this.hasSelectedIndicator = true;
     this.selectedIndicatorCode = indicator.code;
+
   }
 
   onSelectMode(mode: string) {
@@ -75,37 +106,82 @@ export class QueryReligionWbComponent implements OnInit {
 
   onSubmit1() {
     if (this.hasSelectedYear && this.hasSelectedIndicator && this.hasSelectedMode) {
-      this.graphChanged = false;
       this.barChartData = [];
       this.barChartLabels = [];
+
+
       // Get data from world bank
-      this.http.get<any[]>('/api_world/top10/' + this.selectedIndicatorCode + '/' + Number(this.selectedYear) + '/' + this.selectedMode
+      this.http.get<any[]>('/api_world/top10' + '/' + this.selectedIndicatorCode + '/' + Number(this.selectedYear) + '/' + this.selectedMode
       ).subscribe(data => {
+        this.graphChanged = false;
+        const namesTemp = [];
+        const valuesTemp = [];
         let index;
-        console.log(data);
         for (index = 0; index < data.length; index++) {
-          this.namesTopTen.push((Object.values(data[index]))[0]);
-          this.valuesTopTen.push((Object.values(data[index]))[1]);
+          namesTemp.push((Object.values(data[index]))[0]);
+          valuesTemp.push((Object.values(data[index]))[1]);
         }
 
+        const array = [];
         // Get religion data at that year
-        for (let i = 0; i < this.namesTopTen.length; i++) {
-          this.http.get<number[]>('/api_religion/queries/numbers2' + '/' + this.namesTopTen[i] + '/' +
+        for (let i = 0; i < namesTemp.length; i++) {
+
+          this.http.get<number[]>('/api_religion/queries/numbers2' + '/' + namesTemp[i] + '/' +
             'All Religions' + '/' + this.selectedYear)
             .subscribe(data2 => {
-              this.barChartData.push({data: data2, label: this.namesTopTen[i]});
-              this.barChartLabels.push(this.namesTopTen[i]);
+              const indexToUse = (parseInt(this.selectedYear, 10) - 1945) / 5;
+              array.push(data2[indexToUse]);
+              this.barChartLabels.push(namesTemp[i]);
             });
 
         }
+
         this.http.get<number[]>('/api_religion/queries/numbers2' + '/' + 'All Countries' + '/' +
           'All Religions' + '/' + this.selectedYear)
           .subscribe(data3 => {
-            this.barChartData.push({data: data3, label: 'All Countries'});
+
+            // Get the average of all of them
+            let numOfNon0 = 0;
+            let sum = 0;
+            for (let i = 0; i < array.length; i++ ) {
+              if (array[i] !== 0) {
+                numOfNon0++;
+              }
+              sum = sum + array[i];
+
+            }
+            console.log(numOfNon0);
+
+            const total = sum / numOfNon0;
+            array.push(total);
+
+            this.barChartLabels.push('Average');
+
+            const indexToUse = (parseInt(this.selectedYear, 10) - 1945) / 5;
             this.barChartLabels.push('All Countries');
+
+            array.push(data3[indexToUse]);
+            const obj = {
+              data: array, label: 'Religiosity Percentage Per Country', backgroundColor: [
+                'rgba(255, 99, 132, 0.4)',
+                'rgba(54, 162, 235, 0.4)',
+                'rgba(255, 206, 86, 0.4)',
+                'rgba(75, 192, 192, 0.4)',
+                'rgba(153, 102, 255, 0.4)',
+                'rgba(255, 159, 64, 0.4)',
+                'rgba(200, 60, 192, 0.4)',
+                'rgba(255, 206, 86, 0.4)',
+                'rgba(20, 206, 100, 0.4)',
+                'rgba(60, 50, 100, 0.6)',
+                'rgba(20, 40, 50, 0.6)',
+              ]
+            };
+            this.barChartData.push(obj);
+            this.graphChanged = true;
+
           });
+
       });
-      this.graphChanged = true;
 
     } else {
       this.displayAlert = true;

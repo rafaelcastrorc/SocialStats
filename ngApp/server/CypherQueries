@@ -209,13 +209,13 @@ MATCH p=(c:Country)-[r:HAS_RELIGION{year:2010}]->(l:Religion{religionCode: "judo
 
 
 //Get percentage of religious people per year
-MATCH()-[y:HAS_RELIGION]->()
+MATCH(:Country)-[y:HAS_RELIGION]->(:Religion)
 WITH y
 WITH COLLECT (DISTINCT y.year) AS years
 UNWIND years as curr
 //Get total population for every year
 MATCH (allRels:Religion)<-[all:HAS_RELIGION{year:curr}]-(:Country{})
-  WHERE NOT (:Religion)-[:PART_OF]->(allRels)
+  WHERE NOT (:Religion)-[:PART_OF]->(allRels:Religion)
 WITH SUM(all.number_of_members) AS TotalPop, curr
 //Get percentage of religion per year
 MATCH (:Country{})-[r:HAS_RELIGION{year:curr}]->(rel:Religion{})

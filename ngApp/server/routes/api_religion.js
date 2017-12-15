@@ -424,7 +424,7 @@ router.get('/queries/numbers2/:country/:religion/:year', function (req, res) {
   }
   else {
     religionParam = '';
-    partOf = "WHERE NOT ((:Religion)-[:PART_OF]->(rel) OR rel.name = \"Non. Religious\") ";
+    partOf = "WHERE NOT ((:Religion)-[:PART_OF]->(religions:Religion) OR religions.name = \"Non. Religious\")";
   }
   if (!Number.isNaN(year)) {
     yearParam = '{year:' + year + '}'
@@ -434,6 +434,25 @@ router.get('/queries/numbers2/:country/:religion/:year', function (req, res) {
   }
   console.log(yearParam);
   session
+    .run('MATCH (y:Year'+ yearParam +')\n' +
+      'WITH collect(y.year) AS years\n' +
+      'UNWIND years as curr\n' +
+      'WITH DISTINCT curr\n' +
+      'MATCH (allRels:Religion) \n' +
+      'WHERE NOT (:Religion)-[:PART_OF]->(allRels:Religion)\n' +
+      'WITH COLLECT (distinct allRels) as allReligions, curr\n' +
+      'UNWIND allReligions AS currReligion\n' +
+      'WITH DISTINCT currReligion, curr\n' +
+      'MATCH (:Country'+ countryParam +')-[all:HAS_RELIGION{year:curr}]->(currReligion) \n' +
+      'WITH SUM(all.number_of_members) AS TotalPop, curr\n' +
+      'MATCH (religions:Religion) \n' +
+      partOf + ' '+
+      'WITH religions, TotalPop, curr\n' +
+      'MATCH (:Country' + countryParam+ ')-[r:HAS_RELIGION{year:curr}]->(religions'+ religionParam + ') \n' +
+      'RETURN DISTINCT curr AS Year,\n' +
+      '                100.0 * SUM(r.number_of_members) / TotalPop AS Percent\n' +
+      '  ORDER BY Year DESC')
+
     .run('MATCH()-[y:HAS_RELIGION' + yearParam+ ']->() ' +
       'WITH y ' +
       'WITH COLLECT (DISTINCT y.year) AS years ' +

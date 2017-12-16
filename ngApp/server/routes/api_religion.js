@@ -107,7 +107,7 @@ router.get('/religions', function (req, res) {
 //Gets all the years
 router.get('/years', function (req, res) {
   session
-    .run('MATCH()-[r:HAS_RELIGION]->() RETURN DISTINCT r.year AS year ORDER BY r.year')
+    .run('MATCH (y:Year) RETURN DISTINCT y.year AS year ORDER BY y.year')
     .then(function (result) {
       const yearsArr = [];
 
@@ -432,7 +432,24 @@ router.get('/queries/numbers2/:country/:religion/:year', function (req, res) {
   else {
     yearParam = '';
   }
-  console.log(yearParam);
+  console.log('MATCH (y:Year'+ yearParam +')\n' +
+    'WITH collect(y.year) AS years\n' +
+    'UNWIND years as curr\n' +
+    'WITH DISTINCT curr\n' +
+    'MATCH (allRels:Religion) \n' +
+    'WHERE NOT (:Religion)-[:PART_OF]->(allRels:Religion)\n' +
+    'WITH COLLECT (distinct allRels) as allReligions, curr\n' +
+    'UNWIND allReligions AS currReligion\n' +
+    'WITH DISTINCT currReligion, curr\n' +
+    'MATCH (:Country'+ countryParam +')-[all:HAS_RELIGION{year:curr}]->(currReligion) \n' +
+    'WITH SUM(all.number_of_members) AS TotalPop, curr\n' +
+    'MATCH (religions:Religion) \n' +
+    partOf + ' '+
+    'WITH religions, TotalPop, curr\n' +
+    'MATCH (:Country' + countryParam+ ')-[r:HAS_RELIGION{year:curr}]->(religions'+ religionParam + ') \n' +
+    'RETURN DISTINCT curr AS Year,\n' +
+    '                100.0 * SUM(r.number_of_members) / TotalPop AS Percent\n' +
+    '  ORDER BY Year');
   session
     .run('MATCH (y:Year'+ yearParam +')\n' +
       'WITH collect(y.year) AS years\n' +
@@ -445,26 +462,13 @@ router.get('/queries/numbers2/:country/:religion/:year', function (req, res) {
       'WITH DISTINCT currReligion, curr\n' +
       'MATCH (:Country'+ countryParam +')-[all:HAS_RELIGION{year:curr}]->(currReligion) \n' +
       'WITH SUM(all.number_of_members) AS TotalPop, curr\n' +
-      'MATCH (religions:Religion) \n' +
+      'MATCH (religions:Religion '+ religionParam +') \n' +
       partOf + ' '+
       'WITH religions, TotalPop, curr\n' +
-      'MATCH (:Country' + countryParam+ ')-[r:HAS_RELIGION{year:curr}]->(religions'+ religionParam + ') \n' +
+      'MATCH (:Country' + countryParam+ ')-[r:HAS_RELIGION{year:curr}]->(religions) \n' +
       'RETURN DISTINCT curr AS Year,\n' +
       '                100.0 * SUM(r.number_of_members) / TotalPop AS Percent\n' +
-      '  ORDER BY Year DESC')
-
-    .run('MATCH()-[y:HAS_RELIGION' + yearParam+ ']->() ' +
-      'WITH y ' +
-      'WITH COLLECT (DISTINCT y.year) AS years ' +
-      'UNWIND years as curr ' +
-      'MATCH (allRels:Religion)<-[all:HAS_RELIGION{year:curr}]-(:Country' + countryParam + ') ' +
-      'WHERE NOT (:Religion)-[:PART_OF]->(allRels) ' +
-      'WITH SUM(all.number_of_members) AS TotalPop, curr ' +
-      'MATCH (c:Country ' + countryParam + ')-[r:HAS_RELIGION{year:curr}]->(rel:Religion' + religionParam + ') ' +
-      partOf + ' ' +
-      'RETURN DISTINCT curr AS Year,\n' +
-      '100.0 * SUM(r.number_of_members) / TotalPop AS Number ' +
-      'ORDER BY Year')
+      '  ORDER BY Year')
     .then(function (result) {
       let queryAns = [];
       result.records.forEach(function (record) {

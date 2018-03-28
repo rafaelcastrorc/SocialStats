@@ -18,6 +18,7 @@ correlations between the different datasets.
 Our application is built on a modified version of the MEAN stack, with MySQL, Neo4j in
 addition to Mongo as the databases, Express as the backend web framework, Angular as the
 frontend framework, and Node as the backend runtime environment.
+
 We decided to use NoSQL for our religion dataset because different countries do not follow
 certain religions so there were several values that would be null for certain religions. Neo4j was
 chosen because it would best represent various relationships between various religions and
@@ -25,12 +26,14 @@ sub-religions. We stored our conflicts and World Bank data on a MySQL relational
 The data from these two datasets was fairly well structured and was easy to include.
 Our user information was stored on a Mongo database. Both Neo4j and MySQL were hosted on
 AWS, while the Mongo database was hosted on mLab.
+
 For the server side, we have an api for each of our data sources: api_aws.js, api_religion.js and
 api_world.js. And for the frontend, which was created using Angular CLI to generate the
 appropriate modules, we have the main app module that contains multiple sub modules. Each sub
 module represents a page for a dataset, and it contains a visualizer, a right side bar that displays
-the different queries, and a component for each query. For instance for the religion dataset:
-religions is the main religion page, religion-visualizer is the left hand side of the page, that works
+the different queries, and a component for each query.
+
+Religions is the main religion page, religion-visualizer is the left hand side of the page, that works
 as a placeholder that changes based on the query been displayed, and religion-queries contains
 the different queries, as well as the right side panel that appears on the right hand side.
 Then, some of our key node_modules include Chart.js, ng2-charts, MySQL, ng2-map. We also
